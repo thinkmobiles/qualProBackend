@@ -1,0 +1,14 @@
+{
+  "name": "The QualPro API",
+  "description": "The QualPro API: a...",
+  "version": "1.0.0",
+  "url": "http://169.168.88.122:9099/",
+  "options": {
+    "paths": [
+      "./models",
+      "./routes",
+      "./handlers"
+    ],
+    "outdir": "./api"
+  }
+}
