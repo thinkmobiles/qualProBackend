@@ -1,0 +1,25 @@
+{
+  "name": "EasyErp-Desktop",
+  "version": "1.0.1",
+  "homepage": "https://github.com/thinkmobiles/EasyErp-Desktop",
+  "authors": [
+    "Roman <roma.buchuk@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "async": "~1.2.1",
+    "moment": "~2.10.3",
+    "backbone.memento": "~0.4.1",
+    "underscore": "~1.8.3"
+  }
+}
