@@ -14,12 +14,12 @@ var App = App ||
 require.config({
     paths: {
         async: './libs/async/lib/async',
-        jQuery: './libs/jquery-2.1.0.min.map',
-        ajaxForm: './libs/jquery.form',
-        imageCrop: './libs/jquery.Jcrop.min',
-        jqueryui: './libs/jquery-ui.min',
+        jQuery: './libs/jquery/dist/jquery.min.map',
+        ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form.js',
+        imageCrop: './libs/Jcrop/js/Jcrop.min.js',
+        jqueryui: './libs/jquery-ui/jquery-ui.min.js',
         Underscore: './libs/underscore/underscore',
-        Backbone: './libs/backbone-min.map.1.1.2',
+        Backbone: './libs/backbone/backbone-min.map',
         templates: '../templates',
         text: './libs/text',
         common: 'common',
