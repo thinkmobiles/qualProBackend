@@ -1,7 +1,7 @@
 {
-  "name": "EasyErp-Desktop",
+  "name": "qualProBackend",
   "version": "1.0.1",
-  "homepage": "https://github.com/thinkmobiles/EasyErp-Desktop",
+  "homepage": "",
   "authors": [
     "Roman <roma.buchuk@gmail.com>"
   ],
@@ -17,13 +17,16 @@
     "tests"
   ],
   "dependencies": {
-    "async": "~1.2.1",
-    "moment": "~2.10.3",
-    "backbone.memento": "~0.4.1",
-    "underscore": "~1.8.3",
-    "Jcrop": "~2.0.1",
-    "jquery-ajax-form": "~0.0.1",
-    "jquery-ui": "~1.11.4",
-    "backbone": "~1.2.2"
+    "async": "1.2.1",
+    "moment": "2.10.3",
+    "backbone.memento": "0.4.1",
+    "underscore": "1.8.3",
+    "Jcrop": "2.0.1",
+    "jquery-ajax-form": "0.0.1",
+    "jquery-ui": "1.11.4",
+    "backbone": "1.2.2",
+    "barcode-jquery": "*",
+    "d3": "3.5.6",
+    "requirejs-text": "~2.0.14"
   }
 }

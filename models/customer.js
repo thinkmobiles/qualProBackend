@@ -5,7 +5,7 @@
 /**
  * Base Url
  * @module Customer
- * @namespace EasyERP
+ * @namespace qualPro
  * @class Customer
  * @constructor
  */

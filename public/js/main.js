@@ -14,20 +14,19 @@ var App = App ||
 require.config({
     paths: {
         async: './libs/async/lib/async',
-        jQuery: './libs/jquery/dist/jquery.min.map',
-        ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form.js',
-        imageCrop: './libs/Jcrop/js/Jcrop.min.js',
-        jqueryui: './libs/jquery-ui/jquery-ui.min.js',
+        jQuery: './libs/jquery/dist/jquery.min',
+        ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form',
+        imageCrop: './libs/Jcrop/js/Jcrop.min',
+        jqueryui: './libs/jquery-ui/jquery-ui.min',
         Underscore: './libs/underscore/underscore',
-        Backbone: './libs/backbone/backbone-min.map',
+        Backbone: './libs/backbone/backbone-min',
         templates: '../templates',
-        text: './libs/text',
+        text: './libs/requirejs-text/text',
         common: 'common',
         helpers: 'helpers',
         constants: 'constants',
-        dateFormat: './libs/date.format',
-        d3: './libs/d3.v3.min',
-        jqueryBarcode: './libs/jquery-barcode.min',
+        d3: './libs/d3/d3.min',
+        jqueryBarcode: './libs/barcode-jquey/jquery-barcode.min',
         moment: './libs/moment/moment'
     },
     shim: {
@@ -35,7 +34,7 @@ require.config({
         'ajaxForm': ['jQuery'],
         'imageCrop': ['jQuery'],
         'Backbone': ['Underscore', 'jQuery'],
-        'app': ['Backbone', 'less', 'jqueryui', 'ajaxForm', 'imageCrop'],
+        'app': ['Backbone', 'jqueryui', 'ajaxForm', 'imageCrop'],
         'd3': {
             exports: 'd3'
         },
@@ -155,7 +154,7 @@ require(['app'], function (app) {
 
     Backbone.View.prototype.changeLocationHash = function (page, count, filter) {
         var location = window.location.hash;
-        var mainLocation = '#easyErp/' + this.contentType + '/' + this.viewType;
+        var mainLocation = '#qualPro/' + this.contentType + '/' + this.viewType;
         var pId = (location.split('/pId=')[1]) ? location.split('/pId=')[1].split('/')[0] : '';
         if (!page && this.viewType == 'list') {
             page = (location.split('/p=')[1]) ? location.split('/p=')[1].split('/')[0] : 1;
