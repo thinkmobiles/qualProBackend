@@ -63,6 +63,7 @@ module.exports = function (db) {
 
     require('./routes/index')(app, mainDb);
 
+    require('./routes/index')(app, db);
 
     return app;
 };

@@ -18,7 +18,7 @@ var Personnel = function (db) {
 
         if (email) {
             personnelModel = body;
-            personnelModel.save(function(err, personnel){
+            personnelModel.save(function (err, personnel) {
                 if (err) {
                     return next(err);
                 }
