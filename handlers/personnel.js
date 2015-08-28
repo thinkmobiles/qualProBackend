@@ -1,7 +1,17 @@
 var mongoose = require('mongoose');
-var User = function (models) {
+var Personnel = function (models) {
     var _ = require('../node_modules/underscore');
-    var UserSchema = mongoose.Schemas['Users'];
+    var personnelSchema = mongoose.Schemas['personnel'];
+
+    this.login = function (req, res, next) {
+        var session = req.session;
+
+        if (session && session.loggedIn && session.lastDb) {
+            this.getUserById(req, res, next);
+        } else {
+            return res.status(401).send();
+        }
+    };
 
     this.currentUser = function (req, res, next) {
         var session = req.session;
@@ -40,4 +50,4 @@ var User = function (models) {
     };
 };
 
-module.exports = User;
+module.exports = Personnel;
