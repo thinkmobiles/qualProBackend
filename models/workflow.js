@@ -3,20 +3,17 @@
  */
 module.exports = (function () {
     var mongoose = require('mongoose');
-    var workflowSchema = mongoose.Schema({
-        wId: String,
-        wName: String,
+    var schema = mongoose.Schema({
         status: String,
         name: String,
-        color: {type: String, default: "#2C3E50"},
-        sequence: Number
+        collectionType: String
     }, {collection: 'workflows'});
 
-    mongoose.model('workflows', workflowSchema);
+    mongoose.model('workflow', schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['workflow'] = workflowSchema;
+    mongoose.Schemas['workflow'] = schema;
 })();
