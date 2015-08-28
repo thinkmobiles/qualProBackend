@@ -13,6 +13,8 @@ module.exports = function (app, db) {
     var models = require("../models.js")(db);
     var personellHandler = require("../handlers/personnel");
 
+    var personnelRouter = require('./personnel')(db);
+
     var RESPONSES = require('../constants/responses');
 
     function checkAuth(req, res, next) {
@@ -22,6 +24,8 @@ module.exports = function (app, db) {
             res.send(401);
         }
     }
+
+    app.use('/personnel', personnelRouter);
 
     app.get('/', function (req, res, next) {
         res.sendfile('index.html');

@@ -6,7 +6,6 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var personnelSchema = new mongoose.Schema({
-        login: {type: String, default: ''},
         pass: {type: String, default: ''},
         lastAccess: {type: Date},
         imageSrc: {
@@ -16,7 +15,7 @@ module.exports = (function () {
         firstName: {type: String, default: ''},
         lastName: {type: String, default: ''},
         country: {type: ObjectId, ref: 'country', default: null},
-        email: {type: String, default: ''},
+        email: {type: String, default: '', unique : true, required : true},
         personalEmail: {type: String, default: ''},
         phoneNumber: {type: String, default: ''},
         manager: {type: ObjectId, ref: 'personnel', default: null},

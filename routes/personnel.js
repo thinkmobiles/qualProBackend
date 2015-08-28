@@ -7,7 +7,7 @@ module.exports = function (models) {
 
     router.get('/', handler.getAll);
     router.get('/:id',handler.getById);
-    router.post('/',handler.create);
+    router.post('/',handler.registration);
     router.put('/:id',handler.update);
     return router;
 };
