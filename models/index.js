@@ -9,8 +9,8 @@ module.exports = (function () {
     require('./deliverTo.js');
     require('./department.js');
     require('./destination.js');
-    require('./employee.js');
-    require('./jobPosition.js');
+    require('./personnel.js');
+    require('./position.js');
     require('./jobType.js');
     require('./incoterm.js');
     require('./industry.js');
@@ -24,11 +24,11 @@ module.exports = (function () {
     require('./paymentTerm.js');
     require('./priority.js');
     require('./period.js');
-    require('./product.js');
-    require('./productCategory.js');
+    require('./item.js');
+    require('./category.js');
     require('./productTypes.js');
     require('./profile.js');
-    require('./project.js');
+    require('./objective.js');
     require('./projectType.js');
     require('./quotation.js');
     require('./relatedStatus.js');

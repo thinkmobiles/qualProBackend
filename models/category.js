@@ -1,5 +1,6 @@
 ﻿module.exports = (function () {
     var mongoose = require('mongoose');
+    var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var schema = mongoose.Schema({
         name: { type: String, default: 'All' },
