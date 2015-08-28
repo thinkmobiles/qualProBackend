@@ -1,7 +1,7 @@
 
 process.env.DB_HOST = 'localhost';
 
-process.env.HOST = 'http://localhost/';
+process.env.HOST = 'http://localhost:9797';
 process.env.PORT = 9797;
 //process.env.DB_USER = "user";
 //process.env.DB_PASS = "1q2w3e!@#";
