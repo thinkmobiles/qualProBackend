@@ -15,16 +15,8 @@ define([
             //dateFormat:"dd/mm/yy"
             firstDay: 1
         });
-        //add ability to clear console by calling -> console.API.clear();
-        if (typeof console._commandLineAPI !== 'undefined') {
-            console.API = console._commandLineAPI;
-        } else if (typeof console._inspectorCommandLineAPI !== 'undefined') {
-            console.API = console._inspectorCommandLineAPI;
-        } else if (typeof console.clear !== 'undefined') {
-            console.API = console;
-        }
         //add startsWith function to strings
-        if (typeof String.prototype.startsWith != 'function') {
+        if (typeof String.prototype.startsWith !== 'function') {
             String.prototype.startsWith = function (str) {
                 if (str == "All") return true;
                 if (str == "0-9") return !isNaN(parseInt(this[0]));
@@ -38,6 +30,7 @@ define([
             draggable: true,
             autoOpen: true,
             width: 700,
+
             create: function (event, ui) {
                 var win = $(window);
                 var dialog = $(event.target).parent(".ui-dialog");

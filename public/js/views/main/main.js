@@ -1,5 +1,5 @@
 define([
-    'text!templates/main/MainTemplate.html',
+    'text!templates/main/main.html',
     'views/menu/LeftMenuView',
     'collections/menu/MenuItems',
     'views/menu/TopMenuView',
