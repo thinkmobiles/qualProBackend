@@ -6,6 +6,7 @@ define([
 
     var LoginView = Backbone.View.extend({
         el: '#wrapper',
+        template: _.template(LoginTemplate),
 
         initialize: function (options) {
             if (options && options.dbs) {
@@ -26,7 +27,7 @@ define([
         render: function (options) {
             $('title').text('Login');
             if (options) {
-                this.$el.html(_.template(LoginTemplate, {options: options.dbs}));
+                this.$el.html(this.template({options: options.dbs}));
             } else {
                 this.$el.html(LoginTemplate);
                 $("#loginForm").addClass("notRegister");

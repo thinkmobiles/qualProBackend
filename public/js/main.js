@@ -15,7 +15,8 @@ require.config({
     paths: {
         async: './libs/async/lib/async',
         jQuery: './libs/jquery/dist/jquery.min',
-        ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form',
+        //ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form',
+        ajaxForm: './libs/jquery.form',
         imageCrop: './libs/Jcrop/js/Jcrop.min',
         jqueryui: './libs/jquery-ui/jquery-ui.min',
         Underscore: './libs/underscore/underscore',

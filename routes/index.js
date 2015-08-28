@@ -13,6 +13,11 @@ module.exports = function (app, mainDb) {
     var mongoose = mainDb.mongoose;
     var dbsNames = app.get('dbsNames');
     var dbsObject = mainDb.dbsObject;
+    var models = require("../models.js")(dbsObject);
+
+    var userRouter = require('./user')(models);
+
+    app.use('/', userRouter);
 
     app.get('/', function (req, res, next) {
         res.sendfile('index.html');
@@ -32,6 +37,35 @@ module.exports = function (app, mainDb) {
         } else {
             res.status(401).send();
         }
+    });
+
+    /*app.get('/currentUser', function (req, res) {
+        requestHandler.currentUser(req, res);
+    });*/
+
+    app.post('/currentUser', function (req, res) {
+        var data = {};
+        if (req.body.oldpass && req.body.pass) {
+            data.changePass = true;
+        }
+        requestHandler.updateCurrentUser(req, res, data);
+    });
+
+    app.patch('/currentUser', function (req, res) {
+        var data = {};
+        if (req.body){
+            data.savedFilters = req.body;
+        }
+
+        requestHandler.updateCurrentUser(req, res, data);
+    });
+
+    app.patch('/currentUser/:_id', function (req, res) {
+        var data = {};
+        if (req.body.oldpass && req.body.pass) {
+            data.changePass = true;
+        }
+        requestHandler.updateCurrentUser(req, res, data);
     });
 
     app.get('/account/authenticated', function (req, res, next) {

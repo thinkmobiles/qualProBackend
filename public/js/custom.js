@@ -14,7 +14,7 @@ define([
 
             Backbone.history.fragment = "";
             Backbone.history.navigate(url, {trigger: true});
-            getFiltersValues();
+            //getFiltersValues();
 
         } else {
             if (App.requestedURL === null)
