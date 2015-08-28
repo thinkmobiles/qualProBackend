@@ -11,6 +11,7 @@ module.exports = function (app, db) {
     var multipartMiddleware = multipart();
     var mongoose = require('mongoose');
     var models = require("../models.js")(db);
+    var personellHandler = require("../handlers/personnel");
 
     var RESPONSES = require('../constants/responses');
 
@@ -25,6 +26,8 @@ module.exports = function (app, db) {
     app.get('/', function (req, res, next) {
         res.sendfile('index.html');
     });
+
+    app.post('/login', personellHandler.login);
 
     app.get('/authenticated', checkAuth);
 
