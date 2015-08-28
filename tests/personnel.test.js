@@ -12,31 +12,14 @@ var aggent;
 var queryString = '';
 
 describe("BDD for User", function () {  // Runs once before all tests start.
-    /*before(function (done) {
+    it("login should return logged personnel", function (done) {
         aggent = request.agent(host);
 
-        aggent
-            .post('login')
-            .send({
-                login: 'admin',
-                pass: '1q2w3eQWE',
-                dbId: 'weTrack'
-            })
-            .expect(200, done);
-    });*/
-
-    /*after(function () {
-        url = null;
-        agent = null;
-    });
-*/
-    it("login should return array result", function (done) {
-        aggent = request.agent(host);
         aggent
             .post('/login')
             .send({
-                login: 'admin',
-                password: '121212'
+                email: 'admin@admin.com',
+                pass: '121212'
             })
             .expect(200, function(err, resp){
                 if (err){
@@ -44,7 +27,7 @@ describe("BDD for User", function () {  // Runs once before all tests start.
                 }
 
                 expect(resp).to.be.instanceOf(Object);
-                expect(resp).has.keys('login');
+                /*expect(resp).has.keys('login');*/
                 done();
             });
     });

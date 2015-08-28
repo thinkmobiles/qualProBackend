@@ -37,5 +37,9 @@
     "open": "0.0.5",
     "sinon": "^1.16.1",
     "supertest": "^1.0.1"
+  },
+  "scripts": {
+    "test" : "mocha",
+    "start": "server.js"
   }
 }
