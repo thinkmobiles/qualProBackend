@@ -28,7 +28,7 @@ module.exports = function (app, db) {
 
     app.get('/', function (req, res, next) {
         res.sendfile('index.html');
-    });*/
+    });
 
     app.post('/login', personnelHandler.login);
 
