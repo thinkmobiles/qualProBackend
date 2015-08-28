@@ -2,9 +2,7 @@
  * Created by Roman on 01.04.2015.
  */
 
-module.exports = function (mainDb, dbsNames) {
-    //mongoose is delegated because it encapsulated main connection
-
+module.exports = function (db) {
     var http = require('http');
     var path = require('path');
     var fs = require("fs");
@@ -14,14 +12,16 @@ module.exports = function (mainDb, dbsNames) {
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
     var consolidate = require('consolidate');
+    var csurf = require('csurf');
     var app = express();
-    var dbsObject = mainDb.dbsObject;
+
+    var csrfProtection = csurf({ cookie: true });
 
     var logWriter = require('./helpers/logWriter');
 
     var MemoryStore = require('connect-mongo')(session);
 
-    var sessionConfig = require('./config/' + mainAppConfig.NODE_ENV).sessionConfig;
+    var sessionConfig = require('./config/' + process.env.NODE_ENV).sessionConfig;
 
     var allowCrossDomain = function (req, res, next) {
 
@@ -39,23 +39,21 @@ module.exports = function (mainDb, dbsNames) {
         next();
     };
 
-    /*app.enable('trust proxy');*/
-    app.set('dbsObject', dbsObject);
-    app.set('dbsNames', dbsNames);
     app.engine('html', consolidate.swig);
+
     app.set('view engine', 'html');
     app.set('views', __dirname + '/views');
+
     app.use(logger('dev'));
-    //app.use(subDomainParser);
     app.use(bodyParser.json({strict: false, inflate: false, limit: 1024 * 1024 * 200}));
     app.use(bodyParser.urlencoded({extended: false, limit: 1024 * 1024 * 200}));
     app.use(cookieParser("CRMkey"));
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.use(session({
-        name: 'crm',
-        key: "CRMkey",
-        secret: '1q2w3e4r5tdhgkdfhgejflkejgkdlgh8j0jge4547hh',
+        name: 'qualPro_main',
+        key: "qualPro_main",
+        secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
         resave: false,
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
@@ -63,7 +61,7 @@ module.exports = function (mainDb, dbsNames) {
 
     app.use(allowCrossDomain);
 
-    require('./routes/index')(app, mainDb);
+    //require('./routes/index')(app, mainDb);
 
 
     return app;

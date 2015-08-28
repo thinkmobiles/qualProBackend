@@ -9,7 +9,7 @@ var env = process.env;
 
 process.env.NODE_ENV = mainAppConfig.NODE_ENV;
 
-db = mongoose.createConnection(env.DB_HOST, env.DB_NAME, env.env.DB_PORT, connectOptions);
+db = mongoose.createConnection(env.DB_HOST, env.DB_NAME, env.DB_PORT, connectOptions);
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {

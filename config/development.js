@@ -9,7 +9,9 @@ process.env.DB_NAME = "qualPro";
 process.env.DB_PORT = 27017;
 
 exports.mongoConfig = {
-    db: { native_parser: true },
+    db: {
+        native_parser: false
+    },
     server: { poolSize: 5 },
     //replset: { rs_name: 'myReplicaSetName' },
     user: process.env.DB_USER,
@@ -20,9 +22,10 @@ exports.mongoConfig = {
 };
 
 exports.sessionConfig = {
-    name: 'qualPro_main',
-    key: "qualPro_main",
-    secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
+    db: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    reapInterval: 500000
 };
