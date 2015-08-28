@@ -39,7 +39,7 @@
     "supertest": "^1.0.1"
   },
   "scripts": {
-    "test" : "mocha",
+    "test" : "mocha tests/",
     "start": "server.js"
   }
 }
