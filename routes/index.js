@@ -36,5 +36,5 @@ module.exports = function (app, db) {
 
     app.use('/personnel', personnelRouter);
 
-    app.get('/getModules', moduleHandler.getAll);
+    //app.get('/getModules', moduleHandler.getAll);
 };

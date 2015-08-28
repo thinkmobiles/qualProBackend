@@ -11,7 +11,7 @@ var Personnel = function (db) {
         var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         var shaSum = crypto.createHash('sha256');
-        var personnelModel = new db.model('personnels', personnelSchema);
+        var PersonnelModel = db.model('personnels', personnelSchema);
 
         email = email ? emailRegExp.test(email) : false;
         body.pass = shaSum.update(pass);
@@ -54,7 +54,7 @@ var Personnel = function (db) {
                     return next(err);
                 }
 
-                if (personnel.pass === shaSum.digest('hex')) {
+                if (personnel && personnel.pass === shaSum.digest('hex')) {
                     session.loggedIn = true;
                     session.uId = personnel._id;
                     session.uName = personnel.login;
@@ -67,11 +67,11 @@ var Personnel = function (db) {
                         }
                     });
 
-                    res.status(200).send();
-                } else {
-                    res.status(403).send();
+                    return res.status(200).send();
                 }
-            })
+
+                res.status(400).send();
+            });
         } else {
             res.status(400).send();
         }
