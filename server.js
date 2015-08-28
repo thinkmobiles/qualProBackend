@@ -1,4 +1,3 @@
-/*Just for test*/
 var mongoose = require('mongoose');
 var mainAppConfig = require('./config/main').mainApp;
 var db;

@@ -1,6 +1,6 @@
 define([
-    'views/main/MainView',
-    'views/login/LoginView',
+    'views/main/main',
+    'views/login/login',
     'dataService',
     'custom',
     'common',
