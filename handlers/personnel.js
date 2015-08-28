@@ -18,7 +18,7 @@ var Personnel = function (db) {
 
         shaSum.update(pass);
 
-        if (login && pass) {
+        if (email && pass) {
             query = personnelModel.findOne({
                 email: email
             });
