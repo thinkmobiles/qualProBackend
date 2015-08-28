@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var personnelHandler = require('../handlers/personnel');
+var PersonnelHandler = require('../handlers/personnel');
 
 module.exports = function (models) {
-    var handler = new personnelHandler(models);
+    var handler = new PersonnelHandler(models);
 
     //router.get('/', handler.getAll);
     //router.get('/:id',handler.getById);
