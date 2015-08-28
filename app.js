@@ -61,8 +61,7 @@ module.exports = function (db) {
 
     app.use(allowCrossDomain);
 
-    //require('./routes/index')(app, mainDb);
-
+    require('./routes/index')(app, db);
 
     return app;
 };

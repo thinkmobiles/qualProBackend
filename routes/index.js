@@ -11,7 +11,8 @@ module.exports = function (app, db) {
     var multipartMiddleware = multipart();
     var mongoose = require('mongoose');
     var models = require("../models.js")(db);
-    var personellHandler = require("../handlers/personnel");
+    var PersonnelHandler = require("../handlers/personnel");
+    var personnelHandler = new PersonnelHandler(db);
 
     var personnelRouter = require('./personnel')(db);
 
@@ -27,15 +28,15 @@ module.exports = function (app, db) {
 
     app.use('/personnel', personnelRouter);
 
-    app.get('/', function (req, res, next) {
+    /*app.get('/', function (req, res, next) {
         res.sendfile('index.html');
-    });
+    });*/
 
-    app.post('/login', personellHandler.login);
+    app.post('/login', personnelHandler.login);
 
     app.get('/authenticated', checkAuth);
 
-    app.get('/getModules', function (req, res) {
+    /*app.get('/getModules', function (req, res) {
         requestHandler.getModules(req, res);
-    });
+    });*/
 };

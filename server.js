@@ -5,7 +5,7 @@ var app;
 var env = process.env;
 var connectOptions;
 
-//env.NODE_ENV = 'development';
+env.NODE_ENV = 'development';
 
 connectOptions = require('./config/' + env.NODE_ENV).mongoConfig;
 
