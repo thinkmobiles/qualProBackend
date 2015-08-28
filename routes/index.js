@@ -14,7 +14,7 @@ module.exports = function (app, db) {
     var PersonnelHandler = require("../handlers/personnel");
     var personnelHandler = new PersonnelHandler(db);
 
-    var personnelRouter = require('./personnel')(models);
+    var personnelRouter = require('./personnel')(db);
 
     var RESPONSES = require('../constants/responses');
 
