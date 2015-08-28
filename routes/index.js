@@ -26,17 +26,15 @@ module.exports = function (app, db) {
         }
     }
 
-    app.use('/personnel', personnelRouter);
-
-    /*app.get('/', function (req, res, next) {
+    app.get('/', function (req, res, next) {
         res.sendfile('index.html');
-    });*/
+    });
 
     app.post('/login', personnelHandler.login);
 
     app.get('/authenticated', checkAuth);
 
-    /*app.get('/getModules', function (req, res) {
-        requestHandler.getModules(req, res);
-    });*/
+    app.use('/personnel', personnelRouter);
+
+    app.get('/getModules', moduleHandler.getAll);
 };

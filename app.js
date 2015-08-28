@@ -50,6 +50,8 @@ module.exports = function (db) {
     app.use(cookieParser("CRMkey"));
     app.use(express.static(path.join(__dirname, 'public')));
 
+    app.use(allowCrossDomain);
+
     app.use(session({
         name: 'qualPro_main',
         key: "qualPro_main",
@@ -58,8 +60,6 @@ module.exports = function (db) {
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
     }));
-
-    app.use(allowCrossDomain);
 
     require('./routes/index')(app, db);
 
