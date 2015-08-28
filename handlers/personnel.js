@@ -1,23 +1,24 @@
 var mongoose = require('mongoose');
 var Personnel = function (db) {
     var _ = require('../node_modules/underscore');
+    var CONSTANTS = require('../constants/mainConstants');
     var personnelSchema = mongoose.Schemas['personnel'];
     var crypto = require('crypto');
 
     this.registration = function (req, res, next) {
         var body = req.body;
-        var email = req.email;
+        var email = body.email;
         var pass = body.pass;
-        var emailRegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         var shaSum = crypto.createHash('sha256');
         var PersonnelModel = db.model('personnels', personnelSchema);
+        var personnelModel;
 
-        email = email ? emailRegExp.test(email) : false;
+        email = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
         body.pass = shaSum.update(pass);
 
         if (email) {
-            personnelModel = body;
+            personnelModel = new PersonnelModel(body);
             personnelModel.save(function (err, personnel) {
                 if (err) {
                     return next(err);
