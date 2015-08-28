@@ -21,14 +21,7 @@ module.exports = function (mainDb, dbsNames) {
 
     var MemoryStore = require('connect-mongo')(session);
 
-    var sessionConfig = {
-        db: mainDb.name,
-        host: mainDb.host,
-        port: mainDb.port,
-        saveUninitialized: false,
-        resave: false,
-        reapInterval: 500000
-    };
+    var sessionConfig = require('./config/' + mainAppConfig.NODE_ENV).sessionConfig;
 
     var allowCrossDomain = function (req, res, next) {
 
