@@ -19,6 +19,10 @@ db.once('open', function callback() {
 
     require('./models/index.js');
 
+    if (env.NODE_ENV === 'development') {
+        require('./config/' + env.NODE_ENV).createAdmin(db);
+    }
+
     app = require('./app')(db);
 
     app.listen(port, function () {

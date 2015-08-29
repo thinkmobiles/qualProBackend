@@ -15,7 +15,7 @@ module.exports = function (db) {
     var csurf = require('csurf');
     var app = express();
 
-    var csrfProtection = csurf({ cookie: true });
+    var csrfProtection = csurf({cookie: true});
 
     var logWriter = require('./helpers/logWriter');
 

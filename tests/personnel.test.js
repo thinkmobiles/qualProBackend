@@ -8,28 +8,57 @@ var expect = require('chai').expect;
 
 var host = process.env.HOST;
 var url;
-var aggent;
-var queryString = '';
+var agent;
 
-describe("BDD for User", function () {  // Runs once before all tests start.
-    it("login should return logged personnel", function (done) {
-        aggent = request.agent(host);
+var adminObject = {
+    email: 'admin@admin.com',
+    pass: '121212',
+};
 
-        aggent
+var personnelObject = {
+    email: 'test@test.com',
+    pass: '111111',
+    firstName: 'Ivan',
+    lastName: 'Pupkin'
+};
+var personnelId;
+
+
+describe("BDD for Personnel", function () {  // Runs once before all tests start.
+    before("Login: (should return logged personnel)", function (done) {
+        agent = request.agent(host);
+
+        agent
             .post('/login')
-            .send({
-                email: 'admin@admin.com',
-                pass: '121212'
-            })
-            .expect(200, function(err, resp){
-                if (err){
+            .send(adminObject)
+            .expect(200, function (err, resp) {
+                if (err) {
                     return done(err);
                 }
 
                 expect(resp).to.be.instanceOf(Object);
-                /*expect(resp).has.keys('login');*/
                 done();
             });
+    });
+
+    it("Registration new user:", function (done) {
+        agent
+            .post('/personnel/')
+            .send(personnelObject)
+            .expect(200, function(err, resp) {
+                if (err) {
+                    return done(err);
+                }
+
+                personnelId = resp.body._id;
+                done();
+            });
+    });
+
+    it("Delete user:", function (done) {
+        agent
+            .delete('/personnel/' + personnelId)
+            .expect(200, done);
     });
 
 });

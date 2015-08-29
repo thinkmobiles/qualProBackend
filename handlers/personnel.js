@@ -3,9 +3,11 @@ var Personnel = function (db) {
     var _ = require('../node_modules/underscore');
     var CONSTANTS = require('../constants/mainConstants');
     var personnelSchema = mongoose.Schemas['personnel'];
+    var Access = require('../helpers/access');
     var crypto = require('crypto');
+    var mid;
 
-    this.registration = function (req, res, next) {
+    this.create = function (req, res, next) {
         var body = req.body;
         var email = body.email;
         var pass = body.pass;
@@ -14,8 +16,19 @@ var Personnel = function (db) {
         var PersonnelModel = db.model('personnels', personnelSchema);
         var personnelModel;
 
+        var err;
+
+        /*Access.getEditWritAccess(req, res, next, mid, function (access) {
+         if (!access) {
+         err = new Error();
+         err.status(403);
+
+         return next(err);
+         }*/
+
         email = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
-        body.pass = shaSum.update(pass);
+        shaSum.update(pass);
+        body.pass = shaSum.digest('hex');
 
         if (email) {
             personnelModel = new PersonnelModel(body);
@@ -30,6 +43,7 @@ var Personnel = function (db) {
         } else {
             res.status(400).send();
         }
+        /*});*/
     };
 
     this.login = function (req, res, next) {
@@ -43,6 +57,7 @@ var Personnel = function (db) {
         var query;
 
         var lastAccess;
+        var resultPersonnel;
 
         shaSum.update(pass);
 
@@ -66,9 +81,13 @@ var Personnel = function (db) {
                         if (err) {
                             return next(err);
                         }
+
+                        delete result.pass;
+
+                        resultPersonnel = result;
                     });
 
-                    return res.status(200).send();
+                    return res.status(200).send(resultPersonnel);
                 }
 
                 res.status(400).send();
@@ -76,6 +95,38 @@ var Personnel = function (db) {
         } else {
             res.status(400).send();
         }
+    };
+
+    this.remove = function (req, res, next) {
+        var id = req.params.id;
+        var err;
+        var personnelModel = db.model('personnels', personnelSchema);
+        var query;
+
+        if (req.session.uId === id) {
+            err = new Error();
+            err.status(400);
+
+            return next(err);
+        }
+
+        /*Access.getDeleteAccess(req, res, next, mid, function (access) {
+            if (!access) {
+                err = new Error();
+                err.status(403);
+
+                return next(err);
+            }*/
+
+            query = personnelModel.remove({_id: id});
+            query.exec(function (err) {
+                if (err) {
+                    return next(err);
+                }
+
+                res.status(200).send();
+            })
+        /*});*/
     };
 
     this.currentUser = function (req, res, next) {

@@ -16,7 +16,6 @@ module.exports = (function () {
         lastName: {type: String, default: ''},
         country: {type: ObjectId, ref: 'country', default: null},
         email: {type: String, default: '', unique : true, required : true},
-        personalEmail: {type: String, default: ''},
         phoneNumber: {type: String, default: ''},
         manager: {type: ObjectId, ref: 'personnel', default: null},
         position: {type: ObjectId, ref: 'position', default: null},

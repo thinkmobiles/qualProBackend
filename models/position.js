@@ -8,7 +8,7 @@ module.exports = (function () {
     var positionSchema = mongoose.Schema({
         _id: Number,
         name: { type: String, default: '' },
-        access: [{
+        profileAccess: [{
             module: { type: Number, ref: "modules" },
             access: {
                 read: { type: Boolean, default: false },
