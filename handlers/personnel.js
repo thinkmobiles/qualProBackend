@@ -3,6 +3,7 @@ var Personnel = function (db) {
     var _ = require('../node_modules/underscore');
     var CONSTANTS = require('../constants/mainConstants');
     var personnelSchema = mongoose.Schemas['personnel'];
+    var Access = require('../helpers/access');
     var crypto = require('crypto');
     var mid;
 
@@ -17,7 +18,7 @@ var Personnel = function (db) {
 
         var err;
 
-        /*access.getEditWritAccess(req, req.session.uId, mid, function (access) {
+        /*Access.getEditWritAccess(req, res, next, mid, function (access) {
          if (!access) {
          err = new Error();
          err.status(403);
@@ -109,7 +110,7 @@ var Personnel = function (db) {
             return next(err);
         }
 
-        /*access.getDeleteAccess(req, req.session.uId, mid, function (access) {
+        /*Access.getDeleteAccess(req, res, next, mid, function (access) {
             if (!access) {
                 err = new Error();
                 err.status(403);
