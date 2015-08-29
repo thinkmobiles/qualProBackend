@@ -7,7 +7,8 @@ module.exports = function (db) {
 
     //router.get('/', handler.getAll);
     //router.get('/:id', handler.getById);
-    router.post('/', handler.registration);
+    router.post('/', handler.create);
+    router.delete('/:id', handler.remove);
     //router.put('/:id', handler.update);
     return router;
 };
