@@ -1,19 +1,18 @@
 define([
-    'text!templates/login/LoginTemplate.html',
+    'text!templates/login/login.html',
     'custom',
-    'communication'
-], function (LoginTemplate, Custom, Communication) {
+    'constants'
+], function (loginTemplate, custom, CONSTANTS) {
 
     var LoginView = Backbone.View.extend({
         el: '#wrapper',
-        template: _.template(LoginTemplate),
+        template: _.template(loginTemplate),
+        $errrorHandler: null,
+
+        error: null,
 
         initialize: function (options) {
-            if (options && options.dbs) {
-                this.render(options);
-            } else {
-                this.render();
-            }
+            this.render();
         },
         events: {
             "submit #loginForm": "login",
@@ -22,21 +21,35 @@ define([
             "focus #upass": "passwordFocus",
             "focusout #ulogin": "usernameFocus",
             "focusout #upass": "passwordFocus",
-            "click .remember-me": "checkClick"
+            "click .remember-me": "checkClick",
+            "keyup #email": "checkEmail"
         },
-        render: function (options) {
-            $('title').text('Login');
-            if (options) {
-                this.$el.html(this.template({options: options.dbs}));
+
+        checkEmail: function(e){
+            var target = $(e.target);
+
+            if(!CONSTANTS.EMAIL_REGEXP.test(target.val())){
+                target.addClass('error');
             } else {
-                this.$el.html(LoginTemplate);
-                $("#loginForm").addClass("notRegister");
+                target.removeClass('error');
             }
+        },
+
+        render: function (options) {
+            var thisEl = this.$el;
+            thisEl.html(this.template());
+
+            //thisEl.find("#loginForm").addClass("notRegister");
+
+            this.$errrorHandler = $('#errorHandler');
+
             return this;
         },
+
         usernameFocus: function (event) {
             this.$el.find(".icon-login").toggleClass("active");
         },
+
         passwordFocus: function (event) {
             this.$el.find(".icon-pass").toggleClass("active");
 
@@ -54,45 +67,53 @@ define([
         login: function (event) {
             event.preventDefault();
 
-            var err = "";
-            var currentDb = this.$el.find("#dbs :selected").data("id");
-
-            App.currentDb = currentDb;
-
-            $("#loginForm").removeClass("notRegister");
-            $("#loginForm").removeClass("notRegister");
+            var errorHandler = this.$errrorHandler;
+            var err = this.error = "";
+            var self = this;
+            var thisEl = this.$el;
+            var loginForm = thisEl.find("#loginForm");
 
             var data = {
-                login: this.$("#ulogin").val(),
-                pass: this.$("#upass").val(),
-                dbId: currentDb
+                email: thisEl.find("#email").val(),
+                pass: thisEl.find("#pass").val()
             };
 
-            if (data.login.length < 3) {
-                err += "Login must be longer than 3 characters<br/>";
+            var errors = thisEl.find('input.error');
+
+            if(errors.length){
+                errorHandler.text("Invalid credentials. Please try again");
+                errorHandler.show();
+                return;
             }
+
+            loginForm.removeClass("notRegister");
+
             if (data.pass.length < 3) {
                 err += "Password must be longer than 3 characters";
             }
             if (err) {
-                $("#loginForm .error").html(err);
-                $("#loginForm").addClass("notRegister");
+                errorHandler.text(err);
+                loginForm.addClass("notRegister");
+
+                errorHandler.show();
                 return;
             }
-            if (data.login == "") {
-                $("#loginForm").addClass("notRegister");
+            if (data.login === "") {
+                loginForm.addClass("notRegister");
             }
+
             $.ajax({
                 url: "/login",
                 type: "POST",
                 data: data,
                 success: function () {
-                    Custom.runApplication(true);
+                    custom.runApplication(true);
                 },
                 error: function () {
-                    //Custom.runApplication(false, "Server is unavailable...");
-                    $("#loginForm").addClass("notRegister");
-                    $("#loginForm .error").text("Such user doesn't registered");
+                    loginForm.addClass("notRegister");
+
+                    errorHandler.text("Such user doesn't registered");
+                    errorHandler.show();
                 }
             });
         }

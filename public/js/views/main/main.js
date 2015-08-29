@@ -1,23 +1,26 @@
 define([
     'text!templates/main/main.html',
-    'views/menu/LeftMenuView',
+    /*'views/menu/LeftMenuView',
     'collections/menu/MenuItems',
     'views/menu/TopMenuView',
-    'dataService'
-], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView, dataService) {
+    'dataService'*/
+], function (MainTemplate/*, LeftMenuView, MenuItemsCollection, TopMenuView, dataService*/) {
 
     var MainView = Backbone.View.extend({
         el: '#wrapper',
+        template: _.template(MainTemplate),
         events: {
             'click #loginPanel': 'showSelect',
             'click': 'hideProp'
         },
+
         initialize: function (options) {
             this.contentType = options ? options.contentType : null;
             this.render();
-            this.collection = new MenuItemsCollection();
-            this.collection.bind('reset', this.createMenuViews, this);
+            /*this.collection = new MenuItemsCollection();
+            this.collection.bind('reset', this.createMenuViews, this);*/
         },
+
         hideProp: function (e) {
             if ($(e.target).closest("#loginPanel").length === 0) {
                 var select = this.$el.find('#loginSelect');
@@ -25,6 +28,7 @@ define([
                 select.prop('hidden', true);
             }
         },
+
         createMenuViews: function () {
             var currentRoot = null;
             var currentChildren = null;
@@ -65,8 +69,9 @@ define([
         },
         render: function () {
             var currentUser;
+
             if (!App || !App.currentUser || !App.currentUser.login) {
-                dataService.getData('/currentUser', null, function (response, context) {
+                /*dataService.getData('/currentUser', null, function (response, context) {
                     currentUser = response.user;
                     App.currentUser = currentUser;
 
@@ -87,15 +92,16 @@ define([
                         $("#loginPanel .iconEmployee").attr("src", currentUser.imageSrc);
                         $("#loginPanel  #userName").text(currentUser.login);
                     }
-                }, this);
-                this.$el.html(_.template(MainTemplate));
+                }, this);*/
+
+                this.$el.html(this.template());
             } else {
-                this.$el.html(_.template(MainTemplate));
+                this.$el.html(this.template());
 
                 var icon = $("#loginPanel .iconEmployee");
                 var log = $("#loginPanel  #userName");
 
-                if (App.currentUser && App.currentUser.profile && App.currentUser.profile.profileName == 'baned') {
+                /*if (App.currentUser && App.currentUser.profile && App.currentUser.profile.profileName == 'baned') {
                     $('title').text("QualPro");
                     this.$el.find("li#userpage").remove();
                     this.$el.find("#top-bar").addClass("banned");
@@ -111,7 +117,7 @@ define([
                 } else {
                     icon.attr("src", App.currentUser.imageSrc);
                     log.text(App.currentUser.login);
-                }
+                }*/
             }
 
             return this;
