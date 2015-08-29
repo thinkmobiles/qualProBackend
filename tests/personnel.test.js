@@ -12,7 +12,7 @@ var agent;
 
 var adminObject = {
     email: 'admin@admin.com',
-    pass: '121212',
+    pass: '121212'
 };
 
 var personnelObject = {
