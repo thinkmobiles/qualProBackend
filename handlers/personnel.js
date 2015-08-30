@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
+
 var Personnel = function (db) {
     var _ = require('../node_modules/underscore');
     var CONSTANTS = require('../constants/mainConstants');
+
     var personnelSchema = mongoose.Schemas['personnel'];
     var Access = require('../helpers/access');
     var crypto = require('crypto');

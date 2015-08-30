@@ -6,7 +6,7 @@
         profileName: { type: String, default: 'emptyProfile' },
         profileDescription: { type: String, default: 'No description' },
         profileAccess: [{
-            module: { type: Number, ref: "modules" },
+            module: { type: Number, ref: "module" },
             access: {
                 read: { type: Boolean, default: false },
                 editWrite: { type: Boolean, default: false },
@@ -14,13 +14,13 @@
             }
         }]
 
-    }, { collection: 'Profile' });
+    }, { collection: 'profiles' });
 
-    mongoose.model('Profile', ProfileSchema);
+    mongoose.model('profile', ProfileSchema);
 
     if(!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['Profile'] = ProfileSchema;
+    mongoose.Schemas['profile'] = ProfileSchema;
 })();
