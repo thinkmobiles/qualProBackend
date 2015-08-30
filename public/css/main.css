@@ -1,0 +1,83 @@
+.errors {
+  display: none;
+}
+#login h1 > a {
+  display: block;
+  width: 200px;
+  height: 200px;
+  background: url(/images/logo.png) no-repeat;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: center;
+}
+#login fieldset {
+  width: 390px;
+  min-height: 120px;
+  margin: 0 auto;
+  border: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+#login fieldset h2,
+#login fieldset a {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+#login fieldset h2,
+#login fieldset label {
+  color: #546e7a;
+  font-size: 18px;
+  font-family: sans;
+  font-weight: 600;
+}
+#login fieldset label {
+  font-size: 16px;
+  font-weight: 300;
+  opacity: .7;
+}
+#login fieldset input {
+  width: 96%;
+  height: 30px;
+  padding: 0 2%;
+  background-color: #eee;
+  border: none;
+}
+#login fieldset input.error {
+  border: 2px solid #f44336;
+  border-radius: 2px;
+  outline: 0;
+}
+#login fieldset input[type="submit"] {
+  display: none;
+}
+#login .login-button {
+  -webkitborder-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f44336;
+  margin-top: 20px;
+  line-height: 45px;
+  color: white;
+  display: block;
+  font-size: 18px;
+  font-family: sans;
+  font-weight: 600;
+}
+#login .login-button:hover {
+  text-decoration: none;
+  background-color: #ff0003;
+  color: white;
+}
+#login .login-button i {
+  display: inline-block;
+  margin-left: 5px;
+  width: 14px;
+  height: 14px;
+}
+#login #loginForm.notRegister input {
+  border: 2px solid #f44336;
+  border-radius: 2px;
+  outline: 0;
+}

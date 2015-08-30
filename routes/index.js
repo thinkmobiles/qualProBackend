@@ -1,0 +1,73 @@
+/**
+ * Created by Roman on 02.04.2015.
+ */
+
+module.exports = function (app, db) {
+    var events = require('events');
+    var event = new events.EventEmitter();
+    var logWriter = require('../helpers/logWriter');
+    var fs = require("fs");
+    var multipart = require('connect-multiparty');
+    var multipartMiddleware = multipart();
+    var mongoose = require('mongoose');
+    var models = require("../models.js")(db);
+    var PersonnelHandler = require("../handlers/personnel");
+    var personnelHandler = new PersonnelHandler(db);
+
+    var personnelRouter = require('./personnel')(db);
+
+    var RESPONSES = require('../constants/responses');
+
+    function checkAuth(req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            res.send(200);
+        } else {
+            res.send(401);
+        }
+    }
+
+    app.get('/', function (req, res, next) {
+        res.sendfile('index.html');
+    });
+    //app.get('/getModules', moduleHandler.getAll);
+    app.post('/login', personnelHandler.login);
+    app.get('/authenticated', checkAuth);
+
+    app.use('/personnel', /*checkAuth,*/ personnelRouter);
+
+    function notFound (req, res, next) {
+        res.status(404);
+
+
+        if (req.accepts('html')) {
+            return res.send(RESPONSES.PAGE_NOT_FOUND);
+        }
+
+        if (req.accepts('json')) {
+            return res.json({error: RESPONSES.PAGE_NOT_FOUND});
+        }
+
+        res.type('txt');
+        res.send(RESPONSES.PAGE_NOT_FOUND);
+
+    };
+
+    function errorHandler (err, req, res, next) {
+        var status = err.status || 500;
+
+        if (process.env.NODE_ENV === 'production') {
+            if (status === 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message});
+        } else {
+            if (status !== 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message + '\n' + err.stack});
+        }
+    };
+
+    app.use(notFound);
+    app.use(errorHandler);
+};
