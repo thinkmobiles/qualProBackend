@@ -77,6 +77,110 @@ exports.create = function(cb) {
             parrent: 7,
             link: true,
             visible: true
+        }, {
+            _id: 9,
+            mname: 'In-Store Reporting',
+            href: 'inStorReporting',
+            sequence: 9,
+            parrent: 7,
+            link: true,
+            visible: true
+        }, {
+            _id: 10,
+            mname: 'Custom Reports',
+            href: 'customReports',
+            sequence: 10,
+            parrent: 7,
+            link: true,
+            visible: true
+        }, {
+            _id: 11,
+            mname: 'Events',
+            href: 'events',
+            sequence: 11,
+            parrent: null,
+            link: false,
+            visible: true
+        }, {
+            _id: 12,
+            mname: 'Al Alali Reporting',
+            href: 'alalaliReporting',
+            sequence: 12,
+            parrent: 11,
+            link: true,
+            visible: true
+        }, {
+            _id: 13,
+            mname: 'Competitor Activity',
+            href: 'competitorActivity',
+            sequence: 13,
+            parrent: 11,
+            link: true,
+            visible: true
+        }, {
+            _id: 14,
+            mname: 'Competitor List',
+            href: 'competitorList',
+            sequence: 14,
+            parrent: 11,
+            link: true,
+            visible: true
+        }, {
+            _id: 15,
+            mname: 'Shelf & Planogram',
+            href: 'planogram',
+            sequence: 15,
+            parrent: null,
+            link: false,
+            visible: true
+        }, {
+            _id: 16,
+            mname: 'Shelf Shares',
+            href: 'shelfShares',
+            sequence: 16,
+            parrent: 15,
+            link: true,
+            visible: true
+        }, {
+            _id: 17,
+            mname: 'Competitor Activity',
+            href: 'competitorActivity',
+            sequence: 17,
+            parrent: 15,
+            link: true,
+            visible: true
+        }, {
+            _id: 18,
+            mname: 'Items',
+            href: 'items',
+            sequence: 18,
+            parrent: null,
+            link: false,
+            visible: true
+        }, {
+            _id: 19,
+            mname: 'Items List',
+            href: 'itemsList',
+            sequence: 19,
+            parrent: 18,
+            link: true,
+            visible: true
+        }, {
+            _id: 20,
+            mname: 'Price List',
+            href: 'priceList',
+            sequence: 17,
+            parrent: 20,
+            link: true,
+            visible: true
+        }, {
+            _id: 21,
+            mname: 'Contract',
+            href: 'contracts',
+            sequence: 21,
+            parrent: null,
+            link: false,
+            visible: true
         }];
 
 
@@ -93,4 +197,4 @@ exports.create = function(cb) {
         });
 
     });
-}
+};
