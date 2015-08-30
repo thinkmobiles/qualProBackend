@@ -1,5 +1,5 @@
 define([
-    'text!templates/menu/TopMenuItemTemplate.html'
+    'text!templates/menu/topMenuItem.html'
 ],
     function(ItemTpl){
 

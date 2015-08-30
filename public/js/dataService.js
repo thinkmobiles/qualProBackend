@@ -1,13 +1,9 @@
 define(function () {
-    var getData = function (url, data, callback, context) {
+    var getData = function (url, data, callback) {
         $.get(url, data, function (response) {
-            if (context) {
-                callback(response, context);
-            } else {
-                callback(response);
-            }
-        }).fail(function (err) {
-            callback({error: err});
+            callback(null, response);
+        }).fail(function (jxhr) {
+            callback(jxhr);
         });
     };
     var postData = function (url, data, callback) {
@@ -23,6 +19,7 @@ define(function () {
             }
         });
     };
+
     return {
         getData: getData,
         postData: postData

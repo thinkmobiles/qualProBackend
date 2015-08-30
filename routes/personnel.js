@@ -9,6 +9,6 @@ module.exports = function (models) {
     router.get('/:id', handler.getById);
     router.post('/', handler.create);
     router.put('/:id', handler.update);
-    router.delete('/:id', handler.delete);
+    router.delete('/:id', handler.remove);
     return router;
 };

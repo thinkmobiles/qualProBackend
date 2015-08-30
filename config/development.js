@@ -29,3 +29,53 @@ exports.sessionConfig = {
     saveUninitialized: false,
     reapInterval: 500000
 };
+
+/*REMOVE*/
+/*-----------------------------------------*/
+/*Creating admin personnel only for tests
+ * should be removed in production*/
+
+this.createAdmin = function (db) {
+
+    var mongoose = require('mongoose');
+    var personnelSchema = mongoose.Schemas['personnel'];
+    var crypto = require('crypto');
+    var ObjectId = mongoose.Schema.Types.ObjectId;
+
+    var adminObject = {
+        email: 'admin@admin.com',
+        pass: '121212',
+        firstName: 'Vasya',
+        lastName: 'Pupkin',
+        position: ObjectId('0'),
+        description: 'Super Admin created auto'
+    }
+
+    var shaSum = crypto.createHash('sha256');
+    var PersonnelModel = db.model('personnels', personnelSchema);
+    var personnelModel;
+
+    shaSum.update(adminObject.pass);
+    adminObject.pass = shaSum.digest('hex');
+
+    personnelModel = new PersonnelModel(adminObject);
+    PersonnelModel.findOne({email: adminObject.email}, function (err, result) {
+        if (err) {
+            return console.log(err);
+        }
+
+        if (!result) {
+            personnelModel.save(function (err, personnel) {
+                if (err) {
+                    return console.log(err);
+                }
+
+                console.log('--- Admin created ---');
+            })
+        } else {
+            console.log('--- Admin already exists ---');
+        }
+    })
+}
+
+/*-----------------------------------------*/

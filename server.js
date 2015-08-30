@@ -1,13 +1,13 @@
-/*Just for test*/
 var mongoose = require('mongoose');
-var mainAppConfig = require('./config/main').mainApp;
+//var mainAppConfig = require('./config/main').mainApp;
 var db;
 var app;
-
-var connectOptions = require('./config/' + mainAppConfig.NODE_ENV).mongoConfig;
 var env = process.env;
+var connectOptions;
 
-process.env.NODE_ENV = mainAppConfig.NODE_ENV;
+env.NODE_ENV = 'development';
+
+connectOptions = require('./config/' + env.NODE_ENV).mongoConfig;
 
 db = mongoose.createConnection(env.DB_HOST, env.DB_NAME, env.DB_PORT, connectOptions);
 
@@ -18,6 +18,10 @@ db.once('open', function callback() {
     console.log("Connected to db is success");
 
     require('./models/index.js');
+
+    if (env.NODE_ENV === 'development') {
+        require('./config/' + env.NODE_ENV).createAdmin(db);
+    }
 
     app = require('./app')(db);
 

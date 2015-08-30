@@ -15,7 +15,7 @@ module.exports = function (db) {
     var csurf = require('csurf');
     var app = express();
 
-    var csrfProtection = csurf({ cookie: true });
+    var csrfProtection = csurf({cookie: true});
 
     var logWriter = require('./helpers/logWriter');
 
@@ -50,6 +50,8 @@ module.exports = function (db) {
     app.use(cookieParser("CRMkey"));
     app.use(express.static(path.join(__dirname, 'public')));
 
+    app.use(allowCrossDomain);
+
     app.use(session({
         name: 'qualPro_main',
         key: "qualPro_main",
@@ -59,10 +61,7 @@ module.exports = function (db) {
         store: new MemoryStore(sessionConfig)
     }));
 
-    app.use(allowCrossDomain);
-
-    //require('./routes/index')(app, mainDb);
-
+    require('./routes/index')(app, db);
 
     return app;
 };
