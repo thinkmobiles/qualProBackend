@@ -6,8 +6,9 @@ module.exports = function (models) {
     var handler = new personnelHandler(models);
 
     router.get('/', handler.getAll);
-    router.get('/:id',handler.getById);
-    router.post('/',handler.create);
-    router.put('/:id',handler.update);
+    router.get('/:id', handler.getById);
+    router.post('/', handler.create);
+    router.put('/:id', handler.update);
+    router.delete('/:id', handler.delete);
     return router;
 };
