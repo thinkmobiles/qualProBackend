@@ -18,7 +18,7 @@ module.exports = (function () {
         email: {type: String, default: '', unique : true, required : true},
         phoneNumber: {type: String, default: ''},
         manager: {type: ObjectId, ref: 'personnel', default: null},
-        position: {type: ObjectId, ref: 'position', default: null},
+        position: {type: Number, ref: 'position', default: null},
         dateBirth: Date,
         whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
         groups: {

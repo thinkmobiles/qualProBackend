@@ -47,7 +47,7 @@ exports.createAdmin = function (db) {
         pass: '121212',
         firstName: 'Vasya',
         lastName: 'Pupkin',
-        position: ObjectId('0'),
+        position: 0,
         description: 'Super Admin created auto'
     }
 
