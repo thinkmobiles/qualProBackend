@@ -10,12 +10,12 @@ module.exports = function () {
 
     this.forgotPassword = function (options){
         var templateOptions = {
-            //name: options.firstname + ' ' + options.lastname,
+            name: options.firstName + ' ' + options.lastName,
             email: options.email,
             url: 'http://easyerp.com/password_change/?forgotToken=' + options.forgotToken
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@easyerp.com>',
+            from: 'easyerp <no-replay@qualpro.com>',
             to: templateOptions.email,
             subject: 'Change password',
             generateTextFromHTML: true,

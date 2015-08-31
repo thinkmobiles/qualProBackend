@@ -18,5 +18,10 @@ module.exports = {
     NOT_EXISTS: 'is not exist',
     REMOVE_SUCCESSFULY: 'was removed successfully',
     YOUR_DATA_ALREADY_UPDATE: "your data already update",
-    BAD_REQUEST: 'Bad request'
+    BAD_REQUEST: 'Bad request',
+
+
+    MAILER: {
+        EMAIL_SENT: 'Email sent'
+    }
 };
