@@ -15,9 +15,7 @@ module.exports = function (app, db) {
 
     var PersonnelHandler = require("../handlers/personnel");
     var ModuleslHandler = require("../handlers/modules");
-   // var CountryHandler=require("../handlers/country");
-
-
+    // var CountryHandler=require("../handlers/country");
 
 
     var personnelHandler = new PersonnelHandler(db);
@@ -26,8 +24,7 @@ module.exports = function (app, db) {
 
 
     var personnelRouter = require('./personnel')(db);
-    var countryRouter=require('./country')(db);
-
+    var countryRouter = require('./country')(db);
 
 
     var RESPONSES = require('../constants/responses');
@@ -56,9 +53,9 @@ module.exports = function (app, db) {
 
     app.use('/personnel', personnelRouter);
 
-    app.use('/country',countryRouter);
+    app.use('/country', countryRouter);
 
-    function notFound (req, res, next) {
+    function notFound(req, res, next) {
         res.status(404);
 
 
@@ -75,7 +72,7 @@ module.exports = function (app, db) {
 
     };
 
-    function errorHandler (err, req, res, next) {
+    function errorHandler(err, req, res, next) {
         var status = err.status || 500;
 
         if (process.env.NODE_ENV === 'production') {
