@@ -3,11 +3,11 @@ var _ = require('lodash');
 
 var Module = function (db) {
     var moduleSchema = mongoose.Schemas['module'];
-    var profileSchema = mongoose.Schemas['profile'];
+    var positionSchema = mongoose.Schemas['position'];
 
     this.getAll = function (req, res, next) {
         var Module = db.model('module', moduleSchema);
-        var Profile = db.model('profile', profileSchema);
+        var Profile = db.model('position', positionSchema);
 
         /*Profile.aggregate(
             {
