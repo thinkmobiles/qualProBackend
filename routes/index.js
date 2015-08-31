@@ -10,9 +10,13 @@ module.exports = function (app, db) {
     var multipart = require('connect-multiparty');
     var multipartMiddleware = multipart();
     var mongoose = require('mongoose');
+
     var models = require("../models.js")(db);
+
     var PersonnelHandler = require("../handlers/personnel");
+    var ModuleslHandler = require("../handlers/modules");
     var personnelHandler = new PersonnelHandler(db);
+    var modulesHandler = new ModuleslHandler(db);
 
     var personnelRouter = require('./personnel')(db);
 
@@ -20,7 +24,7 @@ module.exports = function (app, db) {
 
     function checkAuth(req, res, next) {
         if (req.session && req.session.loggedIn) {
-            res.send(200);
+            next();
         } else {
             res.send(401);
         }
@@ -30,11 +34,51 @@ module.exports = function (app, db) {
         res.sendfile('index.html');
     });
 
+    app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', personnelHandler.login);
-
-    app.get('/authenticated', checkAuth);
+    app.get('/authenticated', function (req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            res.send(200);
+        } else {
+            res.send(401);
+        }
+    });
 
     app.use('/personnel', personnelRouter);
 
-    //app.get('/getModules', moduleHandler.getAll);
+    function notFound (req, res, next) {
+        res.status(404);
+
+
+        if (req.accepts('html')) {
+            return res.send(RESPONSES.PAGE_NOT_FOUND);
+        }
+
+        if (req.accepts('json')) {
+            return res.json({error: RESPONSES.PAGE_NOT_FOUND});
+        }
+
+        res.type('txt');
+        res.send(RESPONSES.PAGE_NOT_FOUND);
+
+    };
+
+    function errorHandler (err, req, res, next) {
+        var status = err.status || 500;
+
+        if (process.env.NODE_ENV === 'production') {
+            if (status === 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message});
+        } else {
+            if (status !== 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message + '\n' + err.stack});
+        }
+    };
+
+    app.use(notFound);
+    app.use(errorHandler);
 };

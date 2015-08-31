@@ -1,10 +1,10 @@
 define([
     'text!templates/main/main.html',
-    /*'views/menu/LeftMenuView',
-    'collections/menu/MenuItems',
-    'views/menu/TopMenuView',
-    'dataService'*/
-], function (MainTemplate/*, LeftMenuView, MenuItemsCollection, TopMenuView, dataService*/) {
+    'views/menu/left',
+    'collections/menu/menuItems',
+    'views/menu/topMenu'
+    /*'dataService'*/
+], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView /*dataService*/) {
 
     var MainView = Backbone.View.extend({
         el: '#wrapper',
@@ -17,8 +17,8 @@ define([
         initialize: function (options) {
             this.contentType = options ? options.contentType : null;
             this.render();
-            /*this.collection = new MenuItemsCollection();
-            this.collection.bind('reset', this.createMenuViews, this);*/
+            this.collection = new MenuItemsCollection();
+            this.collection.bind('reset', this.createMenuViews, this);
         },
 
         hideProp: function (e) {
@@ -50,23 +50,7 @@ define([
             this.topMenu.bind('changeSelection', this.leftMenu.setCurrentSection, {leftMenu: this.leftMenu});
             this.topMenu.bind('mouseOver', this.leftMenu.mouseOver, {leftMenu: this.leftMenu});
         },
-        updateMenu: function (contentType) {
-            var currentChildren = this.collection.where({href: contentType});
-            var currentRootId = currentChildren[0].get("parrent");
-            var currentRoot = this.collection.where({_id: currentRootId});
-            this.leftMenu.updateLeftMenu(currentChildren, currentRoot);
-            this.topMenu.updateTopMenu(currentRoot);
-        },
-        showSelect: function (e) {
-            var select = this.$el.find('#loginSelect');
-            if (select.prop('hidden')) {
-                select.show();
-                select.prop('hidden', false);
-            } else {
-                select.hide();
-                select.prop('hidden', true);
-            }
-        },
+
         render: function () {
             var currentUser;
 

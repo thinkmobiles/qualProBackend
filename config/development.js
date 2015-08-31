@@ -47,7 +47,7 @@ this.createAdmin = function (db) {
         pass: '121212',
         firstName: 'Vasya',
         lastName: 'Pupkin',
-        position: ObjectId('0'),
+        position: 0,
         description: 'Super Admin created auto'
     }
 
@@ -58,13 +58,13 @@ this.createAdmin = function (db) {
     shaSum.update(adminObject.pass);
     adminObject.pass = shaSum.digest('hex');
 
-    personnelModel = new PersonnelModel(adminObject);
     PersonnelModel.findOne({email: adminObject.email}, function (err, result) {
         if (err) {
             return console.log(err);
         }
 
         if (!result) {
+            personnelModel = new PersonnelModel(adminObject);
             personnelModel.save(function (err, personnel) {
                 if (err) {
                     return console.log(err);

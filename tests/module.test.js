@@ -1,6 +1,3 @@
-/**
- * Created by Roman on 24.08.2015.
- */
 require('../config/development');
 
 var request = require('supertest');
@@ -15,16 +12,7 @@ var adminObject = {
     pass: '121212'
 };
 
-var personnelObject = {
-    email: 'test@test.com',
-    pass: '111111',
-    firstName: 'Ivan',
-    lastName: 'Pupkin'
-};
-var personnelId;
-
-
-describe("BDD for Personnel", function () {  // Runs once before all tests start.
+describe("BDD for module", function () {
     before("Login: (should return logged personnel)", function (done) {
         agent = request.agent(host);
 
@@ -41,24 +29,17 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
             });
     });
 
-    it("Registration new user:", function (done) {
+    it("Get modules list", function (done) {
         agent
-            .post('/personnel')
-            .send(personnelObject)
+            .get('/modules')
             .expect(200, function(err, resp) {
                 if (err) {
                     return done(err);
                 }
 
-                personnelId = resp.body._id;
+                expect(resp.body).to.be.instanceOf(Array);
+                expect(resp.body.length).to.be.above(0);
                 done();
             });
     });
-
-    it("Delete user:", function (done) {
-        agent
-            .delete('/personnel/' + personnelId)
-            .expect(200, done);
-    });
-
 });
