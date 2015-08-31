@@ -14,6 +14,7 @@ define([
                initialize: function () {
                    /*_.bindAll(this, "saveItem");*/
                    this.model = new Model();
+                   this.render();
                },
 
                events: {

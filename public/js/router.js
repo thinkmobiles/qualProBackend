@@ -24,9 +24,8 @@ define([
         },
 
         personnel: function () {
-            this.mainView = new create();
+            return this.mainView = new create();
 
-            this.mainView.render();
         },
 
         initialize: function () {
