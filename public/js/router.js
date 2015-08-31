@@ -1,13 +1,13 @@
 define([
     'views/main/main',
     'views/login/login',
-    'views/personnel/CreateView'
-    /*'dataService',
+    'views/personnel/CreateView',
+    /*'dataService',*/
     'custom',
-    'common',
-    'constants'*/
+    /*'common',*/
+    'constants'
 
-], function (mainView, loginView, create/*, dataService, custom, common, CONTENT_TYPES*/) {
+], function (mainView, loginView, create/*, dataService*/, custom/*, common*/, CONTENT_TYPES) {
 
     var appRouter = Backbone.Router.extend({
 
@@ -17,15 +17,14 @@ define([
         view: null,
 
         routes: {
-            "qualPro/personnel": "personnel",
             "home": "any",
             "login": "login",
-            "*any": "any"
-        },
+            "qualPro/:contentType(/p=:page)(/c=:countPerPage)(/filter=:filter)": "getList",
+            "qualPro/:contentType/list(/p=:page)(/c=:countPerPage)(/filter=:filter)": "goToContent",
+            "qualPro/:contentType/thumbnails(/c=:countPerPage)(/filter=:filter)": "goToThumbnails",
+            "qualPro/:contentType/form/:contentId": "goToForm",
 
-        personnel: function () {
-            this.mainView = new create();
-            this.changeWrapperView(this.mainView);
+            "*any": "any"
         },
 
         initialize: function () {
@@ -63,17 +62,6 @@ define([
             $(window).on("resize", function (e) {
                 $("#ui-datepicker-div").hide();
             });
-
-            if (!App || !App.currentUser) {
-                /*dataService.getData('/currentUser', null, function (response) {
-                    if (response && !response.error) {
-                        App.currentUser = response.user;
-                        App.savedFilters = response.savedFilters;
-                    } else {
-                        console.log('can\'t fetch currentUser');
-                    }
-                });*/
-            };
         },
 
         redirectTo: function(){
@@ -108,6 +96,99 @@ define([
         main: function (contentType) {
             this.mainView = new mainView({contentType: contentType});
             this.changeWrapperView(this.mainView);
+        },
+
+        testContent: function (contentType) {
+            if (!CONTENT_TYPES[contentType.toUpperCase()]) {
+                contentType = CONTENT_TYPES.PERSONNEL;
+            }
+
+            return contentType;
+        },
+
+        getList: function (contentType, page, countPerPage, filter) {
+            var viewType;
+
+            this.contentType = contentType;
+
+            contentType = this.testContent(contentType);
+            viewType = custom.getCurrentVT({contentType: contentType});
+
+            if (viewType) {
+                Backbone.history.navigate('#qualPro/' + contentType + '/' + viewType, {trigger: true});
+            } else {
+                this.goToContent(contentType, page, countPerPage, filter);
+            }
+        },
+
+        goToContent: function (contentType, page, countPerPage, filter) {
+            var self = this;
+
+            this.checkLogin(function (success) {
+                if (success) {
+                    getContent(self);
+                } else {
+                    self.redirectTo();
+                }
+            });
+
+            function getContent (context) {
+                var newCollection = true;
+                var self = context;
+                var savedFilter;
+                var startTime = new Date();
+                var contentViewUrl = "views/" + contentType + "/list/listView";
+                var topBarViewUrl = "views/" + contentType + "/topBarView";
+                var collectionUrl = "collections/" + contentType + "/collection";
+                var navigatePage = (page) ? parseInt(page) : 1;
+                var count = (countPerPage) ? parseInt(countPerPage) || 50 : 50;
+
+
+                if (context.mainView === null) {
+                    context.main(contentType);
+                } else {
+                    context.mainView.updateMenu(contentType);
+                }
+
+                require([contentViewUrl, topBarViewUrl, collectionUrl], function (contentView, topBarView, contentCollection) {
+                    var collection = new contentCollection({
+                        viewType: 'list',
+                        page: navigatePage,
+                        count: count,
+                        filter: savedFilter,
+                        contentType: contentType,
+                        newCollection: newCollection
+                    });
+
+                    collection.bind('reset', _.bind(createViews, self));
+
+                    function createViews () {
+                        var topbarView;
+                        var contentview;
+
+                        collection.unbind('reset');
+                        topbarView = new topBarView({collection: collection});
+                        contentview = new contentView({
+                            collection: collection,
+                            startTime: startTime,
+                            filter: savedFilter,
+                            newCollection: newCollection
+                        });
+
+                        topbarView.bind('createEvent', contentview.createItem, contentview);
+
+                        context.changeView(contentview);
+                        context.changeTopBarView(topbarView);
+                    }
+                });
+            }
+        },
+
+        changeTopBarView: function (topBarView) {
+            if (this.topBarView) {
+                this.topBarView.undelegateEvents();
+            }
+            this.topBarView = topBarView;
         },
 
         any: function () {
