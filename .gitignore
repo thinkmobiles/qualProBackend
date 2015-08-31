@@ -18,6 +18,9 @@ coverage
 /.idea
 .grunt
 
+/.idea/jsLibraryMappings.xml
+/.idea/encodings.xml
+/.idea/.name
 # node-waf configuration
 .lock-wscript
 
