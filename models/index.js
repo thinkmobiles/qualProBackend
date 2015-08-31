@@ -11,4 +11,5 @@ module.exports = (function () {
     require('./item.js');
     require('./category.js');
     require('./objective.js');
+    require('./country');
 })();

@@ -1,6 +1,5 @@
-/**
- * Created by micha on 8/28/2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -8,7 +7,7 @@ module.exports = (function () {
     var schema = new mongoose.Schema({
 
 
-        country: {type: ObjectId, ref: 'country', default: null},
+        country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
         outlet: {type: ObjectId, ref: 'outlet'},
         type: {type: String},
         title: {type: String},

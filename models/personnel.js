@@ -1,6 +1,5 @@
-/**
- * Created by Roman on 04.04.2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -14,8 +13,8 @@ module.exports = (function () {
         },
         firstName: {type: String, default: ''},
         lastName: {type: String, default: ''},
-        country: {type: ObjectId, ref: 'country', default: null},
-        email: {type: String, default: '', unique : true, required : true},
+        country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
+        email: {type: String, default: '', unique: true, required: true},
         phoneNumber: {type: String, default: ''},
         manager: {type: ObjectId, ref: 'personnel', default: null},
         position: {type: Number, ref: 'position', default: null},
