@@ -7,6 +7,7 @@ define([
             tagName: 'ul',
             el: '#mainmenu-holder nav ul',
             selectedModule: null,
+
             initialize: function (options) {
                 if (!options.collection) throw "No collection specified!";
                 this.collection = options.collection;

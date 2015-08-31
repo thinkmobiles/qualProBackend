@@ -34,8 +34,12 @@ define([
             },
 
             initialize: function (options) {
-                if (!options.collection) throw "No collection specified!";
+                if (!options.collection) {
+                    throw "No collection specified!";
+                }
+
                 this.collection = options.collection;
+
                 if (options.currentRoot){
                     this.currentSection = options.currentRoot[0].get('mname');
 				}
