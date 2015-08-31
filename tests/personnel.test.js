@@ -173,6 +173,8 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                     return done(err)
                 }
                 expect(res.body).to.be.instanceOf(Array);
+                expect(res.body.length).to.be.least(1);
+
                 done();
             });
     });
