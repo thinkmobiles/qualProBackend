@@ -131,13 +131,15 @@ var Personnel = function (db) {
         /*});*/
     };
 
-    this.update = function (req, res, next) {
+    /*this.update = function (req, res, next) {
         var id = req.params.id;
+        var body = req.body;
+        var shaSum = crypto.createHash('sha256');
 
         try {
             if (options && options.changePass) {
 
-                var shaSum = crypto.createHash('sha256');
+
                 shaSum.update(data.pass);
                 data.pass = shaSum.digest('hex');
                 models.get(req.session.lastDb, 'Users', userSchema).findById(_id, function (err, result) {
@@ -241,10 +243,7 @@ var Personnel = function (db) {
             logWriter.log("Profile.js update " + exception);
             res.send(500, {error: 'User.update BD error'});
         }
-    }
-
-
-
+    }*/
 
     this.currentUser = function (req, res, next) {
         var session = req.session;

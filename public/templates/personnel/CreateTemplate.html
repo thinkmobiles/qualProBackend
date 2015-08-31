@@ -1,0 +1,73 @@
+<div class="form-holder">
+
+    <form method="post" action="" id="createPersonnelForm" class="form">
+        <fieldset>
+            <div class="inner">
+                <div class="avatar left">
+                    <div class="upload">
+                        Edit
+                        <input type="file" value="Edit" id="inputImg" accept="image/*">
+                    </div>
+                    <canvas id="avatar" width="140" height="140"></canvas>
+                </div>
+                <div style="margin-left:160px;">
+                    <div class="left full-width">
+                        <dl class="person-info">
+                            <dt><label for="firstName">First Name</label></dt>
+                            <dd><input type="text" name="firstName" id="firstName" value="" required maxlength="32"
+                                       placeholder="First Name"/></dd>
+                            <dt><label for="lastName">Last Name</label></dt>
+                            <dd><input type="text" name="lastName" id="lastName" value="" required maxlength="32"
+                                       placeholder="Last Name"/></dd>
+                            <dt><label for="email">Email </label></dt>
+                            <dd><input type="text" name="email" id="email" value="" required maxlength="48"
+                                       placeholder="Email"/></dd>
+                            <dt><label for="dateBirth">Date of Birth </label></dt>
+                            <!--<dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
+                            </dd>
+                            <dt><label for="managerDd">Manager</label></dt>
+                            <dd>
+                                <a id="managerDd" class="current-selected" href="javascript:;"></a>
+                            </dd>
+                            <dt><label for="positionDd">Position</label></dt>
+                            <dd>
+                                <a id="positionDd" class="current-selected" href="javascript:;"></a>
+                            </dd>-->
+                            <dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
+                            </dd>
+                            <dt><label for="managerDd">Manager</label></dt>
+                            <dd>
+                                <select id="managerDd" class="current-selected">
+                                    <option value="1">Manager</option>
+                                </select>
+                            </dd>
+                            <dt><label for="positionDd">Position</label></dt>
+                            <dd>
+                                <select id="positionDd" class="current-selected">
+                                    <option value="1">Position</option>
+                                </select>
+                            </dd>
+                            <dt><label for="description">Description</label></dt>
+                            <dd><textarea name="description" id="description" value="" required maxlength="255"
+                                       placeholder="Description"/>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="cropImages form" style="display:none;">
+                <div class="formTitle">
+                    <h3 class="left">Crop Images</h3>
+
+                    <div class="clearfix"></div>
+                </div>
+                <br/>
+
+                <div class="image_input" style="float: left;margin-right: 20px;"></div>
+                <img class="image_output"/>
+
+                <div class="clearfix"></div>
+            </div>
+        </fieldset>
+    </form>
+</div>
