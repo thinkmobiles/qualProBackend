@@ -14,8 +14,8 @@ define([
                 "click ul.changeContentIndex a": 'changeItemIndex',
                 "click #top-bar-deleteBtn": "deleteEvent",
                 "click #top-bar-discardBtn": "discardEvent",
-                "click #top-bar-editBtn": "editEvent",
-                "click #top-bar-createBtn": "createEvent"*/
+                "click #top-bar-editBtn": "editEvent",*/
+                "click #top-bar-createBtn": "createEvent"
             },
 
             initialize: function(options) {
@@ -24,6 +24,11 @@ define([
                     this.collection.bind('reset', _.bind(this.render, this));
                 }
                 this.render();
+            },
+
+            createEvent: function (event) {
+                event.preventDefault();
+                this.trigger('createEvent');
             },
 
             render: function(){

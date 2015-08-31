@@ -4,42 +4,22 @@
         <fieldset>
             <div class="inner">
                 <div class="avatar left">
-                    <div class="upload">
-                        Edit
-                        <input type="file" value="Edit" id="inputImg" accept="image/*">
-                    </div>
-                    <canvas id="avatar" width="140" height="140"></canvas>
+                    <div class="upload">Edit<input type="file" value="Edit" id="inputImg"></div>
+                    <canvas id="avatar" width="140" height="140"><input type="file" value="Edit" id="File1"></canvas>
                 </div>
-                <div style="margin-left:160px;">
-                    <div class="left full-width">
-                        <dl class="person-info">
+
+                <div class="avatarInfoContainer">
+                    <div class="half-block">
+                        <dl class="personnel-info">
+                            <dt><h3>General Information</h3></dt>
                             <dt><label for="firstName">First Name</label></dt>
                             <dd><input type="text" name="firstName" id="firstName" value="" required maxlength="32"
                                        placeholder="First Name"/></dd>
                             <dt><label for="lastName">Last Name</label></dt>
                             <dd><input type="text" name="lastName" id="lastName" value="" required maxlength="32"
                                        placeholder="Last Name"/></dd>
-                            <dt><label for="email">Email </label></dt>
-                            <dd><input type="text" name="email" id="email" value="" required maxlength="48"
-                                       placeholder="Email"/></dd>
                             <dt><label for="dateBirth">Date of Birth </label></dt>
-                            <!--<dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
-                            </dd>
-                            <dt><label for="managerDd">Manager</label></dt>
-                            <dd>
-                                <a id="managerDd" class="current-selected" href="javascript:;"></a>
-                            </dd>
-                            <dt><label for="positionDd">Position</label></dt>
-                            <dd>
-                                <a id="positionDd" class="current-selected" href="javascript:;"></a>
-                            </dd>-->
                             <dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
-                            </dd>
-                            <dt><label for="managerDd">Manager</label></dt>
-                            <dd>
-                                <select id="managerDd" class="current-selected">
-                                    <option value="1">Manager</option>
-                                </select>
                             </dd>
                             <dt><label for="positionDd">Position</label></dt>
                             <dd>
@@ -47,9 +27,36 @@
                                     <option value="1">Position</option>
                                 </select>
                             </dd>
-                            <dt><label for="description">Description</label></dt>
+                            <dt><label for="countryDd">Country</label></dt>
+                            <dd>
+                                <select id="countryDd" class="current-selected">
+                                    <option value="1">Country</option>
+                                </select>
+                            </dd>
+                            <dt><label for="managerDd">Supervisor</label></dt>
+                            <dd>
+                                <select id="managerDd" class="current-selected">
+                                    <option value="1">Supervisor</option>
+                                </select>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="half-block">
+                        <dl class="personnel-description">
+                            <dt><h3>Other Information</h3></dt>
+                            <dt><label for="phone">Phone Number</label></dt>
+                            <dd><input type="text" name="email" id="phone" value="" required maxlength="48"
+                                       placeholder="Phone Number"/></dd>
+                            <dt><label for="email">Email</label></dt>
+                            <dd><input type="text" name="email" id="email" value="" required maxlength="48"
+                                       placeholder="Email"/></dd>
+                        </dl>
+                    </div>
+                    <div class="half-block">
+                        <dl class="personnel-description">
+                            <dt><h3>Description</h3></dt>
                             <dd><textarea name="description" id="description" value="" required maxlength="255"
-                                       placeholder="Description"/>
+                                          placeholder="Description"/>
                             </dd>
                         </dl>
                     </div>

@@ -1,7 +1,7 @@
 define([
         'views/personnel/createView',
-        'views/personnel/list/listItemView',
-        'collections/personnel/collection'
+        //'views/personnel/list/listItemView',
+        //'collections/personnel/collection'
     ],
 
     function (createView, listItemView, contentCollection) {
@@ -15,7 +15,7 @@ define([
             initialize: function (options) {
                 this.startTime = options.startTime;
                 this.collection = options.collection;
-                _.bind(this.collection.showMore, this.collection);
+                //_.bind(this.collection.showMore, this.collection);
                 this.page = options.collection.page;
 
                 this.render();
@@ -33,12 +33,12 @@ define([
                 var pagenation = currentEl.find('.pagination');
 
                 currentEl.html('');
-                currentEl.append(_.template(listTemplate));
-                currentEl.append(new listItemView({
+                //currentEl.append(_.template(listTemplate));
+                /*currentEl.append(new listItemView({
                     collection: this.collection,
                     page: this.page,
                     itemsNumber: this.collection.namberToShow
-                }).render());
+                }).render());*/
 
                /* $(document).on("click", function (e) {
                     self.hideItemsNumber(e);
