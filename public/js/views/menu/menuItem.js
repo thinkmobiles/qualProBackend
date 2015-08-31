@@ -20,6 +20,7 @@ define([
                 var template = this.template(model);
                 $(this.el).html(template);
                 this.el.id = model._id;
+
                 return this;
             }
         });

@@ -19,7 +19,7 @@ define([
 
         return TopMenuItemView;
     }
-)
+);
 
 
 
