@@ -53,7 +53,7 @@ var Personnel = function (db) {
         var pass = body.pass;
         var shaSum = crypto.createHash('sha256');
 
-        var personnelModel = db.model('personnels', personnelSchema);
+        var PersonnelModel = db.model('personnels', personnelSchema);
         var query;
 
         var lastAccess;
@@ -62,7 +62,7 @@ var Personnel = function (db) {
         shaSum.update(pass);
 
         if (email && pass) {
-            query = personnelModel.findOne({
+            query = PersonnelModel.findOne({
                 email: email
             });
             query.exec(function (err, personnel) {
@@ -77,7 +77,7 @@ var Personnel = function (db) {
                     lastAccess = new Date();
                     session.lastAccess = lastAccess;
 
-                    personnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, function (err, result) {
+                    PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, function (err, result) {
                         if (err) {
                             return next(err);
                         }
@@ -100,7 +100,7 @@ var Personnel = function (db) {
     this.remove = function (req, res, next) {
         var id = req.params.id;
         var err;
-        var personnelModel = db.model('personnels', personnelSchema);
+        var PersonnelModel = db.model('personnels', personnelSchema);
         var query;
 
         if (req.session.uId === id) {
@@ -118,7 +118,7 @@ var Personnel = function (db) {
                 return next(err);
             }*/
 
-            query = personnelModel.remove({_id: id});
+            query = PersonnelModel.remove({_id: id});
             query.exec(function (err) {
                 if (err) {
                     return next(err);
@@ -128,6 +128,121 @@ var Personnel = function (db) {
             })
         /*});*/
     };
+
+    this.update = function (req, res, next) {
+        var id = req.params.id;
+
+        try {
+            if (options && options.changePass) {
+
+                var shaSum = crypto.createHash('sha256');
+                shaSum.update(data.pass);
+                data.pass = shaSum.digest('hex');
+                models.get(req.session.lastDb, 'Users', userSchema).findById(_id, function (err, result) {
+
+                    if (err) {
+                        logWriter.log("User.js update profile.update" + err);
+                        res.send(500, {error: 'User.update BD error'});
+                    } else {
+                        var shaSum = crypto.createHash('sha256');
+                        shaSum.update(data.oldpass);
+                        var _oldPass = shaSum.digest('hex');
+                        if (result.pass == _oldPass) {
+                            delete data.oldpass;
+                            updateUser();
+                        } else {
+                            logWriter.log("User.js update Incorect Old Pass");
+                            res.send(500, {error: 'Incorect Old Pass'});
+                        }
+                    }
+                });
+            } else {
+                updateUser();
+            }
+
+            function updateUser() {
+                var query = {};
+                var key = data.key;
+                var deleteId = data.deleteId;
+                var id;
+                var savedFilters = models.get(req.session.lastDb, 'savedFilters', savedFiltersSchema);
+                var filterModel = new savedFilters();
+
+
+                if (data.changePass) {
+                    query = {$set: data};
+
+                    updateThisUser(_id, query);
+                } else if (data.deleteId) {
+                    savedFilters.findByIdAndRemove(deleteId, function (err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        if (result) {
+                            id = result.get('_id');
+                            query = {$pull: {'savedFilters': deleteId}};
+
+                            updateThisUser(_id, query);
+                        }
+                    });
+                } else if (data.filter && data.key) {
+
+                    filterModel.contentView = key;
+                    filterModel.filter = data.filter;
+
+                    filterModel.save(function (err, result) {
+                        if (err) {
+                            return console.log('error save filter');
+                        };
+
+                        if (result){
+                            id = result.get('_id');
+                            query = {$push: {'savedFilters': id}};
+
+                            updateThisUser(_id, query);
+                        }
+                    });
+                } else {
+                    query = {$set: data};
+                    updateThisUser(_id, query);
+                }
+
+                function updateThisUser(_id, query) {
+                    models.get(req.session.lastDb, 'Users', userSchema).findByIdAndUpdate(_id, query, function (err, result) {
+                        //if (err) {
+                        //    logWriter.log("User.js update profile.update" + err);
+                        //    res.send(500, {error: 'User.update DB error'});
+                        //} else {
+                        //    req.session.kanbanSettings = result.kanbanSettings;
+                        //    if (data.profile && (result._id == req.session.uId))
+                        //        //res.send(200, {success: 'User updated success', logout: true});
+                        //    res.status(200).send(result);
+                        //    else
+                        //        res.status(200).send(result);
+                        //       // res.send(200, {success: 'User updated success'});
+                        //}
+                        if (err) {
+                            return next(err);
+                        }
+                        req.session.kanbanSettings = result.kanbanSettings;
+                        if (data.profile && (result._id == req.session.uId)) {
+                            res.status(200).send({success: result, logout: true});
+                        } else {
+                            res.status(200).send({success: result});
+                        }
+                    });
+                }
+
+            }
+        }
+        catch (exception) {
+            logWriter.log("Profile.js update " + exception);
+            res.send(500, {error: 'User.update BD error'});
+        }
+    }
+
+
+
 
     this.currentUser = function (req, res, next) {
         var session = req.session;
