@@ -7,7 +7,7 @@ module.exports = function(db) {
 
    // router.get('/', handler.getAll);
   //  router.get('/:id', handler.getById);
-    router.get('/passwordChange/:forgotToken', handler.changePassword);
+    router.post('/passwordChange/:forgotToken', handler.changePassword);
     router.post('/forgotPass', handler.forgotPassword);
     router.post('/', handler.create);
    // router.put('/:id', handler.update);

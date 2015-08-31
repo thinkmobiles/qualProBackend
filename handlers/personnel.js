@@ -154,7 +154,11 @@ var Personnel = function (db) {
             },
             {
                 $set: {forgotToken: forgotToken}
-            }, function (err, result) {
+            },
+            {
+                new: true
+            },
+            function (err, result) {
                 if (err) {
                     return next(err);
                 }
@@ -165,12 +169,16 @@ var Personnel = function (db) {
                  email: result.email
                  });*/
 
-                res.status(200).send();
+                /*REMOVE*/
+                /*Result must be deleted. Only for test*/
+
+                res.status(200).send(result);
             });
     };
 
     this.changePassword = function (req, res, next) {
         var forgotToken = req.params.forgotToken;
+        var body = req.body;
         var pass = body.pass;
 
         var shaSum = crypto.createHash('sha256');
@@ -182,7 +190,10 @@ var Personnel = function (db) {
                 return next(err);
             }
 
-            res.status(200).send();
+            /*REMOVE*/
+            /*Result must be deleted. Only for test*/
+
+            res.status(200).send(result);
         })
 
         function updatePass(callback) {
