@@ -1,4 +1,4 @@
-define([], function () {
+define(['constants'], function (CONTENT_TYPES) {
 
     var runApplication = function (success) {
         var url;
@@ -24,7 +24,38 @@ define([], function () {
         }
     };
 
+    var getCurrentVT = function (option) {
+        var viewType;
+        var viewVariants = ["list", "thumbnails"];
+
+        if (option && (option.contentType !== App.contentType)) {
+            App.ownContentType = false;
+        }
+
+        if (option) {
+            switch (option.contentType) {
+                case CONTENT_TYPES.PERSONNEL:
+                case CONTENT_TYPES.COUNTRIES:
+                    App.currentViewType = 'list';
+                    break;
+                default:
+                    App.currentViewType = "";
+                    break;
+            }
+        }
+
+        if ($.inArray(App.currentViewType, viewVariants) === -1) {
+            App.currentViewType = "";
+            viewType = "";
+        } else {
+            viewType = App.currentViewType;
+        }
+
+        return viewType;
+    };
+
     return {
-        runApplication: runApplication
+        runApplication: runApplication,
+        getCurrentVT: getCurrentVT
     };
 });

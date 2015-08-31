@@ -6,6 +6,7 @@
 ul,
 li {
   list-style: none;
+  padding: 0;
 }
 a {
   text-decoration: none;
@@ -30,6 +31,10 @@ a {
   margin: 0 auto;
   border: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  padding: 10px;
+}
+#login fieldset h2 {
+  margin: 15px 0;
 }
 #login fieldset h2,
 #login fieldset a {
