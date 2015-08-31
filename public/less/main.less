@@ -1,3 +1,18 @@
+@import "_color";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li {
+ list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
 .errors {
   display: none;
 }
@@ -92,6 +107,69 @@
       border: 2px solid #f44336;
       border-radius: 2px;
       outline: 0;
+    }
+  }
+}
+
+#loginPanel {
+  height: 65px;
+  border: 1px solid black;
+  background-color: @main-login-color;
+  padding: 0 5%;
+  overflow: hidden;
+  .logo {
+    width: 15%;
+    float: left;
+    a {
+      display: block;
+      //height: 100%;
+      img {
+        height: 65px;
+      }
+    }
+  }
+
+  .personelShortDetail {
+    width: 60%;
+    float: left;
+    height: 100%;
+  }
+
+  #aditionalInfo {
+    width: 25%;
+    float: left;
+    height: 100%;
+  }
+}
+
+#leftMenuHolder {
+  width: 20%;
+  ul {
+    li {
+      a {
+        color: @text-color-menu;
+        text-transform: uppercase;
+        font-size: 14px;
+        line-height: 24px;
+        border-bottom: 1px solid @leftmenu-border-color;
+        display: block;
+        padding-left: 20px;
+        font-weight: 600;
+      }
+
+      ul {
+        li {
+          a {
+            padding-left: 40px;
+          }
+        }
+      }
+    }
+  }
+
+  a {
+    &:hover {
+      background-color: @leftmenu-hover-color;
     }
   }
 }

@@ -1,7 +1,7 @@
 define([
     'text!templates/main/main.html',
     'views/menu/left',
-    'collections/menu/menuItems',
+    'models/module',
     'views/menu/topMenu'
     /*'dataService'*/
 ], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView /*dataService*/) {
@@ -30,15 +30,11 @@ define([
         },
 
         createMenuViews: function () {
-            var currentChildren = this.collection.where({href: "activityList"});
-            var currentRootId = currentChildren[0].get("parrent");
-            var currentRoot = this.collection.where({_id: currentRootId});
+
+            this.topMenu = new TopMenuView();
 
             this.leftMenu = new LeftMenuView({
-                collection: this.collection,
-                currentChildren: currentChildren,
-                currentRoot: currentRoot,
-                rootElementsCollection: this.collection.getRootElements()
+                collection: this.collection
             });
         },
 

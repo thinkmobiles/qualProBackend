@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var _ = require('lodash');
 
 var Module = function (db) {
     var moduleSchema = mongoose.Schemas['module'];
@@ -44,6 +45,7 @@ var Module = function (db) {
                             return next(err);
                         }
 
+                        modules = _.groupBy(modules, 'parrent');
                         res.status(200).send(modules);
                     });
             /*}

@@ -37,8 +37,7 @@ describe("BDD for module", function () {
                     return done(err);
                 }
 
-                expect(resp.body).to.be.instanceOf(Array);
-                expect(resp.body.length).to.be.above(0);
+                expect(resp.body).to.be.instanceOf(Object);
                 done();
             });
     });
