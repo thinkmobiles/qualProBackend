@@ -1,23 +1,17 @@
-define([
-        'views/menu/topMenuItem'
-    ],
-    function (TopMenuItemView) {
+define(['text!templates/menu/topMenu.html'],
+    function (template) {
 
         var TopMenuView = Backbone.View.extend({
             tagName: 'ul',
-            el: '#mainmenu-holder nav ul',
-            selectedModule: null,
+            el: '#topMenuHolder',
+            template: _.template(template),
 
             initialize: function (options) {
-
-            },
-
-            events: {
-                "click": "clickItem"
-//                "click > li": "mouseOver"
+                this.render();
             },
 
             render: function () {
+                this.$el.html(this.template());
 
                 return this;
             }

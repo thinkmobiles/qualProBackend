@@ -1,0 +1,16 @@
+<ul>
+    <% rootModules.forEach(function(rootModule){%>
+        <li>
+            <a href="<%= rootModule._id %>" class="mainMenu"><%= rootModule.mname %></a>
+                <% if(getChild(rootModule._id)){%>
+                    <ul>
+                        <% getChild(rootModule._id).forEach(function(childEl){%>
+                            <li>
+                                <a href="#qualPro/<%=childEl.href%>" data-module-id="<%=childEl._id%>" title="<%= childEl.mname %>" class="childMenu"><%= childEl.mname %></a>
+                            </li>
+                        <%});%>
+                    </ul>
+                <%}%>
+        </li>
+    <%})%>
+</ul>

@@ -1,3 +1,15 @@
+/*==Left menu color==============*/
+* {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
 .errors {
   display: none;
 }
@@ -80,4 +92,50 @@
   border: 2px solid #f44336;
   border-radius: 2px;
   outline: 0;
+}
+#loginPanel {
+  height: 65px;
+  border: 1px solid black;
+  background-color: #ff0000;
+  padding: 0 5%;
+  overflow: hidden;
+}
+#loginPanel .logo {
+  width: 15%;
+  float: left;
+}
+#loginPanel .logo a {
+  display: block;
+}
+#loginPanel .logo a img {
+  height: 65px;
+}
+#loginPanel .personelShortDetail {
+  width: 60%;
+  float: left;
+  height: 100%;
+}
+#loginPanel #aditionalInfo {
+  width: 25%;
+  float: left;
+  height: 100%;
+}
+#leftMenuHolder {
+  width: 20%;
+}
+#leftMenuHolder ul li a {
+  color: #6a6a6a;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 24px;
+  border-bottom: 1px solid #eeeeee;
+  display: block;
+  padding-left: 20px;
+  font-weight: 600;
+}
+#leftMenuHolder ul li ul li a {
+  padding-left: 40px;
+}
+#leftMenuHolder a:hover {
+  background-color: #eeeeee;
 }

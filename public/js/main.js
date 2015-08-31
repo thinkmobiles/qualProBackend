@@ -15,7 +15,7 @@ require.config({
         //ajaxForm: './libs/jquery-ajax-form/jquery-ajax-form',
         imageCrop: './libs/Jcrop/js/Jcrop.min',
         jqueryui: './libs/jquery-ui/jquery-ui.min',
-        Underscore: './libs/underscore/underscore',
+        Underscore: './libs/underscore/underscore-min',
         Backbone: './libs/backbone/backbone-min',
         templates: '../templates',
         text: './libs/requirejs-text/text',
