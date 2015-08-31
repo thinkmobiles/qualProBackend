@@ -144,14 +144,6 @@ exports.create = function (cb) {
             link: true,
             visible: true
         }, {
-            _id: 17,
-            mname: 'Competitor Activity',
-            href: 'competitorActivity',
-            sequence: 17,
-            parrent: 15,
-            link: true,
-            visible: true
-        }, {
             _id: 18,
             mname: 'Items',
             href: 'items',

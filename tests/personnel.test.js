@@ -32,7 +32,7 @@ var newDescriptionOfPersonell = "A Elbereth Gilthoniel,\nsilivren penna miriel \
 var newPositionOfPersonell = 1;
 
 var personnelId;
-
+var forgotTokenModel;
 
 describe("BDD for Personnel", function () {  // Runs once before all tests start.
     before("Login: (should return logged personnel)", function (done) {
@@ -67,11 +67,32 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
     it("Forgot password:", function (done) {
         agent
-            .get('/personnel/forgot/' + personnelId)
-            .expect(200, done);
+            .post('/personnel/forgotPass')
+            .send({email: personnelObject.email})
+            .expect(200, function(err, resp) {
+                if (err) {
+                    return done(err);
+                }
+
+                forgotTokenModel = resp.body;
+                done();
+            });
+    })
+
+    it("Change password:", function (done) {
+        agent
+            .post('/personnel/passwordChange/' + forgotTokenModel.forgotToken)
+            .send({pass: '123456'})
+            .expect(200, function(err, resp) {
+                if (err) {
+                    done(err);
+                }
+
+                expect(resp.body.pass).to.be.equal('8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+                done();
+            });
     });
-
-
+            
     it("Try get created personell by id", function(done){
         agent
             .get('personnel/id'+personnelId)
