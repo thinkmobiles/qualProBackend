@@ -1,12 +1,13 @@
 define([
     'views/main/main',
     'views/login/login',
+    'views/personnel/CreateView'
     /*'dataService',
     'custom',
     'common',
     'constants'*/
 
-], function (mainView, loginView/*, dataService, custom, common, CONTENT_TYPES*/) {
+], function (mainView, loginView, create/*, dataService, custom, common, CONTENT_TYPES*/) {
 
     var appRouter = Backbone.Router.extend({
 
@@ -16,11 +17,17 @@ define([
         view: null,
 
         routes: {
-            "home": "any",
-            "login": "login",
-            "*any": "any"
+            "qualPro/personnel": "personnel",
+            //"home": "any",
+            //"login": "login",
+            //"*any": "any"
         },
 
+        personnel: function () {
+            this.mainView = new create();
+
+            this.mainView.render();
+        },
 
         initialize: function () {
             var self = this;
