@@ -35,7 +35,7 @@ exports.sessionConfig = {
 /*Creating admin personnel only for tests
  * should be removed in production*/
 
-exports.createAdmin = function (db) {
+this.createAdmin = function (db) {
 
     var mongoose = require('mongoose');
     var personnelSchema = mongoose.Schemas['personnel'];
