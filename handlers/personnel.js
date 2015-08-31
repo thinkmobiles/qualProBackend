@@ -7,6 +7,8 @@ var Personnel = function (db) {
     var generator = require('../helpers/randomPass.js');
     var CONSTANTS = require('../constants/mainConstants');
     var RESPONSES = require('../constants/responses');
+    var Mailer = require('../helpers/mailer.js');
+    var async = require('async');
 
     var personnelSchema = mongoose.Schemas['personnel'];
     var PersonnelModel = db.model('personnels', personnelSchema);
@@ -135,28 +137,98 @@ var Personnel = function (db) {
         var email = body.email;
         var forgotToken = generator.generate();
         var error;
+        var caheckEmail;
+        //var mailer = new Mailer();
 
-        email = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
+        caheckEmail = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
 
-        if (email) {
+        if (!caheckEmail) {
             error = new Error();
             error.status(400);
+
+            return next(error);
         }
-        PersonnelModel.findByIdAndUpdate(email, {$set: {forgotToken: forgotToken}}, function (err, result) {
+        PersonnelModel.findOneAndUpdate(
+            {
+                email: email
+            },
+            {
+                $set: {forgotToken: forgotToken}
+            },
+            {
+                new: true
+            },
+            function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+
+                //mailer.forgotPassword(result);
+                /*res.status(200).send({
+                 success: RESPONSES.MAILER.EMAIL_SENT,
+                 email: result.email
+                 });*/
+
+                /*REMOVE*/
+                /*Result must be deleted. Only for test*/
+
+                res.status(200).send(result);
+            });
+    };
+
+    this.changePassword = function (req, res, next) {
+        var forgotToken = req.params.forgotToken;
+        var body = req.body;
+        var pass = body.pass;
+
+        var shaSum = crypto.createHash('sha256');
+        shaSum.update(pass);
+        pass = shaSum.digest('hex');
+
+        async.waterfall([updatePass, deleteToken], function(err, result) {
             if (err) {
                 return next(err);
             }
 
-            mailer.forgotPassword(result);
-            /*res.status(200).send({
-             success: RESPONSES.MAILER.EMAIL_SENT,
-             email: result.email
-             });*/
+            /*REMOVE*/
+            /*Result must be deleted. Only for test*/
 
-            res.status(200).send();
-        });
+            res.status(200).send(result);
+        })
+
+        function updatePass(callback) {
+
+            PersonnelModel.findOneAndUpdate(
+                {
+                    forgotToken: forgotToken
+                },
+                {
+                    $set: {pass: pass}
+                },
+                {
+                    new: true
+                },
+                function (err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    callback(null, result);
+                })
+        }
+
+        function deleteToken(result, callback) {
+            result
+                .set('forgotToken', '')
+                .save(function(err, result) {
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    callback(null, result);
+                });
+        }
     };
-
 
     this.currentUser = function (req, res, next) {
         var session = req.session;
