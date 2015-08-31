@@ -9,7 +9,7 @@ describe("BDD for modules creator for qualPro", function () {
     it("Creating modules:", function (done) {
         this.timeout(15000);
 
-       /* moduleCreator.create(function(err, resp){
+        /*moduleCreator.create(function(err, resp){
             if(err){
                 return done(err);
             }
