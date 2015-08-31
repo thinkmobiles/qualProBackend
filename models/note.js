@@ -12,11 +12,11 @@ module.exports = (function () {
         description: {type: String, default: ''},
         comments: {
             target: {type: ObjectId},
-            person: {type: ObjectId, ref: 'personell'},
+            person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
             body: String
         },
         attachments: [String],
-        persons: {type: [ObjectId], ref: 'personell'},
+        persons: {type: [ObjectId], ref: CONSTANTS.PERSONNEL},
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {

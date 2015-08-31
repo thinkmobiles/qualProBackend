@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
     var _ = require('underscore');
@@ -9,9 +10,9 @@ var Personnel = function (db) {
     var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer.js');
     var async = require('async');
-
-    var personnelSchema = mongoose.Schemas['personnel'];
-    var PersonnelModel = db.model('personnels', personnelSchema);
+    var schema = mongoose.Schemas[CONSTANTS.PERSONNEL];
+    var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
+    var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
     var mid;
 
     this.create = function (req, res, next) {
@@ -128,9 +129,48 @@ var Personnel = function (db) {
             }
 
             res.status(200).send();
-        })
+        });
         /*});*/
     };
+
+    this.getById = function (req, res, next) {
+        var id = req.params.id;
+
+        var query = db.model(CONSTANTS.PERSONNEL, schema).findById(id, {pass: 0});
+        query.exec(function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
+        });
+    };
+
+    this.getAll = function (req, res, next) {
+        //  var error;
+        var Model = db.model(CONSTANTS.PERSONNEL, schema);
+        Model.find({pass: 0}).
+
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
+            });
+    };
+
+    this.update = function (req, res, next) {
+        var id = req.params.id;
+        var Model = db.model(CONSTANTS.PERSONNEL, schema);
+        var body = req.body;
+
+        Model.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
+        });
+    };
+
 
     this.forgotPassword = function (req, res, next) {
         var body = req.body;
@@ -185,7 +225,7 @@ var Personnel = function (db) {
         shaSum.update(pass);
         pass = shaSum.digest('hex');
 
-        async.waterfall([updatePass, deleteToken], function(err, result) {
+        async.waterfall([updatePass, deleteToken], function (err, result) {
             if (err) {
                 return next(err);
             }
@@ -194,7 +234,7 @@ var Personnel = function (db) {
             /*Result must be deleted. Only for test*/
 
             res.status(200).send(result);
-        })
+        });
 
         function updatePass(callback) {
 
@@ -220,7 +260,7 @@ var Personnel = function (db) {
         function deleteToken(result, callback) {
             result
                 .set('forgotToken', '')
-                .save(function(err, result) {
+                .save(function (err, result) {
                     if (err) {
                         return callback(err);
                     }
@@ -240,7 +280,7 @@ var Personnel = function (db) {
     };
 
     this.getUserById = function (req, res, next) {
-        var id = req.session.uId
+        var id = req.session.uId;
         var query = models.get(req.session.lastDb, 'Users', UserSchema).findById(id);
         var newUserResult = {};
         var savedFilters;

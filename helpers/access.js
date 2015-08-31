@@ -1,7 +1,9 @@
+var CONSTANTS = require('../constants/mainConstants');
+
 var access = function (db) {
     var mongoose = require('mongoose');
     var positionSchema = mongoose.Schemas['position'];
-    var personnelSchema = mongoose.Schemas['personnel'];
+    var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
 
     var getAccess = function (req, res, next, mid, callback) {
         var uId = req.session.uId;
