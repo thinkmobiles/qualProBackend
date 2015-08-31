@@ -7,7 +7,6 @@ define([
         var TopBarView = Backbone.View.extend({
             el:'#topBarHolder',
             contentType: "personnel",
-            actionType: null, //Content, Edit, Create
             template: _.template(topBarTemplate),
 
             events:{
@@ -17,6 +16,14 @@ define([
                 "click #top-bar-discardBtn": "discardEvent",
                 "click #top-bar-editBtn": "editEvent",
                 "click #top-bar-createBtn": "createEvent"*/
+            },
+
+            initialize: function(options) {
+                if (options.collection) {
+                    this.collection = options.collection;
+                    this.collection.bind('reset', _.bind(this.render, this));
+                }
+                this.render();
             },
 
             render: function(){
