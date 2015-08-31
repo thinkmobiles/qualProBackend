@@ -12,14 +12,6 @@ var Country = function (db) {
 
     //  var mid;
 
-    var sendErrorOrSuccessCallback = function (response, next, error, result) {
-        if (error) {
-            return next(error);
-        }
-        response.status(200).send(result);
-
-    };
-
     this.create = function (req, res, next) {
         var body = req.body;
         var CreateModel = db.model(CONSTANTS.COUNTRY, schema);
@@ -86,7 +78,7 @@ var Country = function (db) {
         var Model = db.model(CONSTANTS.COUNTRY, schema);
         var body = req.body;
 
-        Model.findByIdAndUpdate(id, body, function (err, result) {
+        Model.findByIdAndUpdate(id, body,{new:true}, function (err, result) {
             if (err) {
                 return next(err);
             }

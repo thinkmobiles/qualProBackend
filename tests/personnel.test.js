@@ -19,8 +19,19 @@ var personnelObject = {
     email: 'soundstorm.mail@gmail.com',
     pass: '111111',
     firstName: 'Ivan',
-    lastName: 'Pupkin'
+    lastName: 'Pupkin',
+    phoneNumber: '345345'
 };
+
+
+var newNameOfPersonell = "Bilbo";
+var newLastNameOfPersonell = "Baggins";
+var newDateOfBirdthOfPersonell = new Date(1988, 10, 12);
+var newEmailOfPersonell = 'theshire@mail.com';
+
+var newDescriptionOfPersonell = "A Elbereth Gilthoniel,\nsilivren penna miriel \no menel aglar elenath! \nNa-chaered palan-diriel\no galadhremmin ennorath,\nFanuilos, le linnathon\nve linde le ca Valiman\nnef aear, si nef aearon!";
+var newPositionOfPersonell = 1;
+
 var personnelId;
 var forgotTokenModel;
 
@@ -45,7 +56,7 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
         agent
             .post('/personnel')
             .send(personnelObject)
-            .expect(200, function(err, resp) {
+            .expect(200, function (err, resp) {
                 if (err) {
                     return done(err);
                 }
@@ -59,7 +70,7 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
         agent
             .post('/personnel/forgotPass')
             .send({email: personnelObject.email})
-            .expect(200, function(err, resp) {
+            .expect(200, function (err, resp) {
                 if (err) {
                     return done(err);
                 }
@@ -67,13 +78,13 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 forgotTokenModel = resp.body;
                 done();
             });
-    })
+    });
 
     it("Change password:", function (done) {
         agent
             .post('/personnel/passwordChange/' + forgotTokenModel.forgotToken)
             .send({pass: '123456'})
-            .expect(200, function(err, resp) {
+            .expect(200, function (err, resp) {
                 if (err) {
                     done(err);
                 }
@@ -81,7 +92,88 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 expect(resp.body.pass).to.be.equal('8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
                 done();
             });
-    })
+    });
+
+    it("Try get created personnel by id", function (done) {
+        agent
+            .get('/personnel/' + personnelId)
+            .expect(200, function (err, res) {
+                var body = res.body;
+
+                if (err) {
+                    return done(err);
+                }
+
+                expect(body).to.be.instanceOf(Object);
+                expect(body._id).to.be.equal(personnelId);
+                expect(body).to.not.have.property('pass');
+                done();
+            });
+    });
+
+    it("Update personell and check new values in response. PhoneNumber should not change", function (done) {
+        agent
+            .put('/personnel/' + personnelId)
+            .send(
+            {
+                firstName: newNameOfPersonell,
+                lastName: newLastNameOfPersonell,
+                dateBirth: newDateOfBirdthOfPersonell,
+                email: newEmailOfPersonell,
+                description: newDescriptionOfPersonell,
+                position: newPositionOfPersonell
+            })
+            .expect(200, function (err, res) {
+                var body = res.body;
+
+                if (err) {
+                    return done(err);
+                }
+
+                expect(body).to.be.instanceOf(Object);
+                expect(body.firstName).to.be.equal(newNameOfPersonell);
+                expect(body.lastName).to.be.equal(newLastNameOfPersonell);
+                expect(body.email).to.be.equal(newEmailOfPersonell);
+                expect(body.phoneNumber).to.be.equal(personnelObject.phoneNumber);
+                expect(body.description).to.be.equal(newDescriptionOfPersonell);
+                expect(body.position).to.be.equal(newPositionOfPersonell);
+                done();
+            })
+    });
+
+    it("Double check if personell is really updated", function (done) {
+        agent
+            .get('/personnel/' + personnelId)
+            .expect(200, function (err, res) {
+                var body = res.body;
+
+                if (err) {
+                    return done(err);
+                }
+
+                expect(body).to.be.instanceOf(Object);
+                expect(body.firstName).to.be.equal(newNameOfPersonell);
+                expect(body.lastName).to.be.equal(newLastNameOfPersonell);
+                expect(body.email).to.be.equal(newEmailOfPersonell);
+                expect(body.phoneNumber).to.be.equal(personnelObject.phoneNumber);
+                expect(body.description).to.be.equal(newDescriptionOfPersonell);
+                expect(body.position).to.be.equal(newPositionOfPersonell);
+                done();
+            });
+    });
+
+    it("Get all persons", function (done) {
+        agent
+            .get('/personnel/')
+            .expect(200, function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.body).to.be.instanceOf(Array);
+                done();
+            });
+    });
+
 
     it("Delete user:", function (done) {
         agent
