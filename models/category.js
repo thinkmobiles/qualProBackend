@@ -5,13 +5,13 @@
     var schema = mongoose.Schema({
         name: { type: String, default: 'All' },
 
-        users: [{ type: ObjectId, ref: 'user', default: null }],
+        users: [{ type: ObjectId, ref: 'personnel', default: null }],
         createdBy: {
-            user: { type: ObjectId, ref: 'user', default: null },
+            user: { type: ObjectId, ref: 'personnel', default: null },
             date: { type: Date, default: Date.now }
         },
         editedBy: {
-            user: { type: ObjectId, ref: 'user', default: null },
+            user: { type: ObjectId, ref: 'personnel', default: null },
             date: { type: Date }
         }
 
