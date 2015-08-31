@@ -16,7 +16,7 @@ var adminObject = {
 };
 
 var personnelObject = {
-    email: 'test@test.com',
+    email: 'soundstorm.mail@gmail.com',
     pass: '111111',
     firstName: 'Ivan',
     lastName: 'Pupkin'
@@ -54,6 +54,12 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 done();
             });
     });
+
+    it("Forgot password:", function (done) {
+        agent
+            .get('/personnel/forgot/' + personnelId)
+            .expect(200, done);
+    })
 
     it("Delete user:", function (done) {
         agent

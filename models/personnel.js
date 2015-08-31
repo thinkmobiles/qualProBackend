@@ -35,6 +35,7 @@ module.exports = (function () {
             user: {type: ObjectId, ref: 'personnel', default: null},
             date: {type: Date, default: Date.now}
         },
+        forgotToken: {type: String},
         //attachments: {type: Array, default: []},
     }, {collection: 'personnels'});
 
