@@ -20,15 +20,14 @@ var countryTestManager;
 var country={
 name:'Laplandy',
     description:'Home of Santa Claus',
-    manager:countryTestManager
-
+    manager:null
 };
-var idToDelete;
+var createdId;
 
 describe("BDD for country", function () {  // Runs once before all tests start.
     before("Login: (should return logged personnel)", function (done) {
         agent = request.agent(host);
-//todo get country Manager;
+
         agent
             .post('/login')
             .send(adminObject)
@@ -51,15 +50,47 @@ describe("BDD for country", function () {  // Runs once before all tests start.
                     return done(err);
                 }
 
-                idToDelete = resp.body._id;
+                createdId = resp.body._id;
+                done();
+
+            });
+    });
+
+    it("Get country by id",function(done){
+        agent
+            .get('/country/'+createdId)
+            .expect(200,function(error,response){
+                if (error){
+                    return done(error)}
+                expect(response).to.be.instanceOf(Object);
+                expect(response.body._id).to.be.equal(createdId);
+                done();
+            });
+    });
+
+    it ("Get all countries", function(done){
+        agent
+            .get('/country')
+            .expect(200,function(error,response){
+                if (error){
+                    return done(error)}
+                expect(response.body).to.be.instanceOf(Array);
                 done();
             });
     });
 
     it("Delete country:", function (done) {
         agent
-            .delete('/country/' + idToDelete)
+            .delete('/country/' + createdId)
             .expect(200, done);
     });
 
+    /*
+    it("Delete country:", function (done) {
+        agent
+            .delete('/country/' + createdId)
+            .expect(200, done);
+    });
+
+*/
 });

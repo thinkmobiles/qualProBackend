@@ -3,14 +3,14 @@
  */
 var mongoose = require('mongoose');
 
-var Personnel = function (db) {
-    var _ = require('../node_modules/underscore');
-    var CONSTANTS = require('../constants/mainConstants');
+var Country = function (db) {
+    //var _ = require('../node_modules/underscore');
+    //var CONSTANTS = require('../constants/mainConstants');
 
     var schema = mongoose.Schemas['country'];
-    var access = require('../helpers/access');
+   // var access = require('../helpers/access');
 
-    var mid;
+  //  var mid;
 
     var sendErrorOrSuccessCallback = function (response, next, error, result) {
         if (error) {
@@ -24,7 +24,7 @@ var Personnel = function (db) {
         var body = req.body;
         var CreateModel = db.model('country', schema);
         var model;
-        var error;
+      //  var error;
 
         var modelIsValid = true;
         //todo validation
@@ -47,7 +47,7 @@ var Personnel = function (db) {
     this.remove = function (req, res, next) {
         var id = req.params.id;
         var error;
-        var CreateModel = db.model('country', schema)
+        var CreateModel = db.model('country', schema);
         var query;
 
         if (req.session.uId === id) {
@@ -57,32 +57,26 @@ var Personnel = function (db) {
         }
 
         query = CreateModel.remove({_id: id});
-        query.exec(sendErrorOrSuccessCallback(res,next));
+        query.exec(sendErrorOrSuccessCallback(res, next));
     };
 
     this.getById = function (req, res, next) {
         var id = req.params.id;
-        var error;
+
         var query = db.model('country', schema).findById(id);
-
-        if (req.session.uId === id) {
-            error = new Error();
-            error.status(400);
-
-            return next(error);
-        }
-        query.exec(function (err) {
-            sendErrorOrSuccessCallback(res, next, err)
+        query.exec(function (err,model) {
+            sendErrorOrSuccessCallback(res, next, err, model)
         });
     };
 
     this.getAll = function (req, res, next) {
-        var error;
-        var CreateModel = db.model('country', schema);
-        CreateModel.find().
+      //  var error;
+        var Model = db.model('country', schema);
+        Model.find().
 
             exec(function (err, dbObjects) {
-                sendErrorOrSuccessCallback(res, next, err,dbObjects);
+                sendErrorOrSuccessCallback(res, next, err, dbObjects);
             });
     }
 };
+module.exports = Country;

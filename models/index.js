@@ -48,4 +48,6 @@ module.exports = (function () {
     require('./vacation.js');
     require('./bonusType.js');
     require('./savedFilters.js');
+
+    require('./country');
 })();
