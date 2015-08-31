@@ -94,9 +94,9 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
             });
     });
 
-    it("Try get created personell by id", function (done) {
+    it("Try get created personnel by id", function (done) {
         agent
-            .get('personnel/id' + personnelId)
+            .get('/personnel/' + personnelId)
             .expect(200, function (err, res) {
                 var body = res.body;
 
@@ -106,6 +106,8 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
                 expect(body).to.be.instanceOf(Object);
                 expect(body._id).to.be.equal(personnelId);
+                expect(body).to.not.have.property('pass');
+                done();
             });
     });
 
@@ -141,7 +143,7 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
     it("Double check if personell is really updated", function (done) {
         agent
-            .get('personnel/id' + personnelId)
+            .get('/personnel/' + personnelId)
             .expect(200, function (err, res) {
                 var body = res.body;
 
@@ -156,6 +158,18 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 expect(body.phoneNumber).to.be.equal(personnelObject.phoneNumber);
                 expect(body.description).to.be.equal(newDescriptionOfPersonell);
                 expect(body.position).to.be.equal(newPositionOfPersonell);
+                done();
+            });
+    });
+
+    it("Get all persons", function (done) {
+        agent
+            .get('/personnel/')
+            .expect(200, function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.body).to.be.instanceOf(Array);
                 done();
             });
     });

@@ -12,14 +12,6 @@ var Country = function (db) {
 
     //  var mid;
 
-    var sendErrorOrSuccessCallback = function (response, next, error, result) {
-        if (error) {
-            return next(error);
-        }
-        response.status(200).send(result);
-
-    };
-
     this.create = function (req, res, next) {
         var body = req.body;
         var CreateModel = db.model(CONSTANTS.COUNTRY, schema);
