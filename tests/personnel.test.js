@@ -57,7 +57,8 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
     it("Forgot password:", function (done) {
         agent
-            .get('/personnel/forgot/' + personnelId)
+            .post('/personnel/forgotPass')
+            .send({email: personnelObject.email})
             .expect(200, done);
     })
 
