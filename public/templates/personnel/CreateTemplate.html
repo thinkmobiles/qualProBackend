@@ -23,7 +23,7 @@
                             <dd><input type="text" name="email" id="email" value="" required maxlength="48"
                                        placeholder="Email"/></dd>
                             <dt><label for="dateBirth">Date of Birth </label></dt>
-                            <dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
+                            <!--<dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
                             </dd>
                             <dt><label for="managerDd">Manager</label></dt>
                             <dd>
@@ -32,6 +32,24 @@
                             <dt><label for="positionDd">Position</label></dt>
                             <dd>
                                 <a id="positionDd" class="current-selected" href="javascript:;"></a>
+                            </dd>-->
+                            <dd><input type="text" name="dateBirth" id="dateBirth" readonly placeholder="Birthday"/>
+                            </dd>
+                            <dt><label for="managerDd">Manager</label></dt>
+                            <dd>
+                                <select id="managerDd" class="current-selected">
+                                    <option value="1">Manager</option>
+                                </select>
+                            </dd>
+                            <dt><label for="positionDd">Position</label></dt>
+                            <dd>
+                                <select id="positionDd" class="current-selected">
+                                    <option value="1">Position</option>
+                                </select>
+                            </dd>
+                            <dt><label for="description">Description</label></dt>
+                            <dd><textarea name="description" id="description" value="" required maxlength="255"
+                                       placeholder="Description"/>
                             </dd>
                         </dl>
                     </div>

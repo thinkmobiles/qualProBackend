@@ -18,14 +18,14 @@ define([
 
         routes: {
             "qualPro/personnel": "personnel",
-            //"home": "any",
-            //"login": "login",
-            //"*any": "any"
+            "home": "any",
+            "login": "login",
+            "*any": "any"
         },
 
         personnel: function () {
-            return this.mainView = new create();
-
+            this.mainView = new create();
+            this.changeWrapperView(this.mainView);
         },
 
         initialize: function () {

@@ -19,11 +19,11 @@ module.exports = (function () {
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {
-            user: {type: ObjectId, ref: 'Users', default: null},
+            user: {type: ObjectId, ref: 'personnel', default: null},
             date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: {type: ObjectId, ref: 'Users', default: null},
+            user: {type: ObjectId, ref: 'personnel', default: null},
             date: {type: Date, default: Date.now}
         }
     }, {collection: 'countries'});

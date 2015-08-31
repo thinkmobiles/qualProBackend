@@ -51,7 +51,7 @@ define([
                        }
                    });
                    //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
-                   common.canvasDraw({ model: this.model.toJSON() }, this);
+                   //common.canvasDraw({ model: this.model.toJSON() }, this);
                    return this;
                }
            });
