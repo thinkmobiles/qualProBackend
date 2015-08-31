@@ -146,11 +146,9 @@ var Personnel = function (db) {
     };
 
     this.getAll = function (req, res, next) {
-        //  var error;
         var Model = db.model(CONSTANTS.PERSONNEL, schema);
-        Model.find({pass: 0}).
-
-            exec(function (err, result) {
+        Model.find({}, {pass: 0})
+            .exec(function (err, result) {
                 if (err) {
                     return next(err);
                 }

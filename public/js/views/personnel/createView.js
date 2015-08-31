@@ -1,5 +1,5 @@
 define([
-    "text!templates/personnel/CreateTemplate.html",
+    "text!templates/personnel/create.html",
     "models/personnel",
     "common",
     //"populate"

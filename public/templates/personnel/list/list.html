@@ -1,0 +1,12 @@
+<% personnelCollection.forEach(function(personnel, index){ %>
+<tr data-id="<%=personnel._id%>">
+    <td class = "notForm"><input type="checkbox" value="<%=personnel._id%>" class="checkbox" /></td>
+    <td><%=personnel.firstName%></td>
+    <td><%=personnel.lastName%></td>
+    <td><%=personnel.position%></td>
+    <td><%=personnel.email%></a></td>
+    <td><%=personnel.phoneNumber%></td>
+    <td><%=personnel.location%></td>
+    <td><%=(personnel.createdBy&&personnel.createdBy.date)?personnel.createdBy.date:''%></td>
+</tr>
+<% }) %>
