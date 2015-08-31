@@ -17,11 +17,14 @@ var adminObject = {
 
 var countryTestManager;
 
-var country={
-name:'Laplandy',
-    description:'Home of Santa Claus',
-    manager:null
+var country = {
+    name: 'Laplandy',
+    description: 'Home of Santa Claus',
+    manager: null
 };
+
+var newCountryName = 'Ireland';
+var newCountryDescription = 'Land of ginger people';
 var createdId;
 
 describe("BDD for country", function () {  // Runs once before all tests start.
@@ -32,20 +35,22 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             .post('/login')
             .send(adminObject)
             .expect(200, function (err, resp) {
+                var body;
                 if (err) {
                     return done(err);
                 }
 
-                expect(resp).to.be.instanceOf(Object);
+                body = resp.body;
+                expect(body).to.be.instanceOf(Object);
                 done();
             });
     });
 
-    it("Create new country:", function (done) {
+    it("Create new country should return country", function (done) {
         agent
             .post('/country')
             .send(country)
-            .expect(200, function(err, resp) {
+            .expect(200, function (err, resp) {
                 if (err) {
                     return done(err);
                 }
@@ -56,25 +61,60 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Get country by id",function(done){
+    it("Get country by id should return country", function (done) {
         agent
-            .get('/country/'+createdId)
-            .expect(200,function(error,response){
-                if (error){
-                    return done(error)}
-                expect(response).to.be.instanceOf(Object);
-                expect(response.body._id).to.be.equal(createdId);
+            .get('/country/' + createdId)
+            .expect(200, function (err, res) {
+                var body;
+
+                if (err) {
+                    return done(err)
+                }
+
+                body = res.body;
+                expect(body).to.be.instanceOf(Object);
+                expect(body._id).to.be.equal(createdId);
                 done();
             });
     });
 
-    it ("Get all countries", function(done){
+    it("Update: country should change its description and name", function (done) {
+        agent
+            .put('/country/' + createdId)
+            .send({name: newCountryName, description: newCountryDescription})
+            .expect(200, function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.body).to.be.instanceOf(Object);
+                done();
+            });
+    });
+
+    it("Get country one more time and check if update was successfull", function (done) {
+        agent
+            .get('/country/' + createdId)
+            .expect(200, function (err, res) {
+                var body = res.body;
+                if (err) {
+                    return done(err)
+                }
+                expect(body).to.be.instanceOf(Object);
+                expect(body.name).to.be.equal(newCountryName);
+                expect(body.description).to.be.equal(newCountryDescription);
+                done();
+            });
+    });
+
+
+    it("Get all countries", function (done) {
         agent
             .get('/country')
-            .expect(200,function(error,response){
-                if (error){
-                    return done(error)}
-                expect(response.body).to.be.instanceOf(Array);
+            .expect(200, function (err, res) {
+                if (err) {
+                    return done(err)
+                }
+                expect(res.body).to.be.instanceOf(Array);
                 done();
             });
     });
@@ -85,12 +125,18 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             .expect(200, done);
     });
 
-    /*
-    it("Delete country:", function (done) {
+    it("Try get deleted country and recieve empty object", function (done) {
         agent
-            .delete('/country/' + createdId)
-            .expect(200, done);
-    });
+            .get('/country/' + createdId)
+            .expect(200, function (err, res) {
+                var body = res.body;
 
-*/
+                if (err) {
+                    return done(err)
+                }
+                expect(body).to.be.instanceOf(Object);
+                expect(Object.keys(body).length).to.be.equal(0);
+                done();
+            });
+    });
 });

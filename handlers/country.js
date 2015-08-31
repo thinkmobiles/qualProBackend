@@ -5,12 +5,12 @@ var mongoose = require('mongoose');
 
 var Country = function (db) {
     //var _ = require('../node_modules/underscore');
-    //var CONSTANTS = require('../constants/mainConstants');
+    var CONSTANTS = require('../constants/mainConstants');
 
-    var schema = mongoose.Schemas['country'];
-   // var access = require('../helpers/access');
+    var schema = mongoose.Schemas[CONSTANTS.COUNTRY];
+    // var access = require('../helpers/access');
 
-  //  var mid;
+    //  var mid;
 
     var sendErrorOrSuccessCallback = function (response, next, error, result) {
         if (error) {
@@ -22,9 +22,9 @@ var Country = function (db) {
 
     this.create = function (req, res, next) {
         var body = req.body;
-        var CreateModel = db.model('country', schema);
+        var CreateModel = db.model(CONSTANTS.COUNTRY, schema);
         var model;
-      //  var error;
+
 
         var modelIsValid = true;
         //todo validation
@@ -46,37 +46,52 @@ var Country = function (db) {
 
     this.remove = function (req, res, next) {
         var id = req.params.id;
-        var error;
-        var CreateModel = db.model('country', schema);
-        var query;
+        var Model = db.model(CONSTANTS.COUNTRY, schema);
 
-        if (req.session.uId === id) {
-            error = new Error();
-            error.status(400);
-            return next(error);
-        }
-
-        query = CreateModel.remove({_id: id});
-        query.exec(sendErrorOrSuccessCallback(res, next));
+        Model.findByIdAndRemove(id, function (error) {
+            if (error) {
+                return next(error);
+            }
+            res.status(200).send();
+        });
     };
 
     this.getById = function (req, res, next) {
         var id = req.params.id;
 
-        var query = db.model('country', schema).findById(id);
-        query.exec(function (err,model) {
-            sendErrorOrSuccessCallback(res, next, err, model)
+        var query = db.model(CONSTANTS.COUNTRY, schema).findById(id);
+        query.exec(function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
         });
     };
 
     this.getAll = function (req, res, next) {
-      //  var error;
-        var Model = db.model('country', schema);
+        //  var error;
+        var Model = db.model(CONSTANTS.COUNTRY, schema);
         Model.find().
 
-            exec(function (err, dbObjects) {
-                sendErrorOrSuccessCallback(res, next, err, dbObjects);
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
             });
-    }
+    };
+
+    this.update = function (req, res, next) {
+        var id = req.params.id;
+        var Model = db.model(CONSTANTS.COUNTRY, schema);
+        var body = req.body;
+
+        Model.findByIdAndUpdate(id, body, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
+        });
+    };
 };
 module.exports = Country;

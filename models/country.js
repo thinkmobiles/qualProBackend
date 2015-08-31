@@ -1,6 +1,5 @@
-/**
- * Created by micha on 8/28/2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -28,11 +27,11 @@ module.exports = (function () {
         }
     }, {collection: 'countries'});
 
-    mongoose.model('country', schema);
+    mongoose.model(CONSTANTS.COUNTRY, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['country'] = schema;
+    mongoose.Schemas[CONSTANTS.COUNTRY] = schema;
 })();
