@@ -1,3 +1,5 @@
+var CONSTANTS = require('../constants/mainConstants');
+
 
 process.env.DB_HOST = 'localhost';
 
@@ -12,7 +14,7 @@ exports.mongoConfig = {
     db: {
         native_parser: false
     },
-    server: { poolSize: 5 },
+    server: {poolSize: 5},
     //replset: { rs_name: 'myReplicaSetName' },
     user: process.env.DB_USER,
     pass: process.env.DB_PASS,
@@ -49,7 +51,7 @@ this.createAdmin = function (db) {
         lastName: 'Pupkin',
         position: 0,
         description: 'Super Admin created auto'
-    }
+    };
 
     var shaSum = crypto.createHash('sha256');
     var PersonnelModel = db.model('personnels', personnelSchema);
@@ -76,6 +78,6 @@ this.createAdmin = function (db) {
             console.log('--- Admin already exists ---');
         }
     })
-}
+};
 
 /*-----------------------------------------*/

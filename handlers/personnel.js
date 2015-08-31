@@ -10,7 +10,7 @@ var Personnel = function (db) {
     var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer.js');
     var async = require('async');
-
+    var schema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
     var mid;
@@ -129,9 +129,24 @@ var Personnel = function (db) {
             }
 
             res.status(200).send();
-        })
+        });
         /*});*/
     };
+
+    this.update = function (req, res, next) {
+        var id = req.params.id;
+        var Model = db.model(CONSTANTS.PERSONNEL, schema);
+        var body = req.body;
+
+        Model.findByIdAndUpdate(id, body,{new:true}, function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
+        });
+    };
+
+
 
     this.forgotPassword = function (req, res, next) {
         var body = req.body;
@@ -195,7 +210,7 @@ var Personnel = function (db) {
             /*Result must be deleted. Only for test*/
 
             res.status(200).send(result);
-        })
+        });
 
         function updatePass(callback) {
 
@@ -241,7 +256,7 @@ var Personnel = function (db) {
     };
 
     this.getUserById = function (req, res, next) {
-        var id = req.session.uId
+        var id = req.session.uId;
         var query = models.get(req.session.lastDb, 'Users', UserSchema).findById(id);
         var newUserResult = {};
         var savedFilters;
