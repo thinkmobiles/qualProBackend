@@ -3,7 +3,7 @@ var access = function (db) {
     var positionSchema = mongoose.Schemas['position'];
     var personnelSchema = mongoose.Schemas['personnel'];
 
-    this.getAccess = function (req, res, next, mid, callback) {
+    var getAccess = function (req, res, next, mid, callback) {
         var uId = req.session.uId;
 
         var personnelModel = db.model('personnels', personnelSchema);
@@ -54,27 +54,33 @@ var access = function (db) {
         });
     };
 
-    this.getReadAccess = function (req, res, next, mid, callback) {
-        this.getAccess(req, res, next, mid, function (result) {
+    var getReadAccess = function (req, res, next, mid, callback) {
+        getAccess(req, res, next, mid, function (result) {
             if (result) {
                 callback(result[0].profileAccess.access.read);
             }
         });
     };
-    this.getEditWritAccess = function (req, res, next, mid, callback) {
-        this.getAccess(req, res, next, mid, function (result) {
+    var getEditWritAccess = function (req, res, next, mid, callback) {
+        getAccess(req, res, next, mid, function (result) {
             if (result) {
                 callback(result[0].profileAccess.access.editWrite);
             }
         });
     };
 
-    this.getDeleteAccess = function (req, res, next, mid, callback) {
-        this.getAccess(req, res, next, mid, function (result) {
+    var getDeleteAccess = function (req, res, next, mid, callback) {
+        getAccess(req, res, next, mid, function (result) {
             if (result) {
                 callback(result[0].profileAccess.access.del);
             }
         });
     };
+
+    return {
+        getReadAccess: getReadAccess,
+        getEditWritAccess: getEditWritAccess,
+        getDeleteAccess: getDeleteAccess
+    }
 };
 module.exports = access;

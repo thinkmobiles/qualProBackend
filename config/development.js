@@ -35,7 +35,7 @@ exports.sessionConfig = {
 /*Creating admin personnel only for tests
  * should be removed in production*/
 
-exports.createAdmin = function (db) {
+this.createAdmin = function (db) {
 
     var mongoose = require('mongoose');
     var personnelSchema = mongoose.Schemas['personnel'];
@@ -58,13 +58,13 @@ exports.createAdmin = function (db) {
     shaSum.update(adminObject.pass);
     adminObject.pass = shaSum.digest('hex');
 
-    personnelModel = new PersonnelModel(adminObject);
     PersonnelModel.findOne({email: adminObject.email}, function (err, result) {
         if (err) {
             return console.log(err);
         }
 
         if (!result) {
+            personnelModel = new PersonnelModel(adminObject);
             personnelModel.save(function (err, personnel) {
                 if (err) {
                     return console.log(err);
