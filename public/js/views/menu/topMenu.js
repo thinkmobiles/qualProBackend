@@ -1,5 +1,5 @@
 define([
-        'views/menu/TopMenuItemView'
+        'views/menu/topMenuItem'
     ],
     function (TopMenuItemView) {
 

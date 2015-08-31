@@ -6,13 +6,9 @@ define(function () {
     var MenuItems = Backbone.Collection.extend({
         model: MyModel,
         url: function () {
-            return "/getModules"
+            return "/modules"
         },
-        setCurrentModule: function (moduleName) {
-            this.currentModule = moduleName;
-            this.trigger('change:currentModule', this.currentModule, this);
-        },
-        currentModule: "HR",
+
         initialize: function () {
             this.fetch({
                 type: 'GET',
@@ -23,8 +19,6 @@ define(function () {
                 error: this.fetchError
             });
         },
-
-        parse: true,
 
         parse: function (response) {
             return response;

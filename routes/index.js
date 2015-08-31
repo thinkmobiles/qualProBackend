@@ -10,9 +10,13 @@ module.exports = function (app, db) {
     var multipart = require('connect-multiparty');
     var multipartMiddleware = multipart();
     var mongoose = require('mongoose');
+
     var models = require("../models.js")(db);
+
     var PersonnelHandler = require("../handlers/personnel");
+    var ModuleslHandler = require("../handlers/modules");
     var personnelHandler = new PersonnelHandler(db);
+    var modulesHandler = new ModuleslHandler(db);
 
     var personnelRouter = require('./personnel')(db);
 
@@ -20,7 +24,7 @@ module.exports = function (app, db) {
 
     function checkAuth(req, res, next) {
         if (req.session && req.session.loggedIn) {
-            res.send(200);
+            next();
         } else {
             res.send(401);
         }
@@ -29,11 +33,18 @@ module.exports = function (app, db) {
     app.get('/', function (req, res, next) {
         res.sendfile('index.html');
     });
-    //app.get('/getModules', moduleHandler.getAll);
-    app.post('/login', personnelHandler.login);
-    app.get('/authenticated', checkAuth);
 
-    app.use('/personnel', /*checkAuth,*/ personnelRouter);
+    app.get('/modules', checkAuth, modulesHandler.getAll);
+    app.post('/login', personnelHandler.login);
+    app.get('/authenticated', function (req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            res.send(200);
+        } else {
+            res.send(401);
+        }
+    });
+
+    app.use('/personnel', personnelRouter);
 
     function notFound (req, res, next) {
         res.status(404);

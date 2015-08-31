@@ -1,6 +1,5 @@
 define([
-    'views/menu/MenuItem',
-    'collections/menu/MenuItems'
+    'views/menu/menuItem'
 ],
     function (MenuItemView) {
 
