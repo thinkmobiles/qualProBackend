@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
     var _ = require('underscore');
@@ -8,8 +9,8 @@ var Personnel = function (db) {
     var CONSTANTS = require('../constants/mainConstants');
     var RESPONSES = require('../constants/responses');
 
-    var personnelSchema = mongoose.Schemas['personnel'];
-    var PersonnelModel = db.model('personnels', personnelSchema);
+    var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
+    var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
     var mid;
 
     this.create = function (req, res, next) {

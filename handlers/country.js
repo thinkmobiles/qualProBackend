@@ -86,7 +86,7 @@ var Country = function (db) {
         var Model = db.model(CONSTANTS.COUNTRY, schema);
         var body = req.body;
 
-        Model.findByIdAndUpdate(id, body, function (err, result) {
+        Model.findByIdAndUpdate(id, body,{new:true}, function (err, result) {
             if (err) {
                 return next(err);
             }

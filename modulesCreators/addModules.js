@@ -1,4 +1,6 @@
-exports.create = function(cb) {
+var CONSTANTS = require('../constants/mainConstants');
+
+exports.create = function (cb) {
     var MongoClient = require('mongodb').MongoClient;
     var url = 'mongodb://localhost:27017/qualPro';
     var async = require('async');
@@ -56,7 +58,7 @@ exports.create = function(cb) {
         }, {
             _id: 6,
             mname: 'Personnel',
-            href: 'personnel',
+            href: CONSTANTS.PERSONNEL,
             sequence: 6,
             parrent: null,
             link: false,

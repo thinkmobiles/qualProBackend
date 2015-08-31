@@ -1,6 +1,5 @@
-/**
- * Created by micha on 8/28/2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -8,16 +7,16 @@ module.exports = (function () {
     var schema = new mongoose.Schema({
 
         target: {type: ObjectId},
-        person: {type: ObjectId, ref: 'personell'},
+        person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
         body: String,
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {
-            user: {type: ObjectId, ref: 'personnel', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: {type: ObjectId, ref: 'personnel', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         }
     }, {collection: 'comments'});

@@ -1,21 +1,23 @@
-﻿module.exports = (function () {
+﻿var CONSTANTS = require('../constants/mainConstants');
+
+module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var schema = mongoose.Schema({
-        name: { type: String, default: 'All' },
+        name: {type: String, default: 'All'},
 
-        users: [{ type: ObjectId, ref: 'personnel', default: null }],
+        users: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],
         createdBy: {
-            user: { type: ObjectId, ref: 'personnel', default: null },
-            date: { type: Date, default: Date.now }
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
+            date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: { type: ObjectId, ref: 'personnel', default: null },
-            date: { type: Date }
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
+            date: {type: Date}
         }
 
-    }, { collection: 'categories' });
+    }, {collection: 'categories'});
 
     mongoose.model('category', schema);
 

@@ -38,7 +38,7 @@ exports.sessionConfig = {
 this.createAdmin = function (db) {
 
     var mongoose = require('mongoose');
-    var personnelSchema = mongoose.Schemas['personnel'];
+    var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var crypto = require('crypto');
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
