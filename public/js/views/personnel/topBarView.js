@@ -31,7 +31,6 @@ define([
                 var viewType = custom.getCurrentVT();
 
                 this.$el.html(this.template({ viewType: viewType, contentType: this.contentType}));
-
                 return this;
             },
         });
