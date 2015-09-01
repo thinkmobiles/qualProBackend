@@ -18,19 +18,19 @@ var Personnel = function (db) {
     this.create = function (req, res, next) {
         var body = req.body;
         var email = body.email;
-        var pass = body.pass;
+        var pass = generator.generate(8);
 
         var shaSum = crypto.createHash('sha256');
         var personnelModel;
 
-        var err;
+        var error;
 
         /*access.getEditWritAccess(req, res, next, mid, function (access) {
          if (!access) {
-         err = new Error();
-         err.status(403);
+         error = new Error();
+         error.status(403);
 
-         return next(err);
+         return next(error);
          }*/
 
         email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
@@ -104,7 +104,7 @@ var Personnel = function (db) {
 
     this.remove = function (req, res, next) {
         var id = req.params.id;
-        var err;
+        var error;
         var query;
 
         if (req.session.uId === id) {
@@ -116,10 +116,10 @@ var Personnel = function (db) {
 
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
-         err = new Error();
-         err.status(403);
+         error = new Error();
+         error.status(403);
 
-         return next(err);
+         return next(error);
          }*/
 
         query = PersonnelModel.remove({_id: id});

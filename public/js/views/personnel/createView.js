@@ -12,7 +12,7 @@ define([
                template: _.template(CreateTemplate),
                imageSrc: '',
                initialize: function () {
-                   /*_.bindAll(this, "saveItem");*/
+                   _.bindAll(this, "saveItem");
                    this.model = new Model();
                    this.render();
                },
