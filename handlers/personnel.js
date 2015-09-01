@@ -201,7 +201,7 @@ var Personnel = function (db) {
                     return next(err);
                 }
 
-                //mailer.forgotPassword(result);
+                mailer.forgotPassword(result);
                 /*res.status(200).send({
                  success: RESPONSES.MAILER.EMAIL_SENT,
                  email: result.email

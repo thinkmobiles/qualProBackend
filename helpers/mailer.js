@@ -1,14 +1,25 @@
 /**
  * Created by soundstorm on 14.04.15.
  */
-module.exports = function () {
-    var _ = require('../public/js/libs/underscore/undescore-min.js');
-    var nodemailer = require("nodemailer");
-    var smtpTransportObject = require('../config/mailer').noReplay;
+var nodemailer = require('nodemailer');
+var sgTransport = require('nodemailer-sendgrid-transport');
+var options = {
+    auth: {
+        api_user: 'nedstark',
+        api_key: 'myheadiscutted0'
+    }
+}
+var client = nodemailer.createTransport(sgTransport(options));
 
-    var fs = require('fs');
+var _ = require('../public/js/libs/underscore/underscore-min');
+//var nodemailer = require("nodemailer");
+// var smtpTransportObject = require('../config/mailer').noReplay;
 
-    this.forgotPassword = function (options){
+var fs = require('fs');
+
+var Mailer = function () {
+
+    this.forgotPassword = function (options) {
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
@@ -25,7 +36,7 @@ module.exports = function () {
         deliver(mailOptions);
     };
 
-    this.changePassword = function (options){
+    this.changePassword = function (options) {
         var templateOptions = {
             name: options.firstname + ' ' + options.lastname,
             email: options.email,
@@ -43,7 +54,7 @@ module.exports = function () {
         deliver(mailOptions);
     };
 
-    this.registeredNewUser = function (options){
+    this.registeredNewUser = function (options) {
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
@@ -51,7 +62,7 @@ module.exports = function () {
             city: options.city
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@easyerp.com>',
+            from: 'easyerp <no-replay@qualpro.com>',
             to: 'sales@easyerp.com',
             subject: 'new user',
             generateTextFromHTML: true,
@@ -59,7 +70,7 @@ module.exports = function () {
         };
 
         var mailOptionsUser = {
-            from: 'easyerp <support@easyerp.com>',
+            from: 'easyerp <support@qualpro.com>',
             to: templateOptions.email,
             subject: 'New registration',
             generateTextFromHTML: true,
@@ -71,22 +82,33 @@ module.exports = function () {
     };
 
     function deliver(mailOptions, cb) {
-        var transport = nodemailer.createTransport(smtpTransportObject);
-
-        transport.sendMail(mailOptions, function (err, response) {
+        //var transport = nodemailer.createTransport(smtpTransportObject);
+        //
+        //transport.sendMail(mailOptions, function (err, response) {
+        //    if (err) {
+        //        console.log(err);
+        //        if (cb && (typeof cb === 'function')) {
+        //            cb(err, null);
+        //        }
+        //    } else {
+        //        console.log("Message sent: " + response.message);
+        //        if (cb && (typeof cb === 'function')) {
+        //            cb(null, response);
+        //        }
+        //    }
+        //});
+        client.sendMail(mailOptions, function (err, response) {
             if (err) {
-                console.log(err);
-                if (cb && (typeof cb === 'function')) {
-                    cb(err, null);
-                }
-            } else {
-                console.log("Message sent: " + response.message);
-                if (cb && (typeof cb === 'function')) {
-                    cb(null, response);
-                }
+                cb(error, null);
+            }
+            else {
+                res.status(200).send(response);
+                cb(null, response);
             }
         });
     }
 
 };
+
+module.exports = Mailer();
 
