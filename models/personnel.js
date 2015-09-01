@@ -19,6 +19,8 @@ module.exports = (function () {
         manager: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
         position: {type: Number, ref: 'position', default: null},
         dateBirth: Date,
+        confirmed: Date,
+        token: String,
         whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
         groups: {
             owner: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
@@ -34,7 +36,7 @@ module.exports = (function () {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         },
-        forgotToken: {type: String},
+        forgotToken: {type: String}
         //attachments: {type: Array, default: []},
     }, {collection: 'personnels'});
 

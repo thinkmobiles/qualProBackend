@@ -34,6 +34,7 @@ var newPositionOfPersonell = 1;
 
 var personnelId;
 var forgotTokenModel;
+var token;
 
 describe("BDD for Personnel", function () {  // Runs once before all tests start.
     before("Login: (should return logged personnel)", function (done) {
@@ -94,6 +95,9 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
             });
     });
 
+
+
+
     it("Try get created personnel by id", function (done) {
         agent
             .get('/personnel/' + personnelId)
@@ -107,9 +111,23 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 expect(body).to.be.instanceOf(Object);
                 expect(body._id).to.be.equal(personnelId);
                 expect(body).not.to.have.property('pass');
-
+                token=body.token;
                 done();
             });
+    });
+
+    it ("Confirm registration",function(done){
+
+        agent
+            .get('/personnel/confirm/token='+token)
+            .expect(200, function(err,res){
+                if (err) {
+                    return done(err);
+                }
+                expect(res.body.confirmed);
+                done();
+            })
+
     });
 
     it("Update personell and check new values in response. PhoneNumber should not change", function (done) {
