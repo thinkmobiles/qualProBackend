@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../js/libs/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <form id="sendEmail" action="{{host}}/personnel/forgotPass" method="post">
+        <fieldset>
+            <h2>EnterEmail</h2>
+
+            <div class="error"></div>
+
+            <div class="icon-email">
+                <span class="icon"></span>
+                <input type="email" placeholder="Email" id="email" name="email" value="" autofocus
+                       maxlength="25"/>
+            </div>
+
+            <a class="login-button" href="javascript:;">Send<i></i></a>
+            <input type="submit" class="right" value="">
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var frm = $('#sendEmail');
+
+
+    frm.submit(function (ev) {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                alert("good");
+            },
+            error: function (err1, err2) {
+                alert(err1);
+            }
+        });
+        ev.preventDefault();
+    });
+</script>
+</body>
+</html>

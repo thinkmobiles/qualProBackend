@@ -50,6 +50,13 @@ module.exports = function (app, db) {
         });
     });
 
+    app.get('/forgotPass', function (req, res, next) {
+
+        res.render('enterEmail.html', {
+            host: process.env.HOST
+        });
+    });
+
     app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
