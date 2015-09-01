@@ -2,40 +2,33 @@ var mongoose = require('mongoose');
 var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
-    var _ = require('underscore');
+    //var _ = require('underscore');
     var crypto = require('crypto');
     var access = require('../helpers/access');
     var generator = require('../helpers/randomPass.js');
     var CONSTANTS = require('../constants/mainConstants');
-    var RESPONSES = require('../constants/responses');
+    //var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer');
     var async = require('async');
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
-    var mid;
+    //var mid;
 
     this.create = function (req, res, next) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
         var pass = generator.generate(8);
-
+        var mailer = new Mailer();
         var shaSum = crypto.createHash('sha256');
         var personnelModel;
-
+        var token = generator.generate();
         var error;
-
-        /*access.getEditWritAccess(req, res, next, mid, function (access) {
-         if (!access) {
-         error = new Error();
-         error.status(403);
-
-         return next(error);
-         }*/
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
         shaSum.update(pass);
         body.pass = shaSum.digest('hex');
+        body.token=token;
 
         if (!isEmailValid) {
             error = new Error();
@@ -48,10 +41,18 @@ var Personnel = function (db) {
             if (err) {
                 return next(err);
             }
+            mailer.confirmNewUserRegistration(
+                {
+                    firstName: personnel.firstName,
+                    lastName: personnel.lastName,
+                    email: personnel.email,
+                    password: personnel.pass,
+                    token:personnel.token
+                });
+           // delete personnel.pass;
+            res.status(200).send({_id:personnel._id});
 
-            delete personnel.pass;
-            res.status(200).send(personnel);
-        })
+        });
         /*});*/
     };
 
@@ -183,7 +184,6 @@ var Personnel = function (db) {
         var email = body.email;
         var forgotToken = generator.generate();
         var error;
-
         var mailer = new Mailer();
 
         email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
@@ -223,6 +223,18 @@ var Personnel = function (db) {
             });
     };
 
+    this.confirm = function (req, res, next) {
+        var token = req.params.token;
+
+        var query = PersonnelModel.findOneAndUpdate({token:token}, {token: '', confirmed: new Date()});
+
+        query.exec(function (err) {
+            if (err) {
+                return next(err);
+            }
+            return res.status(200).send({confirmed: true});
+        });
+    };
     this.changePassword = function (req, res, next) {
         var forgotToken = req.params.forgotToken;
         var body = req.body;

@@ -7,20 +7,20 @@ module.exports = function () {
     var smtpTransportObject = require('../config/mailer').noReplay;
 
     var fs = require('fs');
-    var template = _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"));
-
+    var forgotPasswordTemplate = _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"));
+    var confirmAccountTemplate = _.template(fs.readFileSync('public/templates/mailer/createUser.html', encoding = "utf8"));
     this.forgotPassword = function (options){
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
-            url: 'http://localhost:9797/passwordChange/' + options.forgotToken
+            url: 'http://'+process.env.HOST+process.env.PORT+'/passwordChange/' + options.forgotToken
         };
         var mailOptions = {
             from: 'QualPro <no-replay@qualPro.com>',
             to: templateOptions.email,
             subject: 'Change password',
             generateTextFromHTML: true,
-            html: template(templateOptions)
+            html: forgotPasswordTemplate(templateOptions)
         };
 
         deliver(mailOptions);
@@ -44,30 +44,30 @@ module.exports = function () {
         deliver(mailOptions);
     };
 
-    this.registeredNewUser = function (options){
+    this.confirmNewUserRegistration = function (options){
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
-            country: options.countryInput,
-            city: options.city
+            password: options.password,
+            url: process.env.HOST+'/confirm/token=' + options.token
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@easyerp.com>',
-            to: 'sales@easyerp.com',
-            subject: 'new user',
+            from: 'qualPro <no-replay@qualPro.com>',
+            to: options.email,
+            subject: 'User verification',
             generateTextFromHTML: true,
-            html: _.template(fs.readFileSync('public/templates/mailer/registeredNewUser.html', encoding = "utf8"), templateOptions)
+            html:confirmAccountTemplate(templateOptions)
         };
 
-        var mailOptionsUser = {
-            from: 'easyerp <support@easyerp.com>',
-            to: templateOptions.email,
-            subject: 'New registration',
-            generateTextFromHTML: true,
-            html: _.template(fs.readFileSync('public/templates/mailer/newUser.html', encoding = "utf8"), templateOptions)
-        };
-
-        deliver(mailOptionsUser);
+        //var mailOptionsUser = {
+        //    from: 'easyerp <support@easyerp.com>',
+        //    to: templateOptions.email,
+        //    subject: 'New registration',
+        //    generateTextFromHTML: true,
+        //    html: _.template(fs.readFileSync('public/templates/mailer/newUser.html', encoding = "utf8"), templateOptions)
+        //};
+        //
+        //deliver(mailOptionsUser);
         deliver(mailOptions);
     };
 
