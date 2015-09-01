@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/libs/jquery-2.1.0.min.map.js"></script>
+</head>
+<body>
+<div>
+    <form id="loginForm" action="http://live.easyerp.com:8090/account" method="post">
+        <fieldset>
+            <h2>Login to your account</h2>
+
+            <p>
+
+            <div class="error">Such user doesn't registered</div>
+            <!-- 	        <label for="ulogin">Login:</label> -->
+            <div class="icon-login">
+                <span class="icon"></span>
+                <input type="text" placeholder="exaple@easyerp.com" id="ulogin" name="email" value="" autofocus
+                       maxlength="25"/>
+            </div>
+            </p>
+            <p>
+                <!-- 	    	<label for="upass">Password:</label> -->
+
+            <div class="icon-pass">
+                <span class="icon"></span>
+                <input type="password" placeholder="Password" id="upass" name="pass" value="" maxlength="15"/>
+            </div>
+            </p>
+            <a class="login-button" href="javascript:;">Login<i></i></a>
+            <input type="submit" class="right" value="">
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    var frm = $('#loginForm');
+    frm.submit(function (ev) {
+        var accountName;
+        var url;
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                url = 'http://' + data.accountName + '.' + 'live.easyerp.com:8090/login';
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: url,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: frm.serialize(),
+                    success: function (data) {
+                        window.location = url = 'http://' + data.accountName + '.' + 'live.easyerp.com:8090';
+                    },
+                    error: function (err1, err2) {
+                        alert(err1);
+                    }
+                });
+            },
+            error: function (err1, err2) {
+                alert(err1);
+            }
+        });
+
+        ev.preventDefault();
+    });
+</script>
+</body>
+</html>

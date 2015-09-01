@@ -227,8 +227,10 @@ var Personnel = function (db) {
         var forgotToken = req.params.forgotToken;
         var body = req.body;
         var pass = body.pass;
+        var url = process.env.HOST + '/login';
 
         var shaSum = crypto.createHash('sha256');
+
         shaSum.update(pass);
         pass = shaSum.digest('hex');
 
@@ -237,10 +239,7 @@ var Personnel = function (db) {
                 return next(err);
             }
 
-            /*REMOVE*/
-            /*Result must be deleted. Only for test*/
-
-            res.status(200).send(result);
+            res.status(200).send(url);
         });
 
         function updatePass(callback) {
