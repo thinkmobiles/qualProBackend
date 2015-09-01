@@ -42,6 +42,15 @@ module.exports = function (app, db) {
         res.render('index.html', {csrfToken: req.csrfToken()});
     });
 
+    app.get('/passwordChange/:forgotToken', function (req, res, next) {
+        var forgotToken = req.params.forgotToken;
+
+        res.render('changePassword.html', {
+            host: process.env.HOST,
+            forgotToken: forgotToken
+        });
+    });
+
     app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {

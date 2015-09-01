@@ -9,6 +9,7 @@ module.exports = function (db) {
     router.get('/:id', handler.getById);
     router.post('/passwordChange/:forgotToken', handler.changePassword);
     router.post('/forgotPass', handler.forgotPassword);
+    router.get('/confirm/:token',handler.confirm);
     router.post('/', handler.create);
     router.put('/:id', handler.update);
     router.delete('/:id', handler.remove);

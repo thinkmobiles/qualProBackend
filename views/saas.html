@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/libs/jquery-2.1.0.min.map.js"></script>
+</head>
+<body>
+<form id="contactForm" action="live.easyerp.com/saas" method="post">
+    <input id="accountName" type="text" name="accountName" required placeholder="accountName"><span>.live.easyerp.com</span><br>
+    <input type="email" id="email" name="email" required placeholder="email"><br>
+    <input type="text" id="userName" name="userName" required placeholder="adminUserName"><br>
+    <input type="password" name="password" required placeholder="password"><br>
+    <input type="text" name="countryInput" required placeholder="Country"><br>
+    <input type="text" name="address" required placeholder="Address line 1"><br>
+    <input type="text" name="address2" placeholder="Address line 2"><br>
+    <input type="text" name="city" required placeholder="City"><br>
+    <input type="text" name="firstName" required placeholder="First Name"><br>
+    <input type="text" name="lastName" required placeholder="Last Name"><br>
+    <input type="text" name="company" required placeholder="Company"><br>
+    <input type="submit" value="PressMe">
+</form>
+<script type="text/javascript">
+    var frm = $('#contactForm');
+    frm.submit(function (ev) {
+        var accountName = $('#accountName').val();
+        var url = "http://" + accountName + '.' + frm.attr('action');
+        $.ajax({
+            type: frm.attr('method'),
+            url: url,
+            xhrFields: {
+                withCredentials:true
+            },
+            data: frm.serialize(),
+            success: function (data) {
+                window.location = 'http://' + accountName + '.' + 'live.easyerp.com/';
+            },
+            error: function(err1, err2){
+                alert(err1);
+            }
+        });
+
+        ev.preventDefault();
+    });
+</script>
+</body>
+</html>
