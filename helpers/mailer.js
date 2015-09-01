@@ -49,7 +49,7 @@ module.exports = function () {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
             password: options.password,
-            url: process.env.HOST+'/confirm/token=' + options.token
+            url: process.env.HOST+'/confirm/' + options.token
         };
         var mailOptions = {
             from: 'qualPro <no-replay@qualPro.com>',
