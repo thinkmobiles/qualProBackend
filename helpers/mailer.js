@@ -7,19 +7,20 @@ module.exports = function () {
     var smtpTransportObject = require('../config/mailer').noReplay;
 
     var fs = require('fs');
+    var template = _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"));
 
     this.forgotPassword = function (options){
         var templateOptions = {
-            //name: options.firstname + ' ' + options.lastname,
+            name: options.firstName + ' ' + options.lastName,
             email: options.email,
-            url: 'http://easyerp.com/password_change/?forgotToken=' + options.forgotToken
+            url: 'http://localhost:9797/passwordChange/' + options.forgotToken
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@easyerp.com>',
+            from: 'QualPro <no-replay@qualPro.com>',
             to: templateOptions.email,
             subject: 'Change password',
             generateTextFromHTML: true,
-            html: _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"), templateOptions)
+            html: template(templateOptions)
         };
 
         deliver(mailOptions);
