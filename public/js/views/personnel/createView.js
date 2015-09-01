@@ -7,7 +7,7 @@ define([
        function (CreateTemplate, Model, common/*, populate*/) {
 
            var CreateView = Backbone.View.extend({
-               el: "#wrapper",
+               el: "#contentHolder",
                contentType: "personnel",
                template: _.template(CreateTemplate),
                imageSrc: '',
@@ -94,6 +94,14 @@ define([
                        }
                    });
                    //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
+
+                   $('#dateBirth').datepicker({
+                       changeMonth: true,
+                       changeYear: true,
+                       yearRange: '-100y:c+nn',
+                       maxDate: '-18y'
+                   });
+
                    common.canvasDraw({ model: this.model.toJSON() }, this);
                    return this;
                }
