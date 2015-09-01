@@ -32,7 +32,7 @@ var Personnel = function (db) {
 
         if (!isEmailValid) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
             return next(error);
         }
 
@@ -72,7 +72,7 @@ var Personnel = function (db) {
 
         if (!email || !pass) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
             return next(error);
         }
 
@@ -86,7 +86,7 @@ var Personnel = function (db) {
 
             if (!personnel || personnel.pass !== shaSum.digest('hex')) {
                 error = new Error();
-                error.status(400);
+                error.status = 400;
 
                 return next(error);
             }
@@ -120,7 +120,7 @@ var Personnel = function (db) {
 
         if (req.session.uId === id) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
 
             return next(error);
         }
@@ -128,7 +128,7 @@ var Personnel = function (db) {
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
          error = new Error();
-         error.status(403);
+         error.status = 403;
 
          return next(error);
          }*/
@@ -190,7 +190,7 @@ var Personnel = function (db) {
 
         if (!email) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
 
             return next(error);
         }
@@ -239,7 +239,7 @@ var Personnel = function (db) {
         var forgotToken = req.params.forgotToken;
         var body = req.body;
         var pass = body.pass;
-        var url = process.env.HOST + '/login';
+        var url = process.env.HOST + '/#login';
 
         var shaSum = crypto.createHash('sha256');
 
@@ -276,6 +276,15 @@ var Personnel = function (db) {
         }
 
         function deleteToken(result, callback) {
+            var error;
+
+            if (!result) {
+                error = new Error();
+                error.status = 400;
+
+                return next(error);
+            }
+
             result
                 .set('forgotToken', '')
                 .save(function (err, result) {
