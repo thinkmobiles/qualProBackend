@@ -15,7 +15,7 @@ module.exports = function (db) {
     var csurf = require('csurf');
     var app = express();
 
-    var csrfProtection = csurf({cookie: true});
+    var csrfProtection = csurf(/*{ignoreMethods: []}*/);
 
     var logWriter = require('./helpers/logWriter');
 
@@ -60,6 +60,8 @@ module.exports = function (db) {
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
     }));
+
+    app.use(csrfProtection);
 
     require('./routes/index')(app, db);
 

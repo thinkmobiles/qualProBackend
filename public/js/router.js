@@ -89,6 +89,7 @@ define([
                 this.view.undelegateEvents();
             }
             $(document).trigger("resize");
+
             this.view = view;
         },
 
@@ -145,8 +146,6 @@ define([
 
                 if (context.mainView === null) {
                     context.main(contentType);
-                } else {
-                    context.mainView.updateMenu(contentType);
                 }
 
                 require([contentViewUrl, topBarViewUrl, collectionUrl], function (contentView, topBarView, contentCollection) {

@@ -221,6 +221,7 @@ var Personnel = function (db) {
         var pass = body.pass;
 
         var shaSum = crypto.createHash('sha256');
+
         shaSum.update(pass);
         pass = shaSum.digest('hex');
 

@@ -178,3 +178,27 @@ a {
     }
   }
 }
+#leftMenuHolder {
+  position: relative;
+  float: left;
+}
+.clear {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+  clear: both;
+
+  &:before {
+    .clear;
+  }
+
+  &:after {
+    .clear;
+    clear: both;
+  }
+}

@@ -20,7 +20,7 @@ module.exports = function (app, db) {
 
     var personnelHandler = new PersonnelHandler(db);
     var modulesHandler = new ModuleslHandler(db);
-//var countryHandler=new CountryHandler(db);
+    //var countryHandler=new CountryHandler(db);
 
 
     var personnelRouter = require('./personnel')(db);
@@ -38,7 +38,8 @@ module.exports = function (app, db) {
     }
 
     app.get('/', function (req, res, next) {
-        res.sendfile('index.html');
+        console.log(req.csrfToken());
+        res.render('index.html', {csrfToken: req.csrfToken()});
     });
 
     app.get('/modules', checkAuth, modulesHandler.getAll);

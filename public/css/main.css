@@ -144,3 +144,30 @@ a {
 #leftMenuHolder a:hover {
   background-color: #eeeeee;
 }
+#leftMenuHolder {
+  position: relative;
+  float: left;
+}
+.clear {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+.clearfix {
+  zoom: 1;
+  clear: both;
+}
+.clearfix:before {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+.clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  clear: both;
+}
