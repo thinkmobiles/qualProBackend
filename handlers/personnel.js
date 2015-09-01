@@ -8,7 +8,7 @@ var Personnel = function (db) {
     var generator = require('../helpers/randomPass.js');
     var CONSTANTS = require('../constants/mainConstants');
     var RESPONSES = require('../constants/responses');
-    var Mailer = require('../helpers/mailer.js');
+    var Mailer = require('../helpers/mailer');
     var async = require('async');
     var schema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
@@ -33,7 +33,7 @@ var Personnel = function (db) {
          return next(err);
          }*/
 
-        email = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
+        email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
         shaSum.update(pass);
         body.pass = shaSum.digest('hex');
 
@@ -175,12 +175,12 @@ var Personnel = function (db) {
         var email = body.email;
         var forgotToken = generator.generate();
         var error;
-        var caheckEmail;
-        //var mailer = new Mailer();
 
-        caheckEmail = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
+        var mailer = new Mailer();
 
-        if (!caheckEmail) {
+        email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
+
+        if (!email) {
             error = new Error();
             error.status(400);
 
@@ -201,7 +201,7 @@ var Personnel = function (db) {
                     return next(err);
                 }
 
-                mailer.forgotPassword(result);
+                mailer.forgotPassword(result.toJSON());
                 /*res.status(200).send({
                  success: RESPONSES.MAILER.EMAIL_SENT,
                  email: result.email
