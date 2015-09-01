@@ -2,7 +2,7 @@
  * Created by soundstorm on 14.04.15.
  */
 module.exports = function () {
-    var _ = require('../public/js/libs/underscore-min.map.1.6.0.js');
+    var _ = require('../public/js/libs/underscore/underscore-min.js');
     var nodemailer = require("nodemailer");
     var smtpTransportObject = require('../config/mailer').noReplay;
 

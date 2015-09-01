@@ -186,6 +186,7 @@ var Personnel = function (db) {
 
             return next(error);
         }
+
         PersonnelModel.findOneAndUpdate(
             {
                 email: email
