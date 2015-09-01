@@ -8,9 +8,8 @@ var Personnel = function (db) {
     var generator = require('../helpers/randomPass.js');
     var CONSTANTS = require('../constants/mainConstants');
     var RESPONSES = require('../constants/responses');
-    var Mailer = require('../helpers/mailer.js');
+    var Mailer = require('../helpers/mailer');
     var async = require('async');
-    var schema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
     var mid;
@@ -18,38 +17,41 @@ var Personnel = function (db) {
     this.create = function (req, res, next) {
         var body = req.body;
         var email = body.email;
-        var pass = body.pass;
+        var isEmailValid;
+        var pass = generator.generate(8);
 
         var shaSum = crypto.createHash('sha256');
         var personnelModel;
 
-        var err;
+        var error;
 
         /*access.getEditWritAccess(req, res, next, mid, function (access) {
          if (!access) {
-         err = new Error();
-         err.status(403);
+         error = new Error();
+         error.status(403);
 
-         return next(err);
+         return next(error);
          }*/
 
-        email = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
+        isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
         shaSum.update(pass);
         body.pass = shaSum.digest('hex');
 
-        if (email) {
-            personnelModel = new PersonnelModel(body);
-            personnelModel.save(function (err, personnel) {
-                if (err) {
-                    return next(err);
-                }
-
-                delete personnel.pass;
-                res.status(200).send(personnel);
-            })
-        } else {
-            res.status(400).send();
+        if (!isEmailValid) {
+            error = new Error();
+            error.status(400);
+            return next(error);
         }
+
+        personnelModel = new PersonnelModel(body);
+        personnelModel.save(function (err, personnel) {
+            if (err) {
+                return next(err);
+            }
+
+            delete personnel.pass;
+            res.status(200).send(personnel);
+        })
         /*});*/
     };
 
@@ -63,63 +65,71 @@ var Personnel = function (db) {
 
         var lastAccess;
         var resultPersonnel;
+        var error;
 
         shaSum.update(pass);
 
-        if (email && pass) {
-            query = PersonnelModel.findOne({
-                email: email
-            });
-            query.exec(function (err, personnel) {
+        if (!email || !pass) {
+            error = new Error();
+            error.status(400);
+            return next(error);
+        }
+
+        query = PersonnelModel.findOne({
+            email: email
+        });
+        query.exec(function (err, personnel) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!personnel || personnel.pass !== shaSum.digest('hex')) {
+                error = new Error();
+                error.status(400);
+
+                return next(error);
+            }
+
+
+            session.loggedIn = true;
+            session.uId = personnel._id;
+            session.uName = personnel.login;
+            lastAccess = new Date();
+            session.lastAccess = lastAccess;
+
+            PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, function (err, result) {
                 if (err) {
                     return next(err);
                 }
 
-                if (personnel && personnel.pass === shaSum.digest('hex')) {
-                    session.loggedIn = true;
-                    session.uId = personnel._id;
-                    session.uName = personnel.login;
-                    lastAccess = new Date();
-                    session.lastAccess = lastAccess;
+                delete result.pass;
 
-                    PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, function (err, result) {
-                        if (err) {
-                            return next(err);
-                        }
-
-                        delete result.pass;
-
-                        resultPersonnel = result;
-                    });
-
-                    return res.status(200).send(resultPersonnel);
-                }
-
-                res.status(400).send();
+                resultPersonnel = result;
             });
-        } else {
-            res.status(400).send();
-        }
+
+            res.status(200).send(resultPersonnel);
+
+        });
     };
 
     this.remove = function (req, res, next) {
         var id = req.params.id;
-        var err;
+        var error;
         var query;
 
         if (req.session.uId === id) {
-            err = new Error();
-            err.status(400);
+            error = new Error();
+            error.status(400);
 
-            return next(err);
+            return next(error);
         }
 
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
-         err = new Error();
-         err.status(403);
+         error = new Error();
+         error.status(403);
 
-         return next(err);
+         return next(error);
          }*/
 
         query = PersonnelModel.remove({_id: id});
@@ -135,8 +145,8 @@ var Personnel = function (db) {
 
     this.getById = function (req, res, next) {
         var id = req.params.id;
+        var query = PersonnelModel.findById(id, {pass: 0});
 
-        var query = db.model(CONSTANTS.PERSONNEL, schema).findById(id, {pass: 0});
         query.exec(function (err, result) {
             if (err) {
                 return next(err);
@@ -146,8 +156,7 @@ var Personnel = function (db) {
     };
 
     this.getAll = function (req, res, next) {
-        var Model = db.model(CONSTANTS.PERSONNEL, schema);
-        Model.find({}, {pass: 0})
+        PersonnelModel.find({}, {pass: 0})
             .exec(function (err, result) {
                 if (err) {
                     return next(err);
@@ -158,10 +167,9 @@ var Personnel = function (db) {
 
     this.update = function (req, res, next) {
         var id = req.params.id;
-        var Model = db.model(CONSTANTS.PERSONNEL, schema);
         var body = req.body;
 
-        Model.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
+        PersonnelModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
             if (err) {
                 return next(err);
             }
@@ -175,17 +183,18 @@ var Personnel = function (db) {
         var email = body.email;
         var forgotToken = generator.generate();
         var error;
-        var caheckEmail;
-        //var mailer = new Mailer();
 
-        caheckEmail = email ? CONSTANTS.EMAIL_REGEXP.test(email) : false;
+        var mailer = new Mailer();
 
-        if (!caheckEmail) {
+        email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
+
+        if (!email) {
             error = new Error();
             error.status(400);
 
             return next(error);
         }
+
         PersonnelModel.findOneAndUpdate(
             {
                 email: email
@@ -201,7 +210,7 @@ var Personnel = function (db) {
                     return next(err);
                 }
 
-                mailer.forgotPassword(result);
+                mailer.forgotPassword(result.toJSON());
                 /*res.status(200).send({
                  success: RESPONSES.MAILER.EMAIL_SENT,
                  email: result.email
@@ -266,42 +275,6 @@ var Personnel = function (db) {
                     callback(null, result);
                 });
         }
-    };
-
-    this.currentUser = function (req, res, next) {
-        var session = req.session;
-        if (session && session.loggedIn && session.lastDb) {
-            this.getUserById(req, res, next);
-        } else {
-            return res.status(401).send();
-        }
-    };
-
-    this.getUserById = function (req, res, next) {
-        var id = req.session.uId;
-        var query = models.get(req.session.lastDb, 'Users', UserSchema).findById(id);
-        var newUserResult = {};
-        var savedFilters;
-
-        query.populate('profile')
-            .populate('RelatedEmployee', 'imageSrc name fullName')
-            .populate('savedFilters');
-
-        query.exec(function (err, result) {
-            if (err) {
-                return next(err);
-            }
-
-            if (result) {
-                savedFilters = result.toJSON().savedFilters;
-
-                if (savedFilters) {
-                    newUserResult = _.groupBy(savedFilters, 'contentView');
-                }
-            }
-
-            res.status(200).send({user: result, savedFilters: newUserResult});
-        });
     };
 };
 

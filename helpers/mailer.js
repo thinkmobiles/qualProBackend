@@ -1,42 +1,32 @@
 /**
  * Created by soundstorm on 14.04.15.
  */
-var nodemailer = require('nodemailer');
-var sgTransport = require('nodemailer-sendgrid-transport');
-var options = {
-    auth: {
-        api_user: 'nedstark',
-        api_key: 'myheadiscutted0'
-    }
-}
-var client = nodemailer.createTransport(sgTransport(options));
+module.exports = function () {
+    var _ = require('../public/js/libs/underscore/underscore-min.js');
+    var nodemailer = require("nodemailer");
+    var smtpTransportObject = require('../config/mailer').noReplay;
 
-var _ = require('../public/js/libs/underscore/underscore-min');
-//var nodemailer = require("nodemailer");
-// var smtpTransportObject = require('../config/mailer').noReplay;
+    var fs = require('fs');
+    var template = _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"));
 
-var fs = require('fs');
-
-var Mailer = function () {
-
-    this.forgotPassword = function (options) {
+    this.forgotPassword = function (options){
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
-            url: 'http://easyerp.com/password_change/?forgotToken=' + options.forgotToken
+            url: 'http://localhost:9797/passwordChange/' + options.forgotToken
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@qualpro.com>',
+            from: 'QualPro <no-replay@qualPro.com>',
             to: templateOptions.email,
             subject: 'Change password',
             generateTextFromHTML: true,
-            html: _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"), templateOptions)
+            html: template(templateOptions)
         };
 
         deliver(mailOptions);
     };
 
-    this.changePassword = function (options) {
+    this.changePassword = function (options){
         var templateOptions = {
             name: options.firstname + ' ' + options.lastname,
             email: options.email,
@@ -54,7 +44,7 @@ var Mailer = function () {
         deliver(mailOptions);
     };
 
-    this.registeredNewUser = function (options) {
+    this.registeredNewUser = function (options){
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
@@ -62,7 +52,7 @@ var Mailer = function () {
             city: options.city
         };
         var mailOptions = {
-            from: 'easyerp <no-replay@qualpro.com>',
+            from: 'easyerp <no-replay@easyerp.com>',
             to: 'sales@easyerp.com',
             subject: 'new user',
             generateTextFromHTML: true,
@@ -70,7 +60,7 @@ var Mailer = function () {
         };
 
         var mailOptionsUser = {
-            from: 'easyerp <support@qualpro.com>',
+            from: 'easyerp <support@easyerp.com>',
             to: templateOptions.email,
             subject: 'New registration',
             generateTextFromHTML: true,
@@ -82,33 +72,22 @@ var Mailer = function () {
     };
 
     function deliver(mailOptions, cb) {
-        //var transport = nodemailer.createTransport(smtpTransportObject);
-        //
-        //transport.sendMail(mailOptions, function (err, response) {
-        //    if (err) {
-        //        console.log(err);
-        //        if (cb && (typeof cb === 'function')) {
-        //            cb(err, null);
-        //        }
-        //    } else {
-        //        console.log("Message sent: " + response.message);
-        //        if (cb && (typeof cb === 'function')) {
-        //            cb(null, response);
-        //        }
-        //    }
-        //});
-        client.sendMail(mailOptions, function (err, response) {
+        var transport = nodemailer.createTransport(smtpTransportObject);
+
+        transport.sendMail(mailOptions, function (err, response) {
             if (err) {
-                cb(error, null);
-            }
-            else {
-                res.status(200).send(response);
-                cb(null, response);
+                console.log(err);
+                if (cb && (typeof cb === 'function')) {
+                    cb(err, null);
+                }
+            } else {
+                console.log("Message sent: " + response.message);
+                if (cb && (typeof cb === 'function')) {
+                    cb(null, response);
+                }
             }
         });
     }
 
 };
-
-module.exports = Mailer();
 

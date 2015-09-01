@@ -7,12 +7,13 @@ define([
        function (CreateTemplate, Model, common/*, populate*/) {
 
            var CreateView = Backbone.View.extend({
-               el: "#wrapper",
+               el: "#contentHolder",
                contentType: "personnel",
                template: _.template(CreateTemplate),
                imageSrc: '',
+
                initialize: function () {
-                   /*_.bindAll(this, "saveItem");*/
+                   _.bindAll(this, "saveItem");
                    this.model = new Model();
                    this.render();
                },
@@ -71,6 +72,7 @@ define([
                render: function () {
                    var formString = this.template();
                    var self = this;
+
                    this.$el = $(formString).dialog({
                        closeOnEscape: false,
                        autoOpen: true,
@@ -94,6 +96,14 @@ define([
                        }
                    });
                    //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
+
+                   $('#dateBirth').datepicker({
+                       changeMonth: true,
+                       changeYear: true,
+                       yearRange: '-100y:c+nn',
+                       maxDate: '-18y'
+                   });
+
                    common.canvasDraw({ model: this.model.toJSON() }, this);
                    return this;
                }
