@@ -4,6 +4,8 @@ define([
     'communication',
     'custom'
 ], function (Router, Communication, Custom) {
+    var CSRF_TOKEN = $("meta[name='csrf-token']").attr('content');
+
     var initialize = function () {
         var appRouter = new Router();
 
@@ -91,6 +93,10 @@ define([
                 var day = target.val().split(' ')[0] || '01';
                 target.val(day + ' ' + mon + ', ' + year);
             }
+        });
+
+        $.ajaxSetup({
+            headers: {'X-CSRF-Token': CSRF_TOKEN}
         });
     };
 

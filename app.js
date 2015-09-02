@@ -12,10 +12,10 @@ module.exports = function (db) {
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
     var consolidate = require('consolidate');
-    var csurf = require('csurf');
+
     var app = express();
 
-    var csrfProtection = csurf(/*{ignoreMethods: []}*/);
+
 
     var logWriter = require('./helpers/logWriter');
 
@@ -61,7 +61,7 @@ module.exports = function (db) {
         store: new MemoryStore(sessionConfig)
     }));
 
-    app.use(csrfProtection);
+
 
     require('./routes/index')(app, db);
 

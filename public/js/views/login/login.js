@@ -2,7 +2,7 @@ define([
     'text!templates/login/login.html',
     'custom',
     'constants'
-], function (loginTemplate, custom, CONSTANTS) {
+], function (loginTemplate, custom, CONSTANTS, xss) {
 
     var LoginView = Backbone.View.extend({
         el: '#wrapper',
@@ -72,10 +72,16 @@ define([
             var self = this;
             var thisEl = this.$el;
             var loginForm = thisEl.find("#loginForm");
+            var email = thisEl.find("#email").val();
+            var pass = thisEl.find("#pass").val();
+
+            email = _.escape(email);
+
+            alert(email);
 
             var data = {
-                email: thisEl.find("#email").val(),
-                pass: thisEl.find("#pass").val()
+                email: email,
+                pass: pass
             };
 
             var errors = thisEl.find('input.error');

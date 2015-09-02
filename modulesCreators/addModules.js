@@ -25,153 +25,153 @@ exports.create = function (cb) {
             visible: true
         }, {
             _id: 2,
-            mname: 'Location',
-            href: 'location',
+            mname: 'Countries',
+            href: 'countries',
             sequence: 2,
             parrent: null,
             link: false,
             visible: true
         }, {
             _id: 3,
-            mname: 'Countries',
-            href: 'countries',
+            mname: 'Outlets',
+            href: 'outlets',
             sequence: 3,
             parrent: 2,
             link: true,
             visible: true
         }, {
             _id: 4,
-            mname: 'Outlets',
-            href: 'outlets',
+            mname: 'Branches',
+            href: 'branches',
             sequence: 4,
             parrent: 2,
             link: true,
             visible: true
         }, {
             _id: 5,
-            mname: 'Brunches',
-            href: 'brunches',
+            mname: 'Personnel',
+            href: CONSTANTS.PERSONNEL,
             sequence: 5,
-            parrent: 2,
-            link: true,
+            parrent: null,
+            link: false,
             visible: true
         }, {
             _id: 6,
-            mname: 'Personnel',
-            href: CONSTANTS.PERSONNEL,
+            mname: 'Objectives',
+            href: 'objectives',
             sequence: 6,
             parrent: null,
             link: false,
             visible: true
         }, {
             _id: 7,
-            mname: 'Assignments',
-            href: 'assignments',
+            mname: 'In-Store Reporting',
+            href: 'inStorReporting',
             sequence: 7,
             parrent: null,
             link: false,
             visible: true
         }, {
             _id: 8,
-            mname: 'Objectives',
-            href: 'objectives',
+            mname: 'Al Alali Reporting',
+            href: 'alalaliReporting',
             sequence: 8,
-            parrent: 7,
-            link: true,
+            parrent: null,
+            link: false,
             visible: true
         }, {
             _id: 9,
-            mname: 'In-Store Reporting',
-            href: 'inStorReporting',
+            mname: 'Shelf Shares & Planograms',
+            href: 'planogram',
             sequence: 9,
-            parrent: 7,
-            link: true,
+            parrent: null,
+            link: false,
             visible: true
         }, {
             _id: 10,
-            mname: 'Custom Reports',
-            href: 'customReports',
+            mname: 'Shelf Shares',
+            href: 'shelfShares',
             sequence: 10,
-            parrent: 7,
+            parrent: 9,
             link: true,
             visible: true
         }, {
             _id: 11,
-            mname: 'Events',
-            href: 'events',
+            mname: 'Shelf Planograms',
+            href: 'shelfPlanograms',
             sequence: 11,
+            parrent: 9,
+            link: true,
+            visible: true
+        }, {
+            _id: 12,
+            mname: 'Items & Prices',
+            href: 'items',
+            sequence: 12,
             parrent: null,
             link: false,
             visible: true
         }, {
-            _id: 12,
-            mname: 'Al Alali Reporting',
-            href: 'alalaliReporting',
-            sequence: 12,
-            parrent: 11,
-            link: true,
-            visible: true
-        }, {
             _id: 13,
-            mname: 'Competitor Activity',
-            href: 'competitorActivity',
+            mname: 'Items List',
+            href: 'itemsList',
             sequence: 13,
-            parrent: 11,
+            parrent: 12,
             link: true,
             visible: true
         }, {
             _id: 14,
-            mname: 'Competitor List',
-            href: 'competitorList',
+            mname: 'Price List',
+            href: 'priceList',
             sequence: 14,
-            parrent: 11,
+            parrent: 12,
+            link: true,
+            visible: true
+        },{
+            _id: 15,
+            mname: 'Price Surveys',
+            href: 'priceSurveys',
+            sequence: 15,
+            parrent: 12,
             link: true,
             visible: true
         }, {
-            _id: 15,
-            mname: 'Shelf & Planogram',
-            href: 'planogram',
-            sequence: 15,
+            _id: 16,
+            mname: 'Competitors',
+            href: 'competitors',
+            sequence: 16,
             parrent: null,
             link: false,
             visible: true
         }, {
-            _id: 16,
-            mname: 'Shelf Shares',
-            href: 'shelfShares',
-            sequence: 16,
-            parrent: 15,
+            _id: 17,
+            mname: 'Competitors List',
+            href: 'competitorsList',
+            sequence: 17,
+            parrent: 16,
             link: true,
             visible: true
         }, {
             _id: 18,
-            mname: 'Items',
-            href: 'items',
+            mname: 'Competitors Activity',
+            href: 'competitorsActivity',
             sequence: 18,
+            parrent: 16,
+            link: true,
+            visible: true
+        }, {
+            _id: 19,
+            mname: 'Contract',
+            href: 'contracts',
+            sequence: 19,
             parrent: null,
             link: false,
             visible: true
         }, {
-            _id: 19,
-            mname: 'Items List',
-            href: 'itemsList',
-            sequence: 19,
-            parrent: 18,
-            link: true,
-            visible: true
-        }, {
             _id: 20,
-            mname: 'Price List',
-            href: 'priceList',
-            sequence: 17,
-            parrent: 20,
-            link: true,
-            visible: true
-        }, {
-            _id: 21,
-            mname: 'Contract',
-            href: 'contracts',
-            sequence: 21,
+            mname: 'Custom Reports',
+            href: 'customReports',
+            sequence: 20,
             parrent: null,
             link: false,
             visible: true

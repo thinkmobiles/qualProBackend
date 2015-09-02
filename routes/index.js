@@ -11,6 +11,9 @@ module.exports = function (app, db) {
     var multipartMiddleware = multipart();
     var mongoose = require('mongoose');
 
+    var csurf = require('csurf');
+    var csrfProtection = csurf({ignoreMethods: ['GET']});
+
     var models = require("../models.js")(db);
 
     var PersonnelHandler = require("../handlers/personnel");
@@ -37,9 +40,11 @@ module.exports = function (app, db) {
         }
     }
 
-    app.get('/', function (req, res, next) {
-        console.log(req.csrfToken());
-        res.render('index.html', {csrfToken: req.csrfToken()});
+    //ToDo Use only for post methods with form
+    //app.use(csrfProtection);
+
+    app.get('/', /*csrfProtection,*/ function (req, res, next) {
+        res.render('index.html'/*, {csrfToken: req.csrfToken()}*/);
     });
 
     app.get('/passwordChange/:forgotToken', function (req, res, next) {
@@ -52,7 +57,7 @@ module.exports = function (app, db) {
     });
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
-    app.post('/login', personnelHandler.login);
+    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -99,5 +104,23 @@ module.exports = function (app, db) {
     };
 
     app.use(notFound);
+    app.use(function (err, req, res, next) {
+        if (err.code !== 'EBADCSRFTOKEN') {
+            return next(err);
+        }
+        // handle CSRF token errors here
+        res.status(403);
+
+        if (req.accepts('html')) {
+            return res.send('form tampered with');
+        }
+
+        if (req.accepts('json')) {
+            return res.json({error: 'form tampered with'});
+        }
+
+        res.type('txt');
+        res.send('form tampered with');
+    });
     app.use(errorHandler);
 };

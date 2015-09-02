@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
-    //var _ = require('underscore');
+    var validator = require('validator');
+
     var crypto = require('crypto');
     var access = require('../helpers/access');
     var generator = require('../helpers/randomPass.js');
@@ -35,6 +36,9 @@ var Personnel = function (db) {
             error.status(400);
             return next(error);
         }
+
+        email = validator.escape(email);
+        body.email = email;
 
         personnelModel = new PersonnelModel(body);
         personnelModel.save(function (err, personnel) {
@@ -72,10 +76,10 @@ var Personnel = function (db) {
 
         if (!email || !pass) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
+
             return next(error);
         }
-
         query = PersonnelModel.findOne({
             email: email
         });
@@ -86,7 +90,7 @@ var Personnel = function (db) {
 
             if (!personnel || personnel.pass !== shaSum.digest('hex')) {
                 error = new Error();
-                error.status(400);
+                error.status = 400;
 
                 return next(error);
             }
