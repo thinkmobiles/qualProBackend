@@ -15,6 +15,7 @@ var Personnel = function (db) {
     //var mid;
 
     this.create = function (req, res, next) {
+
         var body = req.body;
         var email = body.email;
         var isEmailValid;
@@ -28,7 +29,7 @@ var Personnel = function (db) {
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
         shaSum.update(pass);
         body.pass = shaSum.digest('hex');
-        body.token=token;
+        body.token = token;
 
         if (!isEmailValid) {
             error = new Error();
@@ -47,13 +48,12 @@ var Personnel = function (db) {
                     lastName: personnel.lastName,
                     email: personnel.email,
                     password: personnel.pass,
-                    token:personnel.token
+                    token: personnel.token
                 });
-           // delete personnel.pass;
-            res.status(200).send({_id:personnel._id});
+            // delete personnel.pass;
+            res.status(200).send({_id: personnel._id});
 
         });
-        /*});*/
     };
 
     this.login = function (req, res, next) {
@@ -178,7 +178,6 @@ var Personnel = function (db) {
         });
     };
 
-
     this.forgotPassword = function (req, res, next) {
         var body = req.body;
         var email = body.email;
@@ -226,15 +225,16 @@ var Personnel = function (db) {
     this.confirm = function (req, res, next) {
         var token = req.params.token;
 
-        var query = PersonnelModel.findOneAndUpdate({token:token}, {token: '', confirmed: new Date()});
+        var query = PersonnelModel.findOneAndUpdate({token: token}, {token: '', confirmed: new Date()});
 
         query.exec(function (err) {
             if (err) {
                 return next(err);
             }
-            return res.status(200).send({confirmed: true});
+            res.status(200).send({confirmed: true});
         });
     };
+
     this.changePassword = function (req, res, next) {
         var forgotToken = req.params.forgotToken;
         var body = req.body;
