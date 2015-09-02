@@ -236,7 +236,8 @@ var Personnel = function (db) {
             if (err) {
                 return next(err);
             }
-            res.status(200).send({confirmed: true});
+            //res.status(200).send({confirmed: true});
+            res.redirect(302, process.env.HOST + '/#login');
         });
     };
 
