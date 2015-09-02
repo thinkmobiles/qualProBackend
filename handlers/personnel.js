@@ -20,7 +20,7 @@ var Personnel = function (db) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass = generator.generate(8);
+        var pass =  body.pass;
         var mailer = new Mailer();
         var shaSum = crypto.createHash('sha256');
         var personnelModel;
@@ -51,7 +51,7 @@ var Personnel = function (db) {
                     firstName: personnel.firstName,
                     lastName: personnel.lastName,
                     email: personnel.email,
-                    password: personnel.pass,
+                    password: pass,
                     token: personnel.token
                 });
             // delete personnel.pass;
