@@ -7,12 +7,9 @@ var userName="nedstark";
 var password="myheadiscutted0";
 
 module.exports.noReplay = {
-    host: 'mail.thinkmobiles.com',
-    port: 587,
-    ignoreTLS: false,
+    service: 'SendGrid',
     auth: {
-        user: "no-replay@easyerp.com",
-        pass: "111111"
-    },
-    tls: {rejectUnauthorized: false}
+        user: 'nedstark',
+        pass: 'myheadiscutted0'
+    }
 };

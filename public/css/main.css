@@ -1,4 +1,5 @@
 /*==Left menu color==============*/
+/*== ui dialog==================*/
 * {
   margin: 0;
   padding: 0;
@@ -170,4 +171,226 @@ a {
   height: 0;
   overflow: hidden;
   clear: both;
+}
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+.ui-dialog {
+  border: 1px solid #000000;
+  background: #e0e8e0;
+  color: white;
+  z-index: 1000;
+  margin: 0 auto;
+}
+.ui-dialog .ui-widget-content a {
+  color: darkred;
+}
+.ui-dialog .ui-dialog-content {
+  position: relative;
+  border: 0;
+  background: 0;
+}
+.ui-dialog .ui-dialog-content .title {
+  border: 3px solid #000000;
+  background-color: #e0e8e0;
+}
+.ui-dialog .ui-dialog-content .title span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6a6a6a;
+  padding: 0 10px;
+  line-height: 38px;
+}
+.ui-dialog .ui-dialog-content .inner {
+  background-color: #e0e8e0;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .tabs {
+  border-bottom: 2px solid #eeeeee;
+  background-color: #ffffff;
+}
+.ui-dialog .ui-dialog-content .inner .tabs ul {
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .tabs ul li {
+  float: right;
+}
+.ui-dialog .ui-dialog-content .inner .tabs ul li a {
+  text-align: center;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 38px;
+  padding: 0 10px;
+  color: #6a6a6a;
+  border: 1px solid #eee;
+  min-width: 60px;
+  text-transform: uppercase;
+}
+.ui-dialog .ui-dialog-content .inner .block {
+  margin: 20px 15px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 440px;
+  float: left;
+  box-sizing: border-box;
+}
+.ui-dialog .ui-dialog-content .inner .block-left {
+  width: 20%;
+  float: left;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .block-left #avatar {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #000000;
+  padding: 0 8%;
+}
+.ui-dialog .ui-dialog-content .inner .block-left .upload {
+  width: 99%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #000000;
+  position: relative;
+  height: 30px;
+}
+.ui-dialog .ui-dialog-content .inner .block-left .upload input[type="file"] {
+  opacity: 0;
+  cursor: pointer;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+.ui-dialog .ui-dialog-content .inner .block-left .upload p {
+  text-align: center;
+  font-size: 14px;
+  color: #6a6a6a;
+  font-weight: 400;
+  position: absolute;
+  top: 24%;
+  left: 32%;
+}
+.ui-dialog .ui-dialog-content .inner .block-center {
+  width: 30%;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6a6a6a;
+  margin-bottom: 10px;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl {
+  width: 100%;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl .general-name {
+  float: none;
+  width: 100%;
+  padding-left: 0;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl dt {
+  width: 39%;
+  min-width: 16px;
+  float: left;
+  padding-left: 20px;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl dt label {
+  color: #6a6a6a;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl dd {
+  float: right;
+  width: 55%;
+}
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl dt,
+.ui-dialog .ui-dialog-content .inner .block-center .half-block dl dd {
+  margin: 10px 0;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .block-right {
+  width: 42%;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block {
+  height: 100%;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6a6a6a;
+  margin-bottom: 10px;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block dl {
+  width: 100%;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block dl .general-name {
+  float: none;
+  width: 100%;
+  padding-left: 0;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block dl dt,
+.ui-dialog .ui-dialog-content .inner .block-right .half-block dl dd {
+  margin: 10px 0;
+  overflow: hidden;
+}
+.ui-dialog .ui-dialog-content .inner .block-right .half-block dl dd #description {
+  width: 99%;
+  height: 350px;
+}
+.ui-dialog .ui-dialog-buttonpane {
+  margin-top: 30px !important;
+}
+.ui-dialog .ui-dialog-titlebar {
+  display: none;
+}
+.ui-dialog .ui-dialog-buttonpane {
+  border: 1px solid #AAA;
+  background: white;
+  color: black;
+  text-align: left;
+  border-width: 1px 0 0;
+  background-image: none;
+  margin: 0 1em;
+  margin-top: .7em;
+  padding: .3em 1em .5em .4em;
+}
+.ui-dialog .ui-dialog-buttonpane:before {
+  content: "";
+  display: table;
+  border-collapse: collapse;
+}
+.ui-dialog .ui-dialog-buttonpane:after {
+  clear: both;
+  content: "";
+  display: table;
+  border-collapse: collapse;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  text-align: right;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button {
+  background-image: none;
+  color: white;
+  border: 1px solid #DDD;
+  margin: .5em .4em .5em 0;
+  cursor: pointer;
+  background-color: #ff0000;
+  font-size: 1.2em;
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  line-height: normal;
+  vertical-align: middle;
+  text-align: center;
+  overflow: visible;
+  border-radius: 0;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button span {
+  display: block;
+  line-height: normal;
+  background: #ff0000;
+  padding: .4em 1em;
+  color: white;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button span:hover {
+  background: #ec0000 !important;
 }

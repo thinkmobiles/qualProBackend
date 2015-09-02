@@ -39,8 +39,6 @@ define([
             var thisEl = this.$el;
             thisEl.html(this.template({forgotUrl: 'http://' + window.location.host + '/forgotPass/'}));
 
-            //thisEl.find("#loginForm").addClass("notRegister");
-
             this.$errrorHandler = $('#errorHandler');
 
             return this;
@@ -76,8 +74,6 @@ define([
             var pass = thisEl.find("#pass").val();
 
             email = _.escape(email);
-
-            alert(email);
 
             var data = {
                 email: email,

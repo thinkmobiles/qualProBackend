@@ -60,15 +60,7 @@ module.exports = function () {
             html: confirmAccountTemplate(templateOptions)
         };
 
-        //var mailOptionsUser = {
-        //    from: 'easyerp <support@easyerp.com>',
-        //    to: templateOptions.email,
-        //    subject: 'New registration',
-        //    generateTextFromHTML: true,
-        //    html: _.template(fs.readFileSync('public/templates/mailer/newUser.html', encoding = "utf8"), templateOptions)
-        //};
-        //
-        //deliver(mailOptionsUser);
+
         deliver(mailOptions);
     };
 
@@ -82,7 +74,7 @@ module.exports = function () {
                     cb(err, null);
                 }
             } else {
-                console.log("Message sent: " + response.message);
+                console.log("Message sent: " + response.messageId);
                 if (cb && (typeof cb === 'function')) {
                     cb(null, response);
                 }

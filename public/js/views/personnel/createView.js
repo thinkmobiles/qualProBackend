@@ -77,7 +77,7 @@ define([
                        closeOnEscape: false,
                        autoOpen: true,
                        dialogClass: "edit-dialog",
-                       width: "600",
+                       width: "80%",
                        resizable: true,
                        title: "Create Pesonnel",
                        buttons:{

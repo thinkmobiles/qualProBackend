@@ -3,6 +3,7 @@ var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
     var validator = require('validator');
+    var xssFilters = require('xss-filters');
 
     var crypto = require('crypto');
     var access = require('../helpers/access');
@@ -39,6 +40,7 @@ var Personnel = function (db) {
         }
 
         email = validator.escape(email);
+        email = xssFilters.inHTMLData(email);
         body.email = email;
 
         personnelModel = new PersonnelModel(body);
