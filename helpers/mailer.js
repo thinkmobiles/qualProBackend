@@ -9,11 +9,12 @@ module.exports = function () {
     var fs = require('fs');
     var forgotPasswordTemplate = _.template(fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8"));
     var confirmAccountTemplate = _.template(fs.readFileSync('public/templates/mailer/createUser.html', encoding = "utf8"));
-    this.forgotPassword = function (options){
+
+    this.forgotPassword = function (options) {
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
-            url: 'http://'+process.env.HOST+process.env.PORT+'/passwordChange/' + options.forgotToken
+            url: process.env.HOST + '/passwordChange/' + options.forgotToken
         };
         var mailOptions = {
             from: 'QualPro <no-replay@qualPro.com>',
@@ -26,9 +27,9 @@ module.exports = function () {
         deliver(mailOptions);
     };
 
-    this.changePassword = function (options){
+    this.changePassword = function (options) {
         var templateOptions = {
-            name: options.firstname + ' ' + options.lastname,
+            name: options.firstName + ' ' + options.lastName,
             email: options.email,
             password: options.password,
             url: 'http://localhost:8823'
@@ -44,19 +45,19 @@ module.exports = function () {
         deliver(mailOptions);
     };
 
-    this.confirmNewUserRegistration = function (options){
+    this.confirmNewUserRegistration = function (options) {
         var templateOptions = {
             name: options.firstName + ' ' + options.lastName,
             email: options.email,
             password: options.password,
-            url: process.env.HOST+'/personnel/confirm/' + options.token
+            url: process.env.HOST + '/personnel/confirm/' + options.token
         };
         var mailOptions = {
             from: 'qualPro <no-replay@qualPro.com>',
             to: options.email,
             subject: 'User verification',
             generateTextFromHTML: true,
-            html:confirmAccountTemplate(templateOptions)
+            html: confirmAccountTemplate(templateOptions)
         };
 
         //var mailOptionsUser = {
@@ -88,6 +89,5 @@ module.exports = function () {
             }
         });
     }
-
 };
 

@@ -120,7 +120,7 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
         agent
             .get('/personnel/confirm/token='+token)
-            .expect(200, function(err,res){
+            .expect(200, function (err, res) {
                 if (err) {
                     return done(err);
                 }

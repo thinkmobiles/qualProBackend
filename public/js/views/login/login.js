@@ -37,7 +37,7 @@ define([
 
         render: function (options) {
             var thisEl = this.$el;
-            thisEl.html(this.template());
+            thisEl.html(this.template({forgotUrl: 'http://' + window.location.host + '/forgotPass/'}));
 
             //thisEl.find("#loginForm").addClass("notRegister");
 

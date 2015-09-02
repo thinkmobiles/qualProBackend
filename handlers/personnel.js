@@ -16,6 +16,7 @@ var Personnel = function (db) {
     //var mid;
 
     this.create = function (req, res, next) {
+
         var body = req.body;
         var email = body.email;
         var isEmailValid;
@@ -29,11 +30,11 @@ var Personnel = function (db) {
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
         shaSum.update(pass);
         body.pass = shaSum.digest('hex');
-        body.token=token;
+        body.token = token;
 
         if (!isEmailValid) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
             return next(error);
         }
 
@@ -51,13 +52,12 @@ var Personnel = function (db) {
                     lastName: personnel.lastName,
                     email: personnel.email,
                     password: personnel.pass,
-                    token:personnel.token
+                    token: personnel.token
                 });
-           // delete personnel.pass;
-            res.status(200).send({_id:personnel._id});
+            // delete personnel.pass;
+            res.status(200).send({_id: personnel._id});
 
         });
-        /*});*/
     };
 
     this.login = function (req, res, next) {
@@ -78,6 +78,7 @@ var Personnel = function (db) {
             error = new Error();
             error.status = 400;
 
+            error.status = 400;
             return next(error);
         }
         query = PersonnelModel.findOne({
@@ -124,7 +125,7 @@ var Personnel = function (db) {
 
         if (req.session.uId === id) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
 
             return next(error);
         }
@@ -132,7 +133,7 @@ var Personnel = function (db) {
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
          error = new Error();
-         error.status(403);
+         error.status = 403;
 
          return next(error);
          }*/
@@ -182,7 +183,6 @@ var Personnel = function (db) {
         });
     };
 
-
     this.forgotPassword = function (req, res, next) {
         var body = req.body;
         var email = body.email;
@@ -194,7 +194,7 @@ var Personnel = function (db) {
 
         if (!email) {
             error = new Error();
-            error.status(400);
+            error.status = 400;
 
             return next(error);
         }
@@ -230,20 +230,21 @@ var Personnel = function (db) {
     this.confirm = function (req, res, next) {
         var token = req.params.token;
 
-        var query = PersonnelModel.findOneAndUpdate({token:token}, {token: '', confirmed: new Date()});
+        var query = PersonnelModel.findOneAndUpdate({token: token}, {token: '', confirmed: new Date()});
 
         query.exec(function (err) {
             if (err) {
                 return next(err);
             }
-            return res.status(200).send({confirmed: true});
+            res.status(200).send({confirmed: true});
         });
     };
+
     this.changePassword = function (req, res, next) {
         var forgotToken = req.params.forgotToken;
         var body = req.body;
         var pass = body.pass;
-        var url = process.env.HOST + '/login';
+        var url = process.env.HOST + '/#login';
 
         var shaSum = crypto.createHash('sha256');
 
@@ -280,6 +281,15 @@ var Personnel = function (db) {
         }
 
         function deleteToken(result, callback) {
+            var error;
+
+            if (!result) {
+                error = new Error();
+                error.status = 400;
+
+                return next(error);
+            }
+
             result
                 .set('forgotToken', '')
                 .save(function (err, result) {
