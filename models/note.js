@@ -8,7 +8,7 @@ module.exports = (function () {
 
         country: {type: ObjectId, ref: CONSTANTS.COUNTRY},
         outlet: {type: ObjectId, ref: 'outlet'},
-        branch: {type: ObjectId, ref: 'branch'},
+        branch: {type: ObjectId, ref: CONSTANTS.BRANCH},
         description: {type: String, default: ''},
         comments: {
             target: {type: ObjectId},
@@ -29,11 +29,11 @@ module.exports = (function () {
         }
     }, {collection: 'notes'});
 
-    mongoose.model('note', schema);
+    mongoose.model(CONSTANTS.NOTE, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['note'] = schema;
+    mongoose.Schemas[CONSTANTS.NOTE] = schema;
 })();

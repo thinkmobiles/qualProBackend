@@ -1,6 +1,5 @@
-/**
- * Created by Roman on 04.04.2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -34,13 +33,13 @@ module.exports = (function () {
             user: { type: ObjectId, ref: 'Users', default: null },
             date: { type: Date }
         }
-    }, { collection: 'Tasks' });
+    }, { collection: 'tasks' });
 
-    mongoose.model('Tasks', tasksSchema);
+    mongoose.model(CONSTANTS.TASK, tasksSchema);
 
     if(!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['Task'] = tasksSchema;
+    mongoose.Schemas[CONSTANTS.TASK] = tasksSchema;
 })();
