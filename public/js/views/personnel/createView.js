@@ -72,6 +72,13 @@ define([
                    }
                },
 
+               hideDialog: function () {
+                   $(".edit-dialog").remove();
+                   $(".add-group-dialog").remove();
+                   $(".add-user-dialog").remove();
+                   $(".crop-images-dialog").remove();
+               },
+
                render: function () {
                    var formString = this.template();
                    var self = this;
@@ -93,7 +100,7 @@ define([
                                text:"Cancel",
                                class:"btn",
                                click: function(){
-                                   //self.hideDialog();
+                                   self.hideDialog();
                                }
                            }
                        }
