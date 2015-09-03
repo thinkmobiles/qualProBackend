@@ -130,11 +130,12 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
 
         agent
             .get('/personnel/confirm/token=' + token)
-            .expect(200, function (err, res) {
+            .expect(302, function (err, res) {
                 if (err) {
                     return done(err);
                 }
-                expect(res.body.confirmed);
+                //todo check url somehow. Below statement not working
+                //expect(res.text.contains(host+'/#login'));
                 done();
             })
 
