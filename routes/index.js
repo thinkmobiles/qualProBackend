@@ -28,6 +28,13 @@ module.exports = function (app, db) {
 
     var personnelRouter = require('./personnel')(db);
     var countryRouter = require('./country')(db);
+    var branchRouter=require('./branch')(db);
+    var contractRouter=require('./contract')(db);
+    var itemRouter=require('./item')(db);
+    var noteRouter=require('./note')(db);
+    var objectiveRouter=require('./objective')(db);
+    var shelfRouter=require('./shelf')(db);
+    var taskRouter=require('./task')(db);
 
 
     var RESPONSES = require('../constants/responses');
@@ -74,8 +81,14 @@ module.exports = function (app, db) {
     });
 
     app.use('/personnel', personnelRouter);
-
     app.use('/country', countryRouter);
+    app.use('/branch', branchRouter);
+    app.use('/contract', contractRouter);
+    app.use('/item', itemRouter);
+    app.use('/note', noteRouter);
+    app.use('/objective', objectiveRouter);
+    app.use('/shelf', shelfRouter);
+    app.use('/task', taskRouter);
 
     function notFound(req, res, next) {
         res.status(404);
