@@ -1,13 +1,13 @@
 require('../config/development');
-var CONSTANTS=require('../constants/mainConstants');
+
 var request = require('supertest');
 var expect = require('chai').expect;
 
 var host = process.env.HOST;
-var baseUrl = '/task';
+var baseUrl = '/comment';
 var agent;
-var singular = CONSTANTS.TASK;
-var plural = 'tasks';
+var singular = 'comment';
+var plural = 'comments';
 
 
 var adminObject = {
@@ -16,29 +16,11 @@ var adminObject = {
 };
 
 var testObject = {
-    summary: 'test',
-    taskCount: 4,
-    description: 'test',
-    priority: 'test',
-    sequence: 5,
-    duration: 25,
-    type: 'test',
-    estimated: 45,
-    logged: 12,
-    remaining:22,
+    body: 'test'
 };
 
 var objectUpdate = {
-        summary: 'NotTest',
-        taskCount: 66,
-        description: 'NotTest',
-        priority: 'NotTest',
-        sequence: 55,
-        duration: 44,
-        type: 'test',
-        estimated: 33,
-        logged: 22,
-        remaining:11
+    body: 'NotTest'
 };
 
 var createdId;

@@ -13,5 +13,5 @@ module.exports = (function () {
     require('./contract');
     require('./note');
     require('./shelf');
-    require('./task');
+    require('./outlet');
 })();

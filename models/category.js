@@ -19,11 +19,11 @@ module.exports = (function () {
 
     }, {collection: 'categories'});
 
-    mongoose.model('category', schema);
+    mongoose.model(CONSTANTS.CATEGORY, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['Category'] = schema;
+    mongoose.Schemas[CONSTANTS.CATEGORY] = schema;
 })();

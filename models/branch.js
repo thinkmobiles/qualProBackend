@@ -6,7 +6,7 @@ module.exports = (function () {
 
     var branchSchema = mongoose.Schema({
         name: {type: String, default: 'emptyBranch'},
-        outlet: {type: ObjectId, ref: 'outlet', default: null},
+        outlet: {type: ObjectId, ref: CONSTANTS.OUTLET, default: null},
         manager: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
         imageSrc: {
             type: String,
@@ -24,11 +24,11 @@ module.exports = (function () {
         description: {type: String, default: ''}
     }, {collection: 'branches'});
 
-    mongoose.model('branch', branchSchema);
+    mongoose.model(CONSTANTS.BRANCH, branchSchema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['branch'] = branchSchema;
+    mongoose.Schemas[CONSTANTS.BRANCH] = branchSchema;
 })();

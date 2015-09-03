@@ -7,8 +7,8 @@ module.exports = (function () {
     var schema = new mongoose.Schema({
 
 
-        country: {type: ObjectId, ref: 'countries', default: null},
-        category: {type: ObjectId, ref: 'category', default: null},
+        country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
+        category: {type: ObjectId, ref: CONSTANTS.CATEGORY, default: null},
         sku: {type: String, default: ''},
         name: {type: String, default: ''},
         packageSize: {type: String, default: ''},
@@ -21,11 +21,11 @@ module.exports = (function () {
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {
-            user: {type: ObjectId, ref: 'user', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: {type: ObjectId, ref: 'user', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         }
     }, {collection: 'items'});
