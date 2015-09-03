@@ -21,11 +21,11 @@ module.exports = (function () {
         }
     }, {collection: 'comments'});
 
-    mongoose.model('comment', schema);
+    mongoose.model(CONSTANTS.COMMENT, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['comment'] = schema;
+    mongoose.Schemas[CONSTANTS.COMMENT] = schema;
 })();

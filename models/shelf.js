@@ -10,21 +10,21 @@ module.exports = (function () {
         country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
         outlet: {type: ObjectId, ref: 'outlet'},
         branch: {type: ObjectId, ref: CONSTANTS.BRANCH},
-        category: {type: ObjectId, ref: 'category', default: null},
+        category: {type: ObjectId, ref: CONSTANTS.CATEGORY, default: null},
         shares: {
             item: {type: ObjectId, ref: CONSTANTS.ITEM},
             distanceInMeters: {type: Number}
         },
-        comments: {type: [ObjectId], ref: 'comment'},
+        comments: {type: [ObjectId], ref: CONSTANTS.COMMENT},
 
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {
-            user: {type: ObjectId, ref: 'Users', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.OUTLET, default: null},
             date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: {type: ObjectId, ref: 'Users', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.OUTLET, default: null},
             date: {type: Date, default: Date.now}
         }
     }, {collection: 'shelves'});
