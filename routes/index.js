@@ -14,21 +14,18 @@ module.exports = function (app, db) {
     var csurf = require('csurf');
     var csrfProtection = csurf({ignoreMethods: ['GET']});
 
+    app.set('csrfProtection', csrfProtection);
+
     var models = require("../models.js")(db);
 
     var PersonnelHandler = require("../handlers/personnel");
     var ModuleslHandler = require("../handlers/modules");
     // var CountryHandler=require("../handlers/country");
-
-
     var personnelHandler = new PersonnelHandler(db);
     var modulesHandler = new ModuleslHandler(db);
     //var countryHandler=new CountryHandler(db);
-
-
-    var personnelRouter = require('./personnel')(db);
+    var personnelRouter = require('./personnel')(db, app);
     var countryRouter = require('./country')(db);
-
 
     var RESPONSES = require('../constants/responses');
 
@@ -40,31 +37,30 @@ module.exports = function (app, db) {
         }
     }
 
-    //ToDo Use only for post methods with form
-    //app.use(csrfProtection);
-
-    app.get('/', /*csrfProtection,*/ function (req, res, next) {
-        res.render('index.html'/*, {csrfToken: req.csrfToken()}*/);
+    app.get('/', csrfProtection, function (req, res, next) {
+        res.render('index.html', {csrfToken: req.csrfToken()});
     });
 
-    app.get('/passwordChange/:forgotToken', function (req, res, next) {
+    app.get('/passwordChange/:forgotToken', csrfProtection, function (req, res, next) {
         var forgotToken = req.params.forgotToken;
 
         res.render('changePassword.html', {
             host: process.env.HOST,
-            forgotToken: forgotToken
+            forgotToken: forgotToken,
+            csrfToken: req.csrfToken()
         });
     });
 
-    app.get('/forgotPass', function (req, res, next) {
+    app.get('/forgotPass', csrfProtection, function (req, res, next) {
 
         res.render('enterEmail.html', {
-            host: process.env.HOST
+            host: process.env.HOST,
+            csrfToken: req.csrfToken()
         });
     });
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
-    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
+    app.post('/login', csrfProtection, personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);

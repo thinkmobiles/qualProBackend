@@ -69,20 +69,26 @@ var Personnel = function (db) {
         var pass = body.pass;
         var shaSum = crypto.createHash('sha256');
         var query;
+        var isEmailValid;
 
         var lastAccess;
         var resultPersonnel;
         var error;
 
         shaSum.update(pass);
+        isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
 
-        if (!email || !pass) {
+        if (!email || !pass || !isEmailValid) {
             error = new Error();
             error.status = 400;
 
             error.status = 400;
             return next(error);
         }
+
+        email = validator.escape(email);
+        email = xssFilters.inHTMLData(email);
+
         query = PersonnelModel.findOne({
             email: email
         });
@@ -191,15 +197,17 @@ var Personnel = function (db) {
         var forgotToken = generator.generate();
         var error;
         var mailer = new Mailer();
+        var isValidEmail = CONSTANTS.EMAIL_REGEXP.test(email);
 
-        email = CONSTANTS.EMAIL_REGEXP.test(email) ? email : false;
-
-        if (!email) {
+        if (!isValidEmail) {
             error = new Error();
             error.status = 400;
 
             return next(error);
         }
+
+        email = validator.escape(email);
+        email = xssFilters.inHTMLData(email);
 
         PersonnelModel.findOneAndUpdate(
             {

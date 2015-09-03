@@ -28,14 +28,17 @@ define([
                saveItem: function () {
                    var self = this;
                    var personnelModel = new Model();
-                   var firstName = $.trim(this.$el.find("#firstName").val());
-                   var lastName = $.trim(this.$el.find("#lastName").val());
-                   var email = $.trim(this.$el.find("#email").val());
-                   var phone = $.trim(this.$el.find("#phone").val());
+                   var currEl = this.$el;
+
+                   var firstName = $.trim(currEl.find("#firstName").val());
+                   var lastName = $.trim(currEl.find("#lastName").val());
+                   var email = $.trim(currEl.find("#email").val());
+                   var pass = $.trim(currEl.find("#password").val());
+                   var phone = $.trim(currEl.find("#phone").val());
                    var position = $("#positionDd").attr("data-id");
                    var country = $("#countryDd").attr("data-id");
                    var manager = $("#managerDD").attr("data-id");
-                   var dateBirth = $.trim(this.$el.find("#dateBirth").val());
+                   var dateBirth = $.trim(currEl.find("#dateBirth").val());
 
                    var valid = personnelModel.save({
                            country: country,
@@ -47,7 +50,7 @@ define([
                            position: position,
                            manager: manager,
                            dateBirth: dateBirth,
-
+                           pass: pass
                            /*groups: {
                                owner: $("#allUsersSelect").data("id"),
                                users: usersId,
