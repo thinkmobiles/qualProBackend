@@ -1,26 +1,21 @@
 var mongoose = require('mongoose');
 
-var Country = function (db) {
-    //var _ = require('../node_modules/underscore');
+var Note = function (db) {
+
     var CONSTANTS = require('../constants/mainConstants');
-
-    var schema = mongoose.Schemas[CONSTANTS.COUNTRY];
-    // var access = require('../helpers/access');
-
-    //  var mid;
+    var modelAndSchemaName = CONSTANTS.NOTE;
+    var schema = mongoose.Schemas[modelAndSchemaName];
 
     this.create = function (req, res, next) {
         var body = req.body;
-        var CreateModel = db.model(CONSTANTS.COUNTRY, schema);
+        var Model = db.model(modelAndSchemaName, schema);
         var model;
-
 
         var modelIsValid = true;
         //todo validation
 
-
         if (modelIsValid) {
-            model = CreateModel(body);
+            model = Model(body);
             model.save(function (error, model) {
                 if (error) {
                     return next(error);
@@ -35,7 +30,7 @@ var Country = function (db) {
 
     this.remove = function (req, res, next) {
         var id = req.params.id;
-        var Model = db.model(CONSTANTS.COUNTRY, schema);
+        var Model = db.model(modelAndSchemaName, schema);
 
         Model.findByIdAndRemove(id, function (error) {
             if (error) {
@@ -48,7 +43,7 @@ var Country = function (db) {
     this.getById = function (req, res, next) {
         var id = req.params.id;
 
-        var query = db.model(CONSTANTS.COUNTRY, schema).findById(id);
+        var query = db.model(modelAndSchemaName, schema).findById(id);
         query.exec(function (err, result) {
             if (err) {
                 return next(err);
@@ -59,7 +54,7 @@ var Country = function (db) {
 
     this.getAll = function (req, res, next) {
         //  var error;
-        var Model = db.model(CONSTANTS.COUNTRY, schema);
+        var Model = db.model(modelAndSchemaName, schema);
         Model.find().
 
             exec(function (err, result) {
@@ -72,7 +67,7 @@ var Country = function (db) {
 
     this.update = function (req, res, next) {
         var id = req.params.id;
-        var Model = db.model(CONSTANTS.COUNTRY, schema);
+        var Model = db.model(modelAndSchemaName, schema);
         var body = req.body;
 
         Model.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
@@ -83,4 +78,4 @@ var Country = function (db) {
         });
     };
 };
-module.exports = Country;
+module.exports = Note;

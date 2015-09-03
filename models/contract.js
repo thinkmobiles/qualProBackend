@@ -24,11 +24,11 @@ module.exports = (function () {
         }
     }, {collection: 'contracts'});
 
-    mongoose.model('contract', schema);
+    mongoose.model(CONSTANTS.CONTRACT, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['contract'] = schema;
+    mongoose.Schemas[CONSTANTS.CONTRACT] = schema;
 })();

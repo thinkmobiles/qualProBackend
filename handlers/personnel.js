@@ -3,7 +3,6 @@ var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
     var validator = require('validator');
-    var xssFilters = require('xss-filters');
 
     var crypto = require('crypto');
     var access = require('../helpers/access');
@@ -40,7 +39,7 @@ var Personnel = function (db) {
         }
 
         email = validator.escape(email);
-        email = xssFilters.inHTMLData(email);
+        //email = xssFilters.inHTMLData(email);
         body.email = email;
 
         personnelModel = new PersonnelModel(body);
@@ -225,15 +224,8 @@ var Personnel = function (db) {
                 }
 
                 mailer.forgotPassword(result.toJSON());
-                /*res.status(200).send({
-                 success: RESPONSES.MAILER.EMAIL_SENT,
-                 email: result.email
-                 });*/
 
-                /*REMOVE*/
-                /*Result must be deleted. Only for test*/
-
-                res.status(200).send(result);
+                res.status(200).send({_id: result._id});
             });
     };
 

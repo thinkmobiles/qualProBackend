@@ -1,6 +1,5 @@
-/**
- * Created by Roman on 04.04.2015.
- */
+var CONSTANTS=require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
@@ -31,11 +30,11 @@ module.exports = (function () {
         }
     }, {collection: 'items'});
 
-    mongoose.model('item', schema);
+    mongoose.model(CONSTANTS.ITEM, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['item'] = schema;
+    mongoose.Schemas[CONSTANTS.ITEM] = schema;
 })();

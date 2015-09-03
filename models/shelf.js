@@ -9,10 +9,10 @@ module.exports = (function () {
 
         country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
         outlet: {type: ObjectId, ref: 'outlet'},
-        branch: {type: ObjectId, ref: 'branch'},
+        branch: {type: ObjectId, ref: CONSTANTS.BRANCH},
         category: {type: ObjectId, ref: 'category', default: null},
         shares: {
-            item: {type: ObjectId, ref: 'item'},
+            item: {type: ObjectId, ref: CONSTANTS.ITEM},
             distanceInMeters: {type: Number}
         },
         comments: {type: [ObjectId], ref: 'comment'},
@@ -29,11 +29,11 @@ module.exports = (function () {
         }
     }, {collection: 'shelves'});
 
-    mongoose.model('shelf', schema);
+    mongoose.model(CONSTANTS.SHELF, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['shelf'] = schema;
+    mongoose.Schemas[CONSTANTS.SHELF] = schema;
 })();
