@@ -7,6 +7,7 @@ module.exports = function (db, app) {
     var csrfProtection = app.get('csrfProtection');
 
     router.get('/', handler.getAll);
+    router.get('/currentUser', handler.getById);
     router.get('/:id', handler.getById);
     router.post('/passwordChange/:forgotToken', csrfProtection, handler.changePassword);
     router.post('/forgotPass', csrfProtection, handler.forgotPassword);

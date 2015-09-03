@@ -157,7 +157,7 @@ var Personnel = function (db) {
     };
 
     this.getById = function (req, res, next) {
-        var id = req.params.id;
+        var id = req.params.id || req.session.uId;
         var query = PersonnelModel.findById(id, {pass: 0});
 
         query.exec(function (err, result) {

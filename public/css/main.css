@@ -121,6 +121,28 @@ a {
   float: left;
   height: 100%;
 }
+#loginPanel .personelShortDetail .avatar {
+  border: 1px solid green;
+  display: inline-block;
+  width: 70px;
+  height: 100%;
+  vertical-align: middle;
+}
+#loginPanel .personelShortDetail #personnelDescription {
+  border: 1px solid green;
+  height: 100%;
+  width: 90%;
+  display: inline-block;
+  vertical-align: middle;
+}
+#loginPanel .personelShortDetail #personnelDescription span {
+  color: white;
+}
+#loginPanel .personelShortDetail #personnelDescription #personnelName {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: block;
+}
 #loginPanel #aditionalInfo {
   width: 25%;
   float: left;
