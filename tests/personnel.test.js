@@ -75,9 +75,16 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 if (err) {
                     return done(err);
                 }
+                agent
+                    .get('/personnel/' + resp.body._id)
+                    .expect(200, function (err, res) {
+                        if (err) {
+                            return done(err);
+                        }
 
-                forgotTokenModel = resp.body;
-                done();
+                        forgotTokenModel = res.body;
+                        done();
+                    });
             });
     });
 
@@ -90,13 +97,16 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                     done(err);
                 }
 
-                expect(resp.body.pass).to.be.equal('8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
-                done();
+                agent
+                    .get('/personnel/' + forgotTokenModel._id)
+                    .expect(200, function (err, res) {
+                        if (err) {
+                            return done(err);
+                        }
+                        done();
+                    });
             });
     });
-
-
-
 
     it("Try get created personnel by id", function (done) {
         agent
@@ -111,15 +121,15 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 expect(body).to.be.instanceOf(Object);
                 expect(body._id).to.be.equal(personnelId);
                 expect(body).not.to.have.property('pass');
-                token=body.token;
+                token = body.token;
                 done();
             });
     });
 
-    it ("Confirm registration",function(done){
+    it("Confirm registration", function (done) {
 
         agent
-            .get('/personnel/confirm/token='+token)
+            .get('/personnel/confirm/token=' + token)
             .expect(200, function (err, res) {
                 if (err) {
                     return done(err);
