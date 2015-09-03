@@ -39,7 +39,7 @@ var Personnel = function (db) {
         }
 
         email = validator.escape(email);
-        email = xssFilters.inHTMLData(email);
+        //email = xssFilters.inHTMLData(email);
         body.email = email;
 
         personnelModel = new PersonnelModel(body);
