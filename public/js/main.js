@@ -22,15 +22,14 @@ require.config({
         helpers: 'helpers',
         constants: 'constants',
         d3: './libs/d3/d3.min',
-        moment: './libs/moment/moment',
-        xss: './libs/xss/dist/xss'
+        moment: './libs/moment/moment'
     },
     shim: {
         'jqueryui': ['jQuery'],
         //'ajaxForm': ['jQuery'],
         'imageCrop': ['jQuery'],
         'Backbone': ['Underscore', 'jQuery'],
-        'app': ['Backbone', 'jqueryui', /*'ajaxForm',*/ 'imageCrop', 'xss'],
+        'app': ['Backbone', 'jqueryui', /*'ajaxForm',*/ 'imageCrop'],
         'd3': {
             exports: 'd3'
         }

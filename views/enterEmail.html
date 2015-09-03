@@ -27,10 +27,13 @@
 </div>
 <script type="text/javascript">
     var frm = $('#sendEmail');
-
+    var CSRF_TOKEN = $("meta[name='csrf-token']").attr('content');
 
     frm.submit(function (ev) {
         $.ajax({
+            headers: {
+                'X-CSRF-Token': CSRF_TOKEN
+            },
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
