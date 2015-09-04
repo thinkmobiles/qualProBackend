@@ -15,6 +15,7 @@ module.exports = (function () {
             users: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],
             group: [{type: ObjectId, ref: CONSTANTS.OUTLET, default: null}]
         },
+        isArchived: Boolean,
         parent: {type: ObjectId, ref: CONSTANTS.OBJECTIVE, default: null},
         children: [{type: ObjectId, ref: CONSTANTS.OBJECTIVE, default: null}],
         date: [{type: Date, default: Date.now}],

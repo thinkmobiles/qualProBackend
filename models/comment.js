@@ -9,7 +9,7 @@ module.exports = (function () {
         target: {type: ObjectId},
         person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
         body: String,
-
+        isArchived: Boolean,
         creationDate: {type: Date, default: Date.now},
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},

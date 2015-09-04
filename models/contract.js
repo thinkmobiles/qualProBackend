@@ -11,7 +11,7 @@ module.exports = (function () {
         outlet: {type: ObjectId, ref: CONSTANTS.OUTLET},
         type: {type: String},
         title: {type: String},
-
+        isArchived: Boolean,
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {

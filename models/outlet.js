@@ -15,6 +15,7 @@ module.exports = (function () {
         description: {type: String, default: ''},
         branches: {type: [ObjectId], ref: CONSTANTS.BRANCH, default: null},
         isOwn: {type: Boolean, default: true},
+        isArchived: Boolean,
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}

@@ -21,6 +21,7 @@ module.exports = (function () {
         dateBirth: Date,
         confirmed: Date,
         token: String,
+        isArchived: Boolean,
         whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
         groups: {
             owner: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
