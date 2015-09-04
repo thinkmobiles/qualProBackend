@@ -113,7 +113,7 @@ define([
                     maxDate: '-18y'
                 });
 
-                common.canvasDraw(currentUser, this);
+                common.canvasDraw({model: currentUser}, this);
 
                 return this;
             }

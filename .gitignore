@@ -1,4 +1,19 @@
-/public/js/libs
+/public/js/libs/class.js
+/public/js/libs/json-processor
+/public/js/libs/moment
+/public/js/libs/jquery
+/public/js/libs/backbone
+/public/js/libs/requirejs-text
+/public/js/libs/jquery-ajax-form
+/public/js/libs/async
+/public/js/libs/underscore
+/public/js/libs/d3
+/public/js/libs/jquery-ui
+/public/js/libs/backbone.memento
+/public/js/libs/barcode-jquery
+/public/js/libs/xss
+/public/js/libs/requirejs
+/public/js/libs/xss-filters
 # Logs
 logs
 *.log

@@ -128,6 +128,9 @@ a {
   height: 100%;
   vertical-align: middle;
 }
+#loginPanel .personelShortDetail .avatar img {
+  width: 90%;
+}
 #loginPanel .personelShortDetail #personnelDescription {
   border: 1px solid green;
   height: 100%;
@@ -265,10 +268,9 @@ a {
   overflow: hidden;
 }
 .ui-dialog .ui-dialog-content .inner .block-left #avatar {
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   border: 1px solid #000000;
-  padding: 0 8%;
 }
 .ui-dialog .ui-dialog-content .inner .block-left .upload {
   width: 99%;

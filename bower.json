@@ -17,7 +17,6 @@
     "tests"
   ],
   "dependencies": {
-    "Jcrop": "2.0.1",
     "async": "1.2.1",
     "backbone": "1.2.2",
     "backbone.memento": "0.4.1",
