@@ -3,7 +3,7 @@ var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db) {
     var validator = require('validator');
-    var xssFilters = require('xss-filters');
+
     var crypto = require('crypto');
     var access = require('../helpers/access');
     var generator = require('../helpers/randomPass.js');
@@ -157,7 +157,7 @@ var Personnel = function (db) {
     };
 
     this.getById = function (req, res, next) {
-        var id = req.params.id;
+        var id = req.params.id || req.session.uId;
         var query = PersonnelModel.findById(id, {pass: 0});
 
         query.exec(function (err, result) {

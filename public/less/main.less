@@ -1,12 +1,12 @@
 @import "_color";
 
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
 ul, li {
- list-style: none;
+  list-style: none;
   padding: 0;
 }
 
@@ -36,7 +36,7 @@ a {
     min-height: 120px;
     margin: 0 auto;
     border: none;
-    box-shadow: 0 0 6px rgba(0,0,0,.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, .4);
     padding: 10px;
 
     h2 {
@@ -78,7 +78,6 @@ a {
     input[type="submit"] {
       display: none;
     }
-
 
   }
   .login-button {
@@ -138,6 +137,28 @@ a {
     width: 60%;
     float: left;
     height: 100%;
+    .avatar {
+      border: 1px solid green;
+      display: inline-block;
+      width: 70px;
+      height: 100%;
+      vertical-align: middle
+    }
+    #personnelDescription {
+      border: 1px solid green;
+      height: 100%;
+      width: 90%;
+      display: inline-block;
+      vertical-align: middle;
+      span {
+        color: white;
+      }
+      #personnelName {
+        font-size: 1.5em;
+        font-weight: bold;
+        display: block;
+      }
+    }
   }
 
   #aditionalInfo {
@@ -180,10 +201,12 @@ a {
     }
   }
 }
+
 #leftMenuHolder {
   position: relative;
   float: left;
 }
+
 .clear {
   content: "\0020";
   display: block;
@@ -204,9 +227,11 @@ a {
     clear: both;
   }
 }
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
+
 .ui-dialog {
   border: 1px solid @border-color;
   background: @ui-bg;
@@ -225,17 +250,17 @@ a {
     border: 0;
     //padding: .5em 1em;
     background: 0;
-      .title {
-        border: 3px solid @border-color;
-        background-color: @ui-bg;
-        span {
-          font-size: 18px;
-          font-weight: 600;
-          color: @text-color-menu;
-          padding: 0 10px;
-          line-height: 38px;
-        }
+    .title {
+      border: 3px solid @border-color;
+      background-color: @ui-bg;
+      span {
+        font-size: 18px;
+        font-weight: 600;
+        color: @text-color-menu;
+        padding: 0 10px;
+        line-height: 38px;
       }
+    }
     .inner {
       background-color: @ui-bg;
       overflow: hidden;
@@ -290,13 +315,13 @@ a {
           border: 1px solid @border-color;
           position: relative;
           height: 30px;
-          input[type="file"]  {
-            opacity:0;
+          input[type="file"] {
+            opacity: 0;
             ////filter: alpha(opacity:0);
-            cursor:pointer;
-            padding:0px;
-            margin:0px;
-            border:none;
+            cursor: pointer;
+            padding: 0px;
+            margin: 0px;
+            border: none;
           }
 
           p {

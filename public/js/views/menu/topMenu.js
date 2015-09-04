@@ -1,17 +1,30 @@
-define(['text!templates/menu/topMenu.html'],
-    function (template) {
+define([
+        'text!templates/menu/topMenu.html',
+        'views/personnel/editView'
+    ],
+    function (template, personnelEditView) {
 
         var TopMenuView = Backbone.View.extend({
             tagName: 'ul',
             el: '#topMenuHolder',
             template: _.template(template),
 
+            events: {
+                'click .personelShortDetail': 'editPersonel'
+            },
+
             initialize: function (options) {
                 this.render();
             },
 
+            editPersonel: function (e) {
+                new personnelEditView();
+            },
+
             render: function () {
-                this.$el.html(this.template());
+                var currentUser = App.currentUser;
+
+                this.$el.html(this.template(currentUser));
 
                 return this;
             }
