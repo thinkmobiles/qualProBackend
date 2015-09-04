@@ -1,26 +1,21 @@
 var LocalFs = require('../helpers/localFs');
 var fs = require('fs');
+var expect = require('chai').expect;
+
 var folderName = '/myFolder/sfd';
 
-var createdId;
+describe("BDD for file writer", function () {
 
-describe("BDD for file writer", function () {  // Runs once before all tests start.
-
-    it("write file", function (done) {
-
-        var l = LocalFs;
+    it("write file should return no errors", function (done) {
         var file;
-        var localFs = LocalFs();
+        var localFs = new LocalFs();
 
-        localFs.getFilePath('ertert', 'erter');
         file = fs.readFileSync('public/templates/mailer/forgotPassword.html', encoding = "utf8");
 
-        localFs.postFile(folderName, "sdfs", {data: file}, function (err, res) {
-            console.log(err);
-            console.log(res);
+        localFs.postFile(folderName, "sdfs.html", {data: file}, function (err) {
+            expect(!err);
             done();
         });
+
     });
-
-
 });
