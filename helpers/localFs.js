@@ -1,11 +1,8 @@
-
-
 var LocalFs = function () {
 
     var fs = require('fs');
     var path = require('path');
     var self = this;
-    var defaultOptions = {};
 
     var defaultPublicDir = 'public';
     var defaultFileDir = process.env.FOLDER_NAME || 'uploads';
@@ -21,12 +18,12 @@ var LocalFs = function () {
         if (callback) {
             callback(null, fileUrl);
         }
-    }
+    };
 
     this.getFilePath = function (folderName, fileName) {
         var folder = folderName || defaultFileDir;
         return path.join(defaultPublicDir, folder, fileName);
-    }
+    };
 
     this.postFile = function (folderName, fileName, options, callback) {
 
@@ -52,7 +49,7 @@ var LocalFs = function () {
                 }
             });
         }
-    }
+    };
 
     //used from mkdirp //copied from https://www.reasoncoresecurity.com/index.js-aac43011740bff785368c2a80bc05dacab5e1dd2.aspx
     this.makeDir = function (p, opts, f, made) {
@@ -110,7 +107,7 @@ var LocalFs = function () {
                     break;
             }
         });
-    }
+    };
 
     this.writeFile = function (filePath, fileData, callback) {
         try {
@@ -126,7 +123,7 @@ var LocalFs = function () {
                 callback(err)
             }
         }
-    }
+    };
 
     this.removeFile = function (folderName, fileName, options, callback) {
         if (self.validateIncomingParameters(arguments)) {
@@ -142,4 +139,5 @@ var LocalFs = function () {
         });
     };
 };
+
 module.exports = LocalFs;
