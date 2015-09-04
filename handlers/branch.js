@@ -32,12 +32,21 @@ var Branch = function (db) {
         var id = req.params.id;
         var Model = db.model(modelAndSchemaName, schema);
 
-        Model.findByIdAndRemove(id, function (error) {
+        var Archiver=require('../helpers/archiver');
+        var archiver = Archiver();
+        archiver.archive(Model,id, function(error){
             if (error) {
                 return next(error);
             }
             res.status(200).send();
-        });
+        })
+
+        //Model.findByIdAndRemove(id, function (error) {
+        //    if (error) {
+        //        return next(error);
+        //    }
+        //    res.status(200).send();
+        //});
     };
 
     this.getById = function (req, res, next) {
@@ -55,6 +64,7 @@ var Branch = function (db) {
     this.getAll = function (req, res, next) {
         //  var error;
         var Model = db.model(modelAndSchemaName, schema);
+
         Model.find().
 
             exec(function (err, result) {
