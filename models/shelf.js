@@ -16,7 +16,7 @@ module.exports = (function () {
             distanceInMeters: {type: Number}
         },
         comments: {type: [ObjectId], ref: CONSTANTS.COMMENT},
-
+        isArchived: Boolean,
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {

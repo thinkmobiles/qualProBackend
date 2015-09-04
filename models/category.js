@@ -6,7 +6,7 @@ module.exports = (function () {
 
     var schema = mongoose.Schema({
         name: {type: String, default: 'All'},
-
+        isArchived: Boolean,
         users: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},

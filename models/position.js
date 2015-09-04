@@ -15,6 +15,7 @@ module.exports = (function () {
                 del: {type: Boolean, default: false}
             }
         }],
+        isArchived: Boolean,
         description: String,
         whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
         groups: {

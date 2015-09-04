@@ -15,6 +15,7 @@ module.exports = (function () {
             person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
             body: String
         },
+        isArchived: Boolean,
         attachments: [String],
         persons: {type: [ObjectId], ref: CONSTANTS.PERSONNEL},
 
