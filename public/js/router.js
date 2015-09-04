@@ -58,17 +58,6 @@ define([
                 return true;
             });
 
-            if (!App || !App.currentUser) {
-                dataService.getData('/personnel/currentUser', null, function (err, currentUser) {
-                    if (err) {
-                        //ToDo display error in error handler
-                        console.log('can\'t fetch currentUser');
-                    } else {
-                        App.currentUser = currentUser;
-                    }
-                });
-            };
-
             $(window).on("resize", function (e) {
                 $("#ui-datepicker-div").hide();
             });

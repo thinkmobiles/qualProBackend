@@ -2,9 +2,9 @@ define([
     'text!templates/main/main.html',
     'views/menu/left',
     'models/module',
-    'views/menu/topMenu'
-    /*'dataService'*/
-], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView /*dataService*/) {
+    'views/menu/topMenu',
+    'dataService'
+], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView, dataService) {
 
     var MainView = Backbone.View.extend({
         el: '#wrapper',
@@ -30,8 +30,19 @@ define([
         },
 
         createMenuViews: function () {
+            var self = this;
 
-            this.topMenu = new TopMenuView();
+            if (!App || !App.currentUser) {
+                dataService.getData('/personnel/currentUser', null, function (err, currentUser) {
+                    if (err) {
+                        //ToDo display error in error handler
+                        console.log('can\'t fetch currentUser');
+                    } else {
+                        App.currentUser = currentUser;
+                        self.topMenu = new TopMenuView();
+                    }
+                });
+            };
 
             this.leftMenu = new LeftMenuView({
                 collection: this.collection

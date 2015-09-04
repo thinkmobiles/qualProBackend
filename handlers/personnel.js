@@ -13,6 +13,7 @@ var Personnel = function (db) {
     var async = require('async');
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
+    var xssFilters = require('xss-filters');
     //var mid;
 
     this.create = function (req, res, next) {
@@ -20,7 +21,7 @@ var Personnel = function (db) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass =  body.pass;
+        var pass = body.pass;
         var mailer = new Mailer();
         var shaSum = crypto.createHash('sha256');
         var personnelModel;
@@ -110,12 +111,12 @@ var Personnel = function (db) {
             lastAccess = new Date();
             session.lastAccess = lastAccess;
 
-            PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, function (err, result) {
+            PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, {pass: 0}, function (err, result) {
                 if (err) {
                     return next(err);
                 }
 
-                delete result.pass;
+                //delete result.pass;
 
                 resultPersonnel = result;
             });
