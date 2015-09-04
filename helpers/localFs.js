@@ -1,15 +1,42 @@
-var LocalFs = function () {
+var fs = require('fs');
+var path = require('path');
 
-    var fs = require('fs');
-    var path = require('path');
-    var self = this;
+var LocalFs = function () {
 
     var defaultPublicDir = 'public';
     var defaultFileDir = process.env.FOLDER_NAME || 'uploads';
 
+    function validateIncomingParameters(args) {
+        var argumentsLength = args.length;
+        var isCallback;
+        var callback = args[4];
+        var options = args[3];
+        switch (argumentsLength) {
+            case 4:
+                isCallback = typeof callback === 'function';
+                break;
+            case 3:
+                isCallback = typeof options === 'function';
+                if (isCallback) {
+                    callback = options;
+                    options = defaultOptions;
+                }
+                break;
+            case 2:
+                options = defaultOptions;
+                break;
+            default:
+                console.error('Not enough incoming parameters');
+
+                return false;
+        }
+        ;
+        return isCallback;
+    };
+
     this.getFileUrl = function (folderName, fileName, options, callback) {
 
-        if (self.validateIncomingParameters(arguments)) {
+        if (validateIncomingParameters(arguments)) {
             callback = arguments[arguments.length - 1];
         }
 
@@ -20,14 +47,13 @@ var LocalFs = function () {
         }
     };
 
-    this.getFilePath = function (folderName, fileName) {
+    function getFilePath(folderName, fileName) {
         var folder = folderName || defaultFileDir;
         return path.join(defaultPublicDir, folder, fileName);
     };
 
     this.postFile = function (folderName, fileName, options, callback) {
-
-        if (self.validateIncomingParameters(arguments)) {
+        if (validateIncomingParameters(arguments)) {
             callback = arguments[arguments.length - 1];
         }
 
@@ -52,7 +78,7 @@ var LocalFs = function () {
     };
 
     //used from mkdirp //copied from https://www.reasoncoresecurity.com/index.js-aac43011740bff785368c2a80bc05dacab5e1dd2.aspx
-    this.makeDir = function (p, opts, f, made) {
+    function makeDir(p, opts, f, made) {
         if (typeof opts === 'function') {
             f = opts;
             opts = {};
@@ -109,7 +135,7 @@ var LocalFs = function () {
         });
     };
 
-    this.writeFile = function (filePath, fileData, callback) {
+    function writeFile(filePath, fileData, callback) {
         try {
             fs.writeFile(filePath, fileData, function (err, data) {
                 if (callback && typeof callback === 'function') {
