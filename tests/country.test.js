@@ -7,8 +7,10 @@ var request = require('supertest');
 var expect = require('chai').expect;
 
 var host = process.env.HOST;
-var url;
+var baseUrl = '/country';
 var agent;
+var singular = 'country';
+var plural = 'countries';
 
 var adminObject = {
     email: 'admin@admin.com',
@@ -17,14 +19,18 @@ var adminObject = {
 
 var countryTestManager;
 
-var country = {
+var testObject = {
     name: 'Laplandy',
     description: 'Home of Santa Claus',
     manager: null
 };
 
-var newCountryName = 'Ireland';
-var newCountryDescription = 'Land of ginger people';
+var objectUpdate = {
+    name: 'Ireland',
+    description: 'Land of ginger people',
+    manager: null
+};
+
 var createdId;
 
 describe("BDD for country", function () {  // Runs once before all tests start.
@@ -46,9 +52,9 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Create new country should return country", function (done) {
+    it("Create new " + singular + " should return " + singular, function (done) {
         agent
-            .post('/country')
+            .post(baseUrl)
             .send(country)
             .expect(200, function (err, resp) {
                 if (err) {
@@ -61,9 +67,9 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Get country by id should return country", function (done) {
+    it("Get " + singular + " by id should return " + singular, function (done) {
         agent
-            .get('/country/' + createdId)
+            .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
                 var body;
 
@@ -78,10 +84,10 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Update: country should change its description and name", function (done) {
+    it("Update " + singular + " should return 200", function (done) {
         agent
-            .put('/country/' + createdId)
-            .send({name: newCountryName, description: newCountryDescription})
+            .put(baseUrl + '/' + createdId)
+            .send(objectUpdate)
             .expect(200, function (err, res) {
                 if (err) {
                     return done(err)
@@ -91,17 +97,19 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Get country one more time and check if update was successfull", function (done) {
+    it("Get " + singular + " one more time and check if update was successful", function (done) {
         agent
-            .get('/country/' + createdId)
+            .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
                 var body = res.body;
                 if (err) {
                     return done(err)
                 }
                 expect(body).to.be.instanceOf(Object);
-                expect(body.name).to.be.equal(newCountryName);
-                expect(body.description).to.be.equal(newCountryDescription);
+                var keys = Object.keys(objectUpdate);
+                keys.forEach(function (key) {
+                    expect(body[key]).to.be.equal(objectUpdate[key]);
+                });
                 done();
             });
     });
@@ -109,7 +117,7 @@ describe("BDD for country", function () {  // Runs once before all tests start.
 
     it("Get all countries", function (done) {
         agent
-            .get('/country')
+            .get(baseUrl)
             .expect(200, function (err, res) {
                 if (err) {
                     return done(err)
@@ -119,15 +127,15 @@ describe("BDD for country", function () {  // Runs once before all tests start.
             });
     });
 
-    it("Delete country:", function (done) {
+    it("Archive " + singular, function (done) {
         agent
-            .delete('/country/' + createdId)
+            .delete(baseUrl + '/' + createdId)
             .expect(200, done);
     });
 
-    it("Try get deleted country and recieve empty object", function (done) {
+    it("Try get archived " + singular + " and check archived property object", function (done) {
         agent
-            .get('/country/' + createdId)
+            .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
                 var body = res.body;
 
@@ -135,7 +143,7 @@ describe("BDD for country", function () {  // Runs once before all tests start.
                     return done(err)
                 }
                 expect(body).to.be.instanceOf(Object);
-                expect(Object.keys(body).length).to.be.equal(0);
+                expect(body.isArchived);
                 done();
             });
     });
