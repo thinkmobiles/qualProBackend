@@ -122,7 +122,6 @@ a {
   height: 100%;
 }
 #loginPanel .personelShortDetail .avatar {
-  border: 1px solid green;
   display: inline-block;
   width: 70px;
   height: 100%;
@@ -132,7 +131,6 @@ a {
   width: 90%;
 }
 #loginPanel .personelShortDetail #personnelDescription {
-  border: 1px solid green;
   height: 100%;
   width: 90%;
   display: inline-block;

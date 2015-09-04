@@ -12,7 +12,7 @@ module.exports = function (app, db) {
     var mongoose = require('mongoose');
 
     var csurf = require('csurf');
-    var csrfProtection = csurf({ignoreMethods: ['GET']});
+    var csrfProtection = csurf({ignoreMethods: ['GET'], cookie: true});
 
     app.set('csrfProtection', csrfProtection);
 
