@@ -20,9 +20,10 @@ define([
             },
 
             events: {
-                "mouseenter .avatar": "showEdit",
-                "mouseleave .avatar": "hideEdit",
+               /* "mouseenter .avatar": "showEdit",
+                "mouseleave .avatar": "hideEdit",*/
                 "click .current-selected": "showNewSelect",
+                "click .upload:not(>input)": "changePassword",
                 "click": "hideNewSelect"
             },
 
@@ -33,6 +34,10 @@ define([
                 $(".crop-images-dialog").remove();
             },
 
+            changePassword: function(e){
+                alert('sdsdfdf');
+            },
+
             saveItem: function () {
                 var self = this;
                 var Model = new personnelModel(App.currentUser);
@@ -41,7 +46,6 @@ define([
                 var firstName = $.trim(currEl.find("#firstName").val());
                 var lastName = $.trim(currEl.find("#lastName").val());
                 var email = $.trim(currEl.find("#email").val());
-                var pass = $.trim(currEl.find("#password").val());
                 var phone = $.trim(currEl.find("#phone").val());
                 var position = currEl.find("#positionDd").attr("data-id");
                 var country = currEl.find("#countryDd").attr("data-id");
@@ -57,8 +61,7 @@ define([
                         phoneNumber: phone,
                         position: position,
                         manager: manager,
-                        dateBirth: dateBirth,
-                        pass: pass
+                        dateBirth: dateBirth
                         /*groups: {
                          owner: $("#allUsersSelect").data("id"),
                          users: usersId,
@@ -69,7 +72,7 @@ define([
                     {
                         wait: true,
                         success: function (model, response) {
-                            //self.attachView.sendToServer(null,model.changed);
+                            self.hideDialog();
                         },
                         error: function (model, xhr) {
                             self.errorNotification(xhr);
@@ -114,6 +117,8 @@ define([
                 });
 
                 common.canvasDraw({model: currentUser}, this);
+
+                this.delegateEvents(this.events);
 
                 return this;
             }
