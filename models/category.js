@@ -6,7 +6,7 @@ module.exports = (function () {
 
     var schema = mongoose.Schema({
         name: {type: String, default: 'All'},
-
+        isArchived: Boolean,
         users: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
@@ -19,11 +19,11 @@ module.exports = (function () {
 
     }, {collection: 'categories'});
 
-    mongoose.model('category', schema);
+    mongoose.model(CONSTANTS.CATEGORY, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['Category'] = schema;
+    mongoose.Schemas[CONSTANTS.CATEGORY] = schema;
 })();

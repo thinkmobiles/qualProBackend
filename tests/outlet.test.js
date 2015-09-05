@@ -1,14 +1,13 @@
 require('../config/development');
-var CONSTANTS=require('../constants/mainConstants');
+
 var request = require('supertest');
 var expect = require('chai').expect;
 
 var host = process.env.HOST;
-var baseUrl = '/task';
+var baseUrl = '/outlet';
 var agent;
-var singular = CONSTANTS.TASK;
-var plural = 'tasks';
-
+var singular = 'outlet';
+var plural = 'outlets';
 
 var adminObject = {
     email: 'admin@admin.com',
@@ -16,29 +15,15 @@ var adminObject = {
 };
 
 var testObject = {
-    summary: 'test',
-    taskCount: 4,
-    description: 'test',
-    priority: 'test',
-    sequence: 5,
-    duration: 25,
-    type: 'test',
-    estimated: 45,
-    logged: 12,
-    remaining:22,
+    name: 'test',
+    description: 'sdfsdf',
+    isOwn: false,
 };
 
 var objectUpdate = {
-        summary: 'NotTest',
-        taskCount: 66,
-        description: 'NotTest',
-        priority: 'NotTest',
-        sequence: 55,
-        duration: 44,
-        type: 'test',
-        estimated: 33,
-        logged: 22,
-        remaining:11
+    name: 'NotTesst',
+    description: 'NotTesst',
+    isOwn: true,
 };
 
 var createdId;
@@ -137,13 +122,13 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             });
     });
 
-    it("Delete " + singular, function (done) {
+    it("Archive " + singular, function (done) {
         agent
             .delete(baseUrl + '/' + createdId)
             .expect(200, done);
     });
 
-    it("Try get deleted " + singular + " and recieve empty object", function (done) {
+    it("Try get archived " + singular + " and check archived property object", function (done) {
         agent
             .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
@@ -153,7 +138,7 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
                     return done(err)
                 }
                 expect(body).to.be.instanceOf(Object);
-                expect(Object.keys(body).length).to.be.equal(0);
+                expect(body.isArchived);
                 done();
             });
     });

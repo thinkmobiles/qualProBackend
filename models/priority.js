@@ -1,19 +1,18 @@
-/**
- * Created by Roman on 04.04.2015.
- */
+var CONSTANTS = require('../constants/mainConstants');
+
 module.exports = (function () {
     var mongoose = require('mongoose');
 
     var prioritySchema = mongoose.Schema({
         _id: Number,
         priority: String
-    }, { collection: 'Priority' });
+    }, { collection: 'priorities' });
 
-    mongoose.model('Priority', prioritySchema);
+    mongoose.model(CONSTANTS.PRIORITY, prioritySchema);
 
     if(!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['Priority'] = prioritySchema;
+    mongoose.Schemas[CONSTANTS.PRIORITY] = prioritySchema;
 })();

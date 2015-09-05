@@ -70,11 +70,8 @@ define([
             var self = this;
             var thisEl = this.$el;
             var loginForm = thisEl.find("#loginForm");
-            var email = thisEl.find("#email").val();
+            var email = _.escape(thisEl.find("#email").val());
             var pass = thisEl.find("#pass").val();
-
-            email = _.escape(email);
-
             var data = {
                 email: email,
                 pass: pass

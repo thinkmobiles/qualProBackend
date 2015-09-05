@@ -89,7 +89,7 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             });
     });
 
-    it("Get " + singular + " one more time and check if update was successfull", function (done) {
+    it("Get " + singular + " one more time and check if update was successful", function (done) {
         agent
             .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
@@ -119,13 +119,13 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             });
     });
 
-    it("Delete " + singular, function (done) {
+    it("Archive " + singular, function (done) {
         agent
             .delete(baseUrl + '/' + createdId)
             .expect(200, done);
     });
 
-    it("Try get deleted " + singular + " and recieve empty object", function (done) {
+    it("Try get archived " + singular + " and check archived property object", function (done) {
         agent
             .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
@@ -135,7 +135,7 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
                     return done(err)
                 }
                 expect(body).to.be.instanceOf(Object);
-                expect(Object.keys(body).length).to.be.equal(0);
+                expect(body.isArchived);
                 done();
             });
     });

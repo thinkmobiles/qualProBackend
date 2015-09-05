@@ -12,7 +12,7 @@ module.exports = function (app, db) {
     var mongoose = require('mongoose');
 
     var csurf = require('csurf');
-    var csrfProtection = csurf({ignoreMethods: ['GET']});
+    var csrfProtection = csurf({ignoreMethods: ['GET'], cookie: true});
 
     app.set('csrfProtection', csrfProtection);
 
@@ -32,7 +32,11 @@ module.exports = function (app, db) {
     var noteRouter=require('./note')(db);
     var objectiveRouter=require('./objective')(db);
     var shelfRouter=require('./shelf')(db);
-    var taskRouter=require('./task')(db);
+    var outletRouter=require('./outlet')(db);
+    var categoryRouter=require('./category')(db);
+    var commentRouter=require('./comment')(db);
+    var priorityRouter=require('./priority')(db);
+
 
     var RESPONSES = require('../constants/responses');
 
@@ -67,7 +71,7 @@ module.exports = function (app, db) {
     });
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
-    app.post('/login', csrfProtection, personnelHandler.login);
+    app.post('/login'/*, csrfProtection*/, personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -84,7 +88,10 @@ module.exports = function (app, db) {
     app.use('/note', noteRouter);
     app.use('/objective', objectiveRouter);
     app.use('/shelf', shelfRouter);
-    app.use('/task', taskRouter);
+    app.use('/outlet', outletRouter);
+    app.use('/category', categoryRouter);
+    app.use('/comment', commentRouter);
+    app.use('/priority', priorityRouter);
 
     function notFound(req, res, next) {
         res.status(404);

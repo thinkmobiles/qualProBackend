@@ -7,7 +7,7 @@ module.exports = (function () {
     var schema = new mongoose.Schema({
 
         country: {type: ObjectId, ref: CONSTANTS.COUNTRY},
-        outlet: {type: ObjectId, ref: 'outlet'},
+        outlet: {type: ObjectId, ref: CONSTANTS.OUTLET},
         branch: {type: ObjectId, ref: CONSTANTS.BRANCH},
         description: {type: String, default: ''},
         comments: {
@@ -15,16 +15,17 @@ module.exports = (function () {
             person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
             body: String
         },
+        isArchived: Boolean,
         attachments: [String],
         persons: {type: [ObjectId], ref: CONSTANTS.PERSONNEL},
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {
-            user: {type: ObjectId, ref: 'user', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         },
         editedBy: {
-            user: {type: ObjectId, ref: 'user', default: null},
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         }
     }, {collection: 'notes'});

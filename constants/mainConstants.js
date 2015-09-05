@@ -9,5 +9,11 @@ module.exports = {
     NOTE: 'note',
     OBJECTIVE: 'objective',
     TASK: 'task',
-    SHELF: 'shelf'
+    SHELF: 'shelf',
+    CATEGORY: 'category',
+    PRIORITY: 'priority',
+    COMMENT: 'comment',
+    POSITION: 'position',
+    OUTLET: 'outlet',
+    STATUS:'status'
 };

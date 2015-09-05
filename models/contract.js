@@ -8,10 +8,10 @@ module.exports = (function () {
 
 
         country: {type: ObjectId, ref: CONSTANTS.COUNTRY, default: null},
-        outlet: {type: ObjectId, ref: 'outlet'},
+        outlet: {type: ObjectId, ref: CONSTANTS.OUTLET},
         type: {type: String},
         title: {type: String},
-
+        isArchived: Boolean,
 
         creationDate: {type: Date, default: Date.now},
         createdBy: {

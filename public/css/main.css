@@ -12,7 +12,18 @@ li {
 a {
   text-decoration: none;
 }
-.errors {
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  width: 500px;
+  margin: 0 auto;
+}
+.notification .error {
+  display: block;
+}
+.notification .hidden {
   display: none;
 }
 #login h1 > a {
@@ -121,6 +132,29 @@ a {
   float: left;
   height: 100%;
 }
+#loginPanel .personelShortDetail .avatar {
+  display: inline-block;
+  width: 70px;
+  height: 100%;
+  vertical-align: middle;
+}
+#loginPanel .personelShortDetail .avatar img {
+  width: 90%;
+}
+#loginPanel .personelShortDetail #personnelDescription {
+  height: 100%;
+  width: 90%;
+  display: inline-block;
+  vertical-align: middle;
+}
+#loginPanel .personelShortDetail #personnelDescription span {
+  color: white;
+}
+#loginPanel .personelShortDetail #personnelDescription #personnelName {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: block;
+}
 #loginPanel #aditionalInfo {
   width: 25%;
   float: left;
@@ -128,6 +162,8 @@ a {
 }
 #leftMenuHolder {
   width: 20%;
+  height: 100vh;
+  border: 2px solid darkgray;
 }
 #leftMenuHolder ul li a {
   color: #6a6a6a;
@@ -241,10 +277,9 @@ a {
   overflow: hidden;
 }
 .ui-dialog .ui-dialog-content .inner .block-left #avatar {
-  width: 200px;
-  height: 200px;
+  width: 240px;
+  height: 240px;
   border: 1px solid #000000;
-  padding: 0 8%;
 }
 .ui-dialog .ui-dialog-content .inner .block-left .upload {
   width: 99%;
@@ -253,6 +288,7 @@ a {
   border: 1px solid #000000;
   position: relative;
   height: 30px;
+  margin-bottom: 5px;
 }
 .ui-dialog .ui-dialog-content .inner .block-left .upload input[type="file"] {
   opacity: 0;
@@ -261,7 +297,8 @@ a {
   margin: 0px;
   border: none;
 }
-.ui-dialog .ui-dialog-content .inner .block-left .upload p {
+.ui-dialog .ui-dialog-content .inner .block-left .upload p,
+.ui-dialog .ui-dialog-content .inner .block-left .upload span {
   text-align: center;
   font-size: 14px;
   color: #6a6a6a;

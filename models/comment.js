@@ -9,7 +9,7 @@ module.exports = (function () {
         target: {type: ObjectId},
         person: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
         body: String,
-
+        isArchived: Boolean,
         creationDate: {type: Date, default: Date.now},
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
@@ -21,11 +21,11 @@ module.exports = (function () {
         }
     }, {collection: 'comments'});
 
-    mongoose.model('comment', schema);
+    mongoose.model(CONSTANTS.COMMENT, schema);
 
     if (!mongoose.Schemas) {
         mongoose.Schemas = {};
     }
 
-    mongoose.Schemas['comment'] = schema;
+    mongoose.Schemas[CONSTANTS.COMMENT] = schema;
 })();

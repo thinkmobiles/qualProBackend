@@ -35,12 +35,12 @@ define([
                    var email = $.trim(currEl.find("#email").val());
                    var pass = $.trim(currEl.find("#password").val());
                    var phone = $.trim(currEl.find("#phone").val());
-                   var position = $("#positionDd").attr("data-id");
-                   var country = $("#countryDd").attr("data-id");
-                   var manager = $("#managerDD").attr("data-id");
+                   var position = currEl.find("#positionDd").attr("data-id");
+                   var country = currEl.find("#countryDd").attr("data-id");
+                   var manager = currEl.find("#managerDD").attr("data-id");
                    var dateBirth = $.trim(currEl.find("#dateBirth").val());
 
-                   var valid = personnelModel.save({
+                   personnelModel.save({
                            country: country,
                            firstName: firstName,
                            lastName: lastName,
@@ -67,9 +67,13 @@ define([
                                self.errorNotification(xhr);
                            }
                        });
-                   if (!valid){
-                       $("#createBtnDialog").removeAttr("disabled");
-                   }
+               },
+
+               hideDialog: function () {
+                   $(".edit-dialog").remove();
+                   $(".add-group-dialog").remove();
+                   $(".add-user-dialog").remove();
+                   $(".crop-images-dialog").remove();
                },
 
                render: function () {
@@ -93,7 +97,7 @@ define([
                                text:"Cancel",
                                class:"btn",
                                click: function(){
-                                   //self.hideDialog();
+                                   self.hideDialog();
                                }
                            }
                        }

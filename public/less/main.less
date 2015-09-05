@@ -1,12 +1,12 @@
 @import "_color";
 
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
 ul, li {
- list-style: none;
+  list-style: none;
   padding: 0;
 }
 
@@ -14,8 +14,21 @@ a {
   text-decoration: none;
 }
 
-.errors {
-  display: none;
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  right:5px;
+  width: 500px;
+  margin: 0 auto;
+
+  .error{
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
 }
 
 #login {
@@ -36,7 +49,7 @@ a {
     min-height: 120px;
     margin: 0 auto;
     border: none;
-    box-shadow: 0 0 6px rgba(0,0,0,.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, .4);
     padding: 10px;
 
     h2 {
@@ -78,7 +91,6 @@ a {
     input[type="submit"] {
       display: none;
     }
-
 
   }
   .login-button {
@@ -138,6 +150,30 @@ a {
     width: 60%;
     float: left;
     height: 100%;
+    .avatar {
+      display: inline-block;
+      width: 70px;
+      height: 100%;
+      vertical-align: middle;
+
+      img {
+        width: 90%
+      }
+    }
+    #personnelDescription {
+      height: 100%;
+      width: 90%;
+      display: inline-block;
+      vertical-align: middle;
+      span {
+        color: white;
+      }
+      #personnelName {
+        font-size: 1.5em;
+        font-weight: bold;
+        display: block;
+      }
+    }
   }
 
   #aditionalInfo {
@@ -149,6 +185,8 @@ a {
 
 #leftMenuHolder {
   width: 20%;
+  height: 100vh;
+  border: 2px solid darkgray;
   ul {
     li {
       a {
@@ -178,10 +216,12 @@ a {
     }
   }
 }
+
 #leftMenuHolder {
   position: relative;
   float: left;
 }
+
 .clear {
   content: "\0020";
   display: block;
@@ -202,9 +242,11 @@ a {
     clear: both;
   }
 }
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
+
 .ui-dialog {
   border: 1px solid @border-color;
   background: @ui-bg;
@@ -223,17 +265,17 @@ a {
     border: 0;
     //padding: .5em 1em;
     background: 0;
-      .title {
-        border: 3px solid @border-color;
-        background-color: @ui-bg;
-        span {
-          font-size: 18px;
-          font-weight: 600;
-          color: @text-color-menu;
-          padding: 0 10px;
-          line-height: 38px;
-        }
+    .title {
+      border: 3px solid @border-color;
+      background-color: @ui-bg;
+      span {
+        font-size: 18px;
+        font-weight: 600;
+        color: @text-color-menu;
+        padding: 0 10px;
+        line-height: 38px;
       }
+    }
     .inner {
       background-color: @ui-bg;
       overflow: hidden;
@@ -275,10 +317,9 @@ a {
         overflow: hidden;
 
         #avatar {
-          width: 200px;
-          height: 200px;
+          width: 240px;
+          height: 240px;
           border: 1px solid @border-color;
-          padding: 0 8%;
         }
 
         .upload {
@@ -288,16 +329,18 @@ a {
           border: 1px solid @border-color;
           position: relative;
           height: 30px;
-          input[type="file"]  {
-            opacity:0;
+          margin-bottom: 5px;
+
+          input[type="file"] {
+            opacity: 0;
             ////filter: alpha(opacity:0);
-            cursor:pointer;
-            padding:0px;
-            margin:0px;
-            border:none;
+            cursor: pointer;
+            padding: 0px;
+            margin: 0px;
+            border: none;
           }
 
-          p {
+          p,span {
             text-align: center;
             font-size: 14px;
             color: @text-color-menu;

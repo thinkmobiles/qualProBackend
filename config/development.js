@@ -50,6 +50,7 @@ this.createAdmin = function (db) {
         firstName: 'Vasya',
         lastName: 'Pupkin',
         position: 0,
+        dateBirth: new Date('1997-07-03'),
         description: 'Super Admin created auto'
     };
 
