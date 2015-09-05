@@ -37,6 +37,20 @@ require.config({
 });
 
 require(['app'], function (app) {
+    App.errorContainer = $('#errorHandler');
+    App.render = function(data){
+        var container = this.errorContainer;
+        var messageClass = data.type || 'error';
+        var text = data.message || 'Something went wrong';
+        var renderEl = '<div class="hidden '+ messageClass + '">' + text + '</div>';
+
+        container.append(renderEl);
+
+        container.find('div.hidden').delay(500).slideDown(3000, function(){
+            $(this).removeClass('hidden').delay(5000).fadeOut('slow')
+        });
+    };
+
     Backbone._sync = Backbone.sync;
     // override original sync method to make header request contain csrf token
     Backbone.sync = function(method, model, options, error){
@@ -48,25 +62,7 @@ require(['app'], function (app) {
     };
 
     Backbone.View.prototype.errorNotification = function (xhr) {
-        var errorHandler = $('#errorHandler');
-        if (xhr) {
-            if (xhr.status === 401 || xhr.status === 403) {
-                if (xhr.status === 401) {
-                    errorHandler.text('Bad Login');
-                    errorHandler.stop().delay(500).animate({ scrollTop: (errorHandler.filter(":first").position().top -30) },'slow');
 
-                    Backbone.history.navigate("login", { trigger: true });
-                } else {
-                    alert("You do not have permission to perform this action");
-                }
-            } else {
-                if (xhr.responseJSON) {
-                    alert(xhr.responseJSON.error);
-                } else {
-                    Backbone.history.navigate("home", { trigger: true });
-                }
-            }
-        }
     };
 
     app.initialize();

@@ -14,8 +14,21 @@ a {
   text-decoration: none;
 }
 
-.errors {
-  display: none;
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  right:5px;
+  width: 500px;
+  margin: 0 auto;
+
+  .error{
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
 }
 
 #login {

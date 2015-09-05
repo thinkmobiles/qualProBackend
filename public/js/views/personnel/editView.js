@@ -1,18 +1,20 @@
 define([
         "text!templates/personnel/edit.html",
+        "text!templates/personnel/changePassword.html",
         'models/personnel',
         "populate",
         'common'
     ],
-    function (template, personnelModel, populate, common) {
+    function (template, changePassword, personnelModel, populate, common) {
 
         var EditView = Backbone.View.extend({
             contentType: "Personnel",
             imageSrc: '',
             template: _.template(template),
+            $errrorHandler: null,
 
             initialize: function (options) {
-                _.bindAll(this, "render", "saveItem");
+                _.bindAll(this, "render", "saveItem", "changePass");
 
                 this.currentModel = App.currentUser;
                 this.responseObj = {};
@@ -20,8 +22,8 @@ define([
             },
 
             events: {
-               /* "mouseenter .avatar": "showEdit",
-                "mouseleave .avatar": "hideEdit",*/
+                /* "mouseenter .avatar": "showEdit",
+                 "mouseleave .avatar": "hideEdit",*/
                 "click .current-selected": "showNewSelect",
                 "click .upload:not(>input)": "changePassword",
                 "click": "hideNewSelect"
@@ -34,8 +36,79 @@ define([
                 $(".crop-images-dialog").remove();
             },
 
-            changePassword: function(e){
-                alert('sdsdfdf');
+            hideChangePassDialog: function () {
+                $(".changePass-dialog").remove();
+            },
+
+            changePassword: function (e) {
+                var self = this;
+                var changePassTempl = _.template(changePassword);
+
+                $(changePassTempl()).dialog({
+                    modal: true,
+                    closeOnEscape: false,
+                    autoOpen: true,
+                    dialogClass: "changePass-dialog",
+                    width: "20%",
+                    resizable: true,
+                    title: "Change Password",
+                    buttons: {
+                        save: {
+                            text: "Save",
+                            class: "btn",
+                            click: self.changePass
+                        },
+                        cancel: {
+                            text: "Cancel",
+                            class: "btn",
+                            click: function () {
+                                self.hideChangePassDialog();
+                            }
+                        }
+                    }
+                });
+            },
+
+            changePass: function (e) {
+                var self = this;
+                var currEl = this.$el;
+
+                var oldPass = $.trim($("#oldPassword").val());
+                var newPass = $.trim($("#newPassword").val());
+                var confirmPass = $.trim(currEl.find("#confirmNewPassword").val());
+
+                var canProcess = newPass === confirmPass;
+
+                if (!canProcess) {
+                    return App.render({type: 'error', message: 'Passwords mismatch'});
+                }
+
+                Model.save({
+                        country: country,
+                        firstName: firstName,
+                        lastName: lastName,
+                        imageSrc: this.imageSrc,
+                        email: email,
+                        phoneNumber: phone,
+                        position: position,
+                        manager: manager,
+                        dateBirth: dateBirth
+                        /*groups: {
+                         owner: $("#allUsersSelect").data("id"),
+                         users: usersId,
+                         group: groupsId
+                         },
+                         whoCanRW: whoCanRW,*/
+                    },
+                    {
+                        wait: true,
+                        success: function (model, response) {
+                            self.hideDialog();
+                        },
+                        error: function (model, xhr) {
+                            self.errorNotification(xhr);
+                        }
+                    });
             },
 
             saveItem: function () {
@@ -86,22 +159,23 @@ define([
                 var formString = this.template(currentUser);
 
                 this.$el = $(formString).dialog({
+                    modal: true,
                     closeOnEscape: false,
                     autoOpen: true,
                     dialogClass: "edit-dialog",
                     width: "80%",
                     resizable: true,
                     title: "Create Pesonnel",
-                    buttons:{
-                        save:{
-                            text:"Save",
-                            class:"btn",
+                    buttons: {
+                        save: {
+                            text: "Save",
+                            class: "btn",
                             click: self.saveItem
                         },
-                        cancel:{
-                            text:"Cancel",
-                            class:"btn",
-                            click: function(){
+                        cancel: {
+                            text: "Cancel",
+                            class: "btn",
+                            click: function () {
                                 self.hideDialog();
                             }
                         }
@@ -120,6 +194,7 @@ define([
 
                 this.delegateEvents(this.events);
 
+                this.$errrorHandler = $('#errorHandler');
                 return this;
             }
 

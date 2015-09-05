@@ -12,7 +12,18 @@ li {
 a {
   text-decoration: none;
 }
-.errors {
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  width: 500px;
+  margin: 0 auto;
+}
+.notification .error {
+  display: block;
+}
+.notification .hidden {
   display: none;
 }
 #login h1 > a {
