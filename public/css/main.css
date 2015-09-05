@@ -16,15 +16,23 @@ a {
   z-index: 20000;
   position: fixed;
   top: 5px;
-  right: 5px;
-  width: 500px;
+  width: 100vw;
   margin: 0 auto;
 }
 .notification .error {
   display: block;
+  left: 50%;
+  position: absolute;
 }
-.notification .hidden {
-  display: none;
+.notification .animate {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+  left: 100%;
 }
 #login h1 > a {
   display: block;

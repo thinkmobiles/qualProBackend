@@ -18,16 +18,24 @@ a {
   z-index: 20000;
   position: fixed;
   top: 5px;
-  right:5px;
-  width: 500px;
+  width: 100vw;
   margin: 0 auto;
 
-  .error{
+  .error {
     display: block;
+    left: 50%;
+    position: absolute;
   }
 
-  .hidden {
-    display: none;
+  .animate {
+    position: absolute;
+    height: 100%;
+    width:100%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    left: 100%;
   }
 }
 
@@ -340,7 +348,7 @@ a {
             border: none;
           }
 
-          p,span {
+          p, span {
             text-align: center;
             font-size: 14px;
             color: @text-color-menu;

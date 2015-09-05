@@ -42,12 +42,14 @@ require(['app'], function (app) {
         var container = this.errorContainer;
         var messageClass = data.type || 'error';
         var text = data.message || 'Something went wrong';
-        var renderEl = '<div class="hidden '+ messageClass + '">' + text + '</div>';
+        var renderEl = '<div class="animate '+ messageClass + '">' + text + '</div>';
 
         container.append(renderEl);
 
-        container.find('div.hidden').delay(500).slideDown(3000, function(){
-            $(this).removeClass('hidden').delay(5000).fadeOut('slow')
+        container.find('div.animate').delay(500).animate({
+            left: "50%"
+        }, 3000, function(){
+            $(this).removeClass('animate').delay(5000).slideUp(2000)
         });
     };
 
