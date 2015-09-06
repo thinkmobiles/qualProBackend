@@ -16,7 +16,7 @@ define([
             initialize: function (options) {
                 _.bindAll(this, "render", "saveItem", "changePass");
 
-                this.currentModel = App.currentUser;
+                this.currentModel = new personnelModel(App.currentUser);
                 this.responseObj = {};
                 this.render();
             },
@@ -71,11 +71,10 @@ define([
 
             changePass: function (e) {
                 var self = this;
-                var currEl = this.$el;
-
+                var Model = this.currentModel;
                 var oldPass = $.trim($("#oldPassword").val());
                 var newPass = $.trim($("#newPassword").val());
-                var confirmPass = $.trim(currEl.find("#confirmNewPassword").val());
+                var confirmPass = $.trim($("#confirmNewPassword").val());
 
                 var canProcess = newPass === confirmPass;
 
@@ -92,7 +91,7 @@ define([
                         patch: true,
 
                         success: function (model, response) {
-                            self.hideDialog();
+                            self.hideChangePassDialog();
                         },
                         error: function (model, xhr) {
                             App.render({type: 'error', message: xhr.responseText});
@@ -102,7 +101,7 @@ define([
 
             saveItem: function () {
                 var self = this;
-                var Model = new personnelModel(App.currentUser);
+                var Model = this.currentModel;
                 var currEl = this.$el;
 
                 var firstName = $.trim(currEl.find("#firstName").val());

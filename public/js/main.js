@@ -49,7 +49,7 @@ require(['app'], function (app) {
 
         container.find('div.animate').delay(10).animate({
             left: "85%",
-            opacity: 0.8
+            opacity: 1
         }, 500, function () {
             var self = $(this);
 
