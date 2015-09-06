@@ -48,6 +48,7 @@ var Personnel = function (db) {
             if (err) {
                 return next(err);
             }
+
             mailer.confirmNewUserRegistration(
                 {
                     firstName: personnel.firstName,
@@ -183,10 +184,13 @@ var Personnel = function (db) {
         var id = req.params.id;
         var body = req.body;
 
+        if(body.oldPass)
+
         PersonnelModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
             if (err) {
                 return next(err);
             }
+
             res.status(200).send(result);
         });
     };
@@ -281,7 +285,7 @@ var Personnel = function (db) {
                     }
 
                     callback(null, result);
-                })
+                });
         }
 
         function deleteToken(result, callback) {

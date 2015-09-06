@@ -84,29 +84,18 @@ define([
                 }
 
                 Model.save({
-                        country: country,
-                        firstName: firstName,
-                        lastName: lastName,
-                        imageSrc: this.imageSrc,
-                        email: email,
-                        phoneNumber: phone,
-                        position: position,
-                        manager: manager,
-                        dateBirth: dateBirth
-                        /*groups: {
-                         owner: $("#allUsersSelect").data("id"),
-                         users: usersId,
-                         group: groupsId
-                         },
-                         whoCanRW: whoCanRW,*/
+                        oldPass: oldPass,
+                        newPass: newPass
                     },
                     {
                         wait: true,
+                        patch: true,
+
                         success: function (model, response) {
                             self.hideDialog();
                         },
                         error: function (model, xhr) {
-                            self.errorNotification(xhr);
+                            App.render({type: 'error', message: xhr.responseText});
                         }
                     });
             },
@@ -148,7 +137,7 @@ define([
                             self.hideDialog();
                         },
                         error: function (model, xhr) {
-                            self.errorNotification(xhr);
+                            App.render({type: 'error', message: xhr.responseText});
                         }
                     });
             },
