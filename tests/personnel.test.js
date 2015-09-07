@@ -57,7 +57,7 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
         agent
             .post('/personnel')
             .send(personnelObject)
-            .expect(200, function (err, resp) {
+            .expect(201, function (err, resp) {
                 if (err) {
                     return done(err);
                 }

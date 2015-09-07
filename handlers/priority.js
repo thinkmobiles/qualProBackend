@@ -20,7 +20,7 @@ var Priority = function (db) {
                 if (error) {
                     return next(error);
                 }
-                res.status(200).send(model)
+                res.status(201).send(model)
             })
         } else {
             res.status(400).send();
