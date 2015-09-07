@@ -26,6 +26,7 @@ define([
             "*any": "any"
         },
 
+
         initialize: function () {
             var self = this;
 
@@ -33,34 +34,8 @@ define([
                 $(".ui-dialog").remove();
                 $("#ui-datepicker-div").hide().remove();
             });
-            $(document).on("keydown", ".ui-dialog", function (e) {
-                if ($(e.target).get(0).tagName.toLowerCase() == "textarea") {
-                    return;
-                }
-                switch (e.which) {
-                    case 27:
-                        $(".edit-dialog").remove();
-                        break;
-                    case 13:
-                        $(".ui-dialog-buttonset .ui-button").eq(0).trigger("click");
-                        break;
-                    default:
-                        break;
-                }
-            });
-            $(document).on("keypress", ".onlyNumber", function (e) {
-                var charCode = (e.which) ? e.which : e.keyCode;
 
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-
-                    return false;
-                }
-                return true;
-            });
-
-            $(window).on("resize", function (e) {
-                $("#ui-datepicker-div").hide();
-            });
+            custom.applyDefaults();
         },
 
         redirectTo: function(){

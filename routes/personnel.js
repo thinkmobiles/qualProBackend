@@ -14,6 +14,8 @@ module.exports = function (db, app) {
     router.get('/confirm/:token',handler.confirm);
     router.post('/', handler.create);
     router.put('/:id', handler.update);
+    router.patch('/:id', handler.update);
     router.delete('/:id', handler.remove);
+
     return router;
 };

@@ -126,8 +126,7 @@ module.exports = function (app, db) {
         }
     };
 
-    app.use(notFound);
-    app.use(function (err, req, res, next) {
+    function csrfErrorParser(err, req, res, next) {
         if (err.code !== 'EBADCSRFTOKEN') {
             return next(err);
         }
@@ -144,6 +143,9 @@ module.exports = function (app, db) {
 
         res.type('txt');
         res.send('form tampered with');
-    });
+    };
+
+    app.use(notFound);
+    app.use(csrfErrorParser);
     app.use(errorHandler);
 };

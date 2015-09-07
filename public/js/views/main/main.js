@@ -3,8 +3,9 @@ define([
     'views/menu/left',
     'models/module',
     'views/menu/topMenu',
-    'dataService'
-], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView, dataService) {
+    'dataService',
+    'custom'
+], function (MainTemplate, LeftMenuView, MenuItemsCollection, TopMenuView, dataService, custom) {
 
     var MainView = Backbone.View.extend({
         el: '#wrapper',
@@ -42,11 +43,15 @@ define([
                         self.topMenu = new TopMenuView();
                     }
                 });
-            };
+            } else if (!this.topMenu) {
+                this.topMenu = new TopMenuView();
+            }
 
             this.leftMenu = new LeftMenuView({
                 collection: this.collection
             });
+
+            custom.navigateToDefaultUrl({trigger: true, replace: true});
         },
 
         render: function () {

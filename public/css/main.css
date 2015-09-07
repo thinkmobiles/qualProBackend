@@ -12,8 +12,33 @@ li {
 a {
   text-decoration: none;
 }
-.errors {
-  display: none;
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  width: 100vw;
+  margin: 0 auto;
+  border: 1px solid darkgray;
+}
+.notification .error {
+  left: 85%;
+  width: 15%;
+  position: absolute;
+  background: darkred;
+}
+.notification .animate {
+  position: absolute;
+  /*height: 100%;*/
+  width: 15%;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 0px;
+  left: 100%;
+  opacity: 0;
+}
+.notification .animate .error {
+  background: darkred;
 }
 #login h1 > a {
   display: block;
@@ -277,6 +302,7 @@ a {
   border: 1px solid #000000;
   position: relative;
   height: 30px;
+  margin-bottom: 5px;
 }
 .ui-dialog .ui-dialog-content .inner .block-left .upload input[type="file"] {
   opacity: 0;
@@ -285,7 +311,8 @@ a {
   margin: 0px;
   border: none;
 }
-.ui-dialog .ui-dialog-content .inner .block-left .upload p {
+.ui-dialog .ui-dialog-content .inner .block-left .upload p,
+.ui-dialog .ui-dialog-content .inner .block-left .upload span {
   text-align: center;
   font-size: 14px;
   color: #6a6a6a;

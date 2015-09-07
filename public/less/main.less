@@ -14,8 +14,36 @@ a {
   text-decoration: none;
 }
 
-.errors {
-  display: none;
+.notification {
+  z-index: 20000;
+  position: fixed;
+  top: 5px;
+  width: 100vw;
+  margin: 0 auto;
+  border: 1px solid darkgray;
+
+  .error {
+    left: 85%;
+    width: 15%;
+    position: absolute;
+    background: darkred;
+  }
+
+  .animate {
+    position: absolute;
+    /*height: 100%;*/
+    width: 15%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    left: 100%;
+    opacity: 0;
+
+    .error {
+      background: darkred;
+    }
+  }
 }
 
 #login {
@@ -316,6 +344,8 @@ a {
           border: 1px solid @border-color;
           position: relative;
           height: 30px;
+          margin-bottom: 5px;
+
           input[type="file"] {
             opacity: 0;
             ////filter: alpha(opacity:0);
@@ -325,7 +355,7 @@ a {
             border: none;
           }
 
-          p {
+          p, span {
             text-align: center;
             font-size: 14px;
             color: @text-color-menu;

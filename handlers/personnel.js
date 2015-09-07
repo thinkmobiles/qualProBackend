@@ -48,6 +48,7 @@ var Personnel = function (db) {
             if (err) {
                 return next(err);
             }
+
             mailer.confirmNewUserRegistration(
                 {
                     firstName: personnel.firstName,
@@ -57,7 +58,7 @@ var Personnel = function (db) {
                     token: personnel.token
                 });
             // delete personnel.pass;
-            res.status(200).send({_id: personnel._id});
+            res.status(201).send({_id: personnel._id});
 
         });
     };
@@ -181,12 +182,57 @@ var Personnel = function (db) {
     this.update = function (req, res, next) {
         var id = req.params.id;
         var body = req.body;
+        var seriesTasks = [findByIdAndUpdate];
 
-        PersonnelModel.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
-            if (err) {
+        function findBiId(seriesCb) {
+            PersonnelModel.findById(id, function (err, personnel) {
+                var shaSum;
+
+                if (err) {
+                    return seriesCb(err);
+                }
+
+                shaSum = crypto.createHash('sha256');
+                shaSum.update(body.newPass);
+                body.newPass = shaSum.digest('hex');
+
+                shaSum = crypto.createHash('sha256');
+                shaSum.update(body.oldPass);
+                body.oldPass = shaSum.digest('hex');
+
+                if (personnel.pass === body.oldPass) {
+                    delete body.oldPass;
+                    body.pass = body.newPass;
+
+                    seriesCb(null, body);
+                } else {
+                    err = new Error('Incorrect old password');
+                    err.status = 400;
+
+                    seriesCb(err);
+                }
+            });
+        };
+
+        function findByIdAndUpdate(data, seriesCb) {
+            if (typeof data === 'function') {
+                seriesCb = data;
+                data = body;
+            }
+
+            PersonnelModel.findByIdAndUpdate(id, data, {new: true}, seriesCb);
+        };
+
+        if (body.oldPass && body.newPass) {
+            seriesTasks.unshift(findBiId);
+        }
+
+        async.series(seriesTasks, function (err, result) {
+            if(err){
                 return next(err);
             }
-            res.status(200).send(result);
+
+            res.status(200).send({success: 'Personnel was updated success'});
         });
     };
 
@@ -280,7 +326,7 @@ var Personnel = function (db) {
                     }
 
                     callback(null, result);
-                })
+                });
         }
 
         function deleteToken(result, callback) {
