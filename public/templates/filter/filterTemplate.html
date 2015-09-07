@@ -1,0 +1,15 @@
+<div class="filterName">
+    <!--<span id="<%=groupViewName%>"><%=groupName%></span>-->
+    <input id="<%=filterName%>Input" placeholder="<%=filterDisplayName%>" \>
+</div>
+<div id="<%=filterName%>Values" class="ulContent">
+    <ul id="<%=filterName%>Ul" class="filterValues">
+    </ul>
+    <% if (paginationBool){%>
+    <li class="miniStylePagination">
+        <a class="prev" href="javascript:;">&lt;Prev</a>
+        <span class="counter"></span>
+        <a class="next" href="javascript:;">Next&gt;</a>
+    </li>
+    <%}%>
+</div>
