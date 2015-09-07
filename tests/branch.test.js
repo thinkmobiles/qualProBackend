@@ -14,7 +14,7 @@ var plural = 'branches';
 
 
 var adminObject = {
-    _csrf:'',
+    _csrf: '',
     email: 'admin@admin.com',
     pass: '121212'
 };
@@ -36,7 +36,7 @@ describe("BDD for " + singular, function () {
     var csrfToken;
     before(function (done) {
         //agent = request.agent(host);
-         session = new Session();
+        session = new Session();
         session.get('/#login')
             .end(function (err, res) {
                 if (err) return done(err);
