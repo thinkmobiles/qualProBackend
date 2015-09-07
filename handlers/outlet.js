@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Objective = function (db) {
+var Outlet = function (db) {
 
     var CONSTANTS = require('../constants/mainConstants');
     var modelAndSchemaName = CONSTANTS.OUTLET;
@@ -20,7 +20,7 @@ var Objective = function (db) {
                 if (error) {
                     return next(error);
                 }
-                res.status(200).send(model)
+                res.status(201).send(model)
             })
         } else {
             res.status(400).send();
@@ -78,4 +78,4 @@ var Objective = function (db) {
         });
     };
 };
-module.exports = Objective;
+module.exports = Outlet;
