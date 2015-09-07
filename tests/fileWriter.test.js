@@ -6,7 +6,7 @@ var folderName = '/myFolder/sfd';
 
 describe("BDD for file writer", function () {
 
-    /*it("write file should return no errors", function (done) {
+    it("write file should return no errors", function (done) {
         var file;
         var localFs = new LocalFs();
 
@@ -19,5 +19,4 @@ describe("BDD for file writer", function () {
 
     });
 
-    });*/
 });
