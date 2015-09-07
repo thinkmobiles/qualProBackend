@@ -16,6 +16,7 @@ module.exports = function (db) {
     router.get('/', checkAuth, handler.getAll);
     router.get('/:id', checkAuth, handler.getById);
     router.post('/', checkAuth, handler.create);
+    router.get('/getForDD',checkAuth,handler.getForDD);
     router.put('/:id', handler.update);
     router.delete('/:id', checkAuth, handler.remove);
     return router;

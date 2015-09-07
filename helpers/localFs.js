@@ -11,6 +11,7 @@ var LocalFs = function () {
         var isCallback;
         var callback = args[4];
         var options = args[3];
+
         switch (argumentsLength) {
             case 4:
                 isCallback = typeof callback === 'function';
@@ -29,8 +30,8 @@ var LocalFs = function () {
                 console.error('Not enough incoming parameters');
 
                 return false;
-        }
-        ;
+        };
+
         return isCallback;
     };
 
@@ -77,7 +78,6 @@ var LocalFs = function () {
         }
     };
 
-    //used from mkdirp //copied from https://www.reasoncoresecurity.com/index.js-aac43011740bff785368c2a80bc05dacab5e1dd2.aspx
     function makeDir(p, opts, f, made) {
         if (typeof opts === 'function') {
             f = opts;
@@ -88,10 +88,6 @@ var LocalFs = function () {
 
         var mode = opts.mode;
         var xfs = opts.fs || fs;
-
-        /*if (mode === undefined) {
-         mode = 0777 & (~process.umask());
-         }*/
 
         if (!made) {
             made = null;

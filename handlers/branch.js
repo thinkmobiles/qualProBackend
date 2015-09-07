@@ -17,11 +17,20 @@ var Branch = function (db) {
         if (modelIsValid) {
             model = Model(body);
             model.save(function (error, model) {
+                var Outlet = db.model(CONSTANTS.OUTLET, mongoose.Schemas[CONSTANTS.OUTLET]);
+
                 if (error) {
                     return next(error);
                 }
-                res.status(200).send(model)
-            })
+
+                Outlet.findByIdAndUpdate(model.outlet, {$addToSet: {branches: model._id}}, function (error) {
+                    if (error) {
+                        //todo remove outlet
+                        return next(error);
+                    }
+                    res.status(201).send(model);
+                });
+            });
         } else {
             res.status(400).send();
         }
@@ -29,17 +38,17 @@ var Branch = function (db) {
     };
 
     this.remove = function (req, res, next) {
-        var id = req.params.id;
-        var Model = db.model(modelAndSchemaName, schema);
+        //var id = req.params.id;
+        //var Model = db.model(modelAndSchemaName, schema);
 
-        var Archiver=require('../helpers/archiver');
-        var archiver = Archiver();
-        archiver.archive(Model,id, function(error){
-            if (error) {
-                return next(error);
-            }
-            res.status(200).send();
-        })
+        //var Archiver = require('../helpers/archiver');
+        //var archiver = Archiver();
+        //archiver.archive(Model, id, function (error) {
+        //    if (error) {
+        //        return next(error);
+        //    }
+        //    res.status(200).send();
+        //});
 
         //Model.findByIdAndRemove(id, function (error) {
         //    if (error) {
@@ -59,6 +68,18 @@ var Branch = function (db) {
             }
             res.status(200).send(result);
         });
+    };
+
+    this.getForDD = function (req, res, next) {
+        var Model = db.model(modelAndSchemaName, schema);
+        Model.find({}, '_id,name').
+
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
+            });
     };
 
     this.getAll = function (req, res, next) {
