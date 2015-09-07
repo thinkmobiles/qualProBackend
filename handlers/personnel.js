@@ -82,7 +82,6 @@ var Personnel = function (db) {
             error = new Error();
             error.status = 400;
 
-            error.status = 400;
             return next(error);
         }
 
