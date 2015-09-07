@@ -4,6 +4,7 @@
 
 module.exports = function (app, db) {
     var events = require('events');
+    var path = require('path');
     var event = new events.EventEmitter();
     var logWriter = require('../helpers/logWriter');
     var fs = require("fs");
@@ -18,6 +19,8 @@ module.exports = function (app, db) {
 
     var models = require("../models.js")(db);
 
+    var LocalFs = require('../helpers/localFs');
+
     var PersonnelHandler = require("../handlers/personnel");
     var ModuleslHandler = require("../handlers/modules");
     // var CountryHandler=require("../handlers/country");
@@ -26,16 +29,16 @@ module.exports = function (app, db) {
     //var countryHandler=new CountryHandler(db);
     var personnelRouter = require('./personnel')(db, app);
     var countryRouter = require('./country')(db);
-    var branchRouter=require('./branch')(db);
-    var contractRouter=require('./contract')(db);
-    var itemRouter=require('./item')(db);
-    var noteRouter=require('./note')(db);
-    var objectiveRouter=require('./objective')(db);
-    var shelfRouter=require('./shelf')(db);
-    var outletRouter=require('./outlet')(db);
-    var categoryRouter=require('./category')(db);
-    var commentRouter=require('./comment')(db);
-    var priorityRouter=require('./priority')(db);
+    var branchRouter = require('./branch')(db);
+    var contractRouter = require('./contract')(db);
+    var itemRouter = require('./item')(db);
+    var noteRouter = require('./note')(db);
+    var objectiveRouter = require('./objective')(db);
+    var shelfRouter = require('./shelf')(db);
+    var outletRouter = require('./outlet')(db);
+    var categoryRouter = require('./category')(db);
+    var commentRouter = require('./comment')(db);
+    var priorityRouter = require('./priority')(db);
 
 
     var RESPONSES = require('../constants/responses');
@@ -50,6 +53,22 @@ module.exports = function (app, db) {
 
     app.get('/', csrfProtection, function (req, res, next) {
         res.render('index.html', {csrfToken: req.csrfToken()});
+    });
+
+    app.post('/upload', multipartMiddleware, function (req, res, next) {
+        var localFs = new LocalFs();
+        var id = req.session.uId;
+        var content = req.headers.contenttype;
+        var folderName = path.join(content, id);
+        var fileData = req.files.attachfile;
+
+        localFs.postFile(folderName, fileData, function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).send({success: 'file(\'s) uploaded success'});
+        });
     });
 
     app.get('/passwordChange/:forgotToken', csrfProtection, function (req, res, next) {

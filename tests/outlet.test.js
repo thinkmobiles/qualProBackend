@@ -97,11 +97,12 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
                 var body = res.body;
+                var keys = Object.keys(objectUpdate);
+
                 if (err) {
                     return done(err)
                 }
                 expect(body).to.be.instanceOf(Object);
-                var keys = Object.keys(objectUpdate);
                 keys.forEach(function (key) {
                     expect(body[key]).to.be.equal(objectUpdate[key]);
                 });
