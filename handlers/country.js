@@ -40,6 +40,20 @@ var Country = function (db) {
         });
     };
 
+    this.getBy = function (req, res, next) {
+        var outlets = req.body.outlets;
+
+        var query = db.model(modelAndSchemaName, schema).find(
+            {outlets:{$elemMatch:{$in:outlets}}});
+
+        query.exec(function (err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).send(result);
+        });
+    };
+
     this.getById = function (req, res, next) {
         var id = req.params.id;
 
@@ -50,6 +64,18 @@ var Country = function (db) {
             }
             res.status(200).send(result);
         });
+    };
+
+    this.getForDD= function (req,res,next) {
+        var Model = db.model(modelAndSchemaName, schema);
+        Model.find({},'_id,name').
+
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
+            });
     };
 
     this.getAll = function (req, res, next) {

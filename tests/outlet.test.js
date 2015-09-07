@@ -14,16 +14,18 @@ var adminObject = {
     pass: '121212'
 };
 
+
+//todo test object is not valid without country id. Almost all tests should fail
 var testObject = {
     name: 'test',
     description: 'sdfsdf',
-    isOwn: false,
+    isOwn: fals,
 };
 
 var objectUpdate = {
     name: 'NotTesst',
     description: 'NotTesst',
-    isOwn: true,
+    isOwn: true
 };
 
 var createdId;

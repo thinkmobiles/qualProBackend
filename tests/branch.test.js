@@ -31,21 +31,23 @@ var createdId;
 
 describe("BDD for " + singular, function () {
 
-    var session;
+
 
     var csrfToken;
     before(function (done) {
-        //agent = request.agent(host);
-        session = new Session();
-        session.get('/#login')
+        agent = request.agent(host);
+       // this.sess = new Session();
+        agent.get('/#login')
             .end(function (err, res) {
                 if (err) return done(err);
 
                 csrfToken = res.header['set-cookie'][0].split(';')[0].replace('_csrf=', '');
-                adminObject._csrf = csrfToken;
+               // adminObject._csrf = csrfToken;
 
+                var hed=res.headers['set-cookie']
                 agent
-                    .post('/login')
+                    .post('/login',{_csrf:csrfToken})
+                  //  .set('cookie', hed)
                     .send(adminObject)
                     .expect(200, function (err, resp) {
                         var body;
