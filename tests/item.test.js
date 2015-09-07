@@ -54,7 +54,7 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
         agent
             .post(baseUrl)
             .send(testObject)
-            .expect(200, function (err, resp) {
+            .expect(201, function (err, resp) {
                 if (err) {
                     return done(err);
                 }

@@ -56,7 +56,7 @@ describe("BDD for country", function () {  // Runs once before all tests start.
         agent
             .post(baseUrl)
             .send(country)
-            .expect(200, function (err, resp) {
+            .expect(201, function (err, resp) {
                 if (err) {
                     return done(err);
                 }
