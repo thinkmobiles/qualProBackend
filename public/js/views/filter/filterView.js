@@ -8,11 +8,12 @@ define([
             template: _.template(valuesTemplate),
 
             events: {
-                'click .dropDown': 'showHideValues',
+                'click span.dropDown': 'showHideValues',
             },
 
             showHideValues:function(sender){
-                this.$el.find('.ulContent').toggle();
+               // this.$el.find('.ulContent').toggle();
+                alert('hsdfshdfhsd');
             },
 
             initialize: function (options) {
@@ -110,6 +111,8 @@ define([
                 $("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
                     self.paginationChange(e, self);
                 });
+
+                return this;
             }
         });
 
