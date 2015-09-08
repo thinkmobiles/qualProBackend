@@ -46,6 +46,6 @@ define([], function () {
         CONTRACTS: 'contracts',
 
         FILTERS: filters,
-        FILTERVALUESCOUNT: 7
+        FILTERVALUESCOUNT: 2
     }
 });
