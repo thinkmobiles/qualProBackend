@@ -1,39 +1,9 @@
 var fs = require('fs');
 var path = require('path');
+var async = require('async');
 
 var LocalFs = function () {
-
-    var defaultPublicDir = 'public';
-    var defaultFileDir = process.env.FOLDER_NAME || 'uploads';
-
-    function validateIncomingParameters(args) {
-        var argumentsLength = args.length;
-        var isCallback;
-        var callback = args[4];
-        var options = args[3];
-
-        switch (argumentsLength) {
-            case 4:
-                isCallback = typeof callback === 'function';
-                break;
-            case 3:
-                isCallback = typeof options === 'function';
-                if (isCallback) {
-                    callback = options;
-                    options = defaultOptions;
-                }
-                break;
-            case 2:
-                options = defaultOptions;
-                break;
-            default:
-                console.error('Not enough incoming parameters');
-
-                return false;
-        };
-
-        return isCallback;
-    };
+    var defaultFileDir = process.env.FOLDER_NAME || 'attachments';
 
     this.getFileUrl = function (folderName, fileName, options, callback) {
 
@@ -50,32 +20,33 @@ var LocalFs = function () {
 
     function getFilePath(folderName, fileName) {
         var folder = folderName || defaultFileDir;
+
         return path.join(defaultPublicDir, folder, fileName);
     };
 
-    this.postFile = function (folderName, fileName, options, callback) {
-        if (validateIncomingParameters(arguments)) {
-            callback = arguments[arguments.length - 1];
+    this.postFile = function (folderName, fileData, callback) {
+        var targetPath = path.join(defaultFileDir, folderName);
+        var filePath;
+
+        if(!(fileData instanceof Array)){
+            fileData = [fileData];
         }
 
-        var targetPath = path.join(defaultPublicDir, folderName);
-        var filePath = path.join(defaultPublicDir, folderName, fileName);
+        async.each(fileData, function(item, eachCb){
+            filePath = path.join(defaultFileDir, folderName, item.name);
 
-        if (fs.existsSync(targetPath)) {
-            writeFile(filePath, options.data, callback);
-        } else {
-            makeDir(targetPath, function (err) {
-                if (err) {
-                    if (callback) {
-                        callback(err);
+            if (fs.existsSync(targetPath)) {
+                writeFile(filePath, fileData, eachCb);
+            } else {
+                makeDir(targetPath, function (err) {
+                    if (err) {
+                        eachCb(err);
                     } else {
-                        console.error('Make dir error ' + err.message);
+                        writeFile(filePath, fileData, eachCb);
                     }
-                } else {
-                    writeFile(filePath, options.data, callback);
-                }
-            });
-        }
+                });
+            }
+        }, callback);
     };
 
     function makeDir(p, opts, f, made) {
@@ -141,6 +112,7 @@ var LocalFs = function () {
         }
         catch (err) {
             console.log('ERROR:', err);
+
             if (callback && typeof callback === 'function') {
                 callback(err)
             }
