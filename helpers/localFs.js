@@ -36,6 +36,41 @@ var LocalFs = function () {
             filePath = path.join(defaultFileDir, folderName, item.name);
 
             if (fs.existsSync(targetPath)) {
+                var files = fs.readdirSync(targetPath);
+
+                var k = '';
+                var maxK = 0;
+                var checkIs = false;
+                var attachfileName = item.name.slice(0, item.name.lastIndexOf('.'));
+
+                files.forEach(function (fileName) {
+                    var intVal;
+
+                    if (fileName === item.name) {
+                        k = 1;
+                        checkIs = true;
+                    } else {
+                        if ((fileName.indexOf(attachfileName) === 0) &&
+                            (fileName.lastIndexOf(attachfileName) === 0) &&
+                            (fileName.lastIndexOf(').') !== -1) &&
+                            (fileName.lastIndexOf('(') !== -1) &&
+                            (fileName.lastIndexOf('(') < fileName.lastIndexOf(').')) &&
+                            (attachfileName.length === fileName.lastIndexOf('('))) {
+                            intVal = fileName.slice(fileName.lastIndexOf('(') + 1, fileName.lastIndexOf(').'));
+                            k = parseInt(intVal) + 1;
+                        }
+                    }
+                    if (maxK < k) {
+                        maxK = k;
+                    }
+                });
+
+                if (!(maxK == 0) && checkIs) {
+                    item.name = attachfileName + '(' + maxK + ')' + item.name.slice(item.name.lastIndexOf('.'));
+                }
+
+                filePath = path.join(defaultFileDir, folderName, item.name);
+
                 writeFile(filePath, fileData, eachCb);
             } else {
                 makeDir(targetPath, function (err) {
