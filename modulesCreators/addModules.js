@@ -26,7 +26,7 @@ exports.create = function (cb) {
         }, {
             _id: 2,
             mname: 'Countries',
-            href: 'countries',
+            href: CONSTANTS.COUNTRY,
             sequence: 2,
             parrent: null,
             link: false,
@@ -34,7 +34,7 @@ exports.create = function (cb) {
         }, {
             _id: 3,
             mname: 'Outlets',
-            href: 'outlets',
+            href: CONSTANTS.OUTLET,
             sequence: 3,
             parrent: 2,
             link: true,
@@ -42,7 +42,7 @@ exports.create = function (cb) {
         }, {
             _id: 4,
             mname: 'Branches',
-            href: 'branches',
+            href: CONSTANTS.BRANCH,
             sequence: 4,
             parrent: 2,
             link: true,
@@ -58,7 +58,7 @@ exports.create = function (cb) {
         }, {
             _id: 6,
             mname: 'Objectives',
-            href: 'objectives',
+            href: CONSTANTS.OBJECTIVE,
             sequence: 6,
             parrent: null,
             link: false,
@@ -106,7 +106,7 @@ exports.create = function (cb) {
         }, {
             _id: 12,
             mname: 'Items & Prices',
-            href: 'items',
+            href: CONSTANTS.ITEM,
             sequence: 12,
             parrent: null,
             link: false,
