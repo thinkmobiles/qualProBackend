@@ -72,7 +72,7 @@ var Branch = function (db) {
 
     this.getForDD = function (req, res, next) {
         var Model = db.model(modelAndSchemaName, schema);
-        Model.find({}, '_id,name').
+        Model.find({}, '_id name').
 
             exec(function (err, result) {
                 if (err) {
