@@ -17,8 +17,8 @@ define([
             filter: {},
 
             events: {
-                'click .groupName': 'showHideValues',
-                "click .filterValues li": "selectValue"
+                'click .dropDown': 'showHideValues',
+                "click .filterValues li": "selectValue",
             },
 
             initialize: function (options) {
@@ -31,19 +31,18 @@ define([
 
                 this.setDbOnce = _.debounce(
                     function () {
-                        this.trigger('filter', App.filter)
+                        this.trigger('filter', this.filter)
                     }, 500);
             },
 
             selectValue: function (e) {
                 var currentElement = $(e.target);
                 var currentValue = currentElement.attr('data-value');
-                var filterGroupElement = currentElement.closest('.filterGroup');
-                var groupType = filterGroupElement.attr('data-value');
-                var groupNameElement = filterGroupElement.find('.groupName')
-                var constantsName = $.trim(groupNameElement.text());
-                var filterObjectName = this.constantsObject[constantsName].view;
-                var currentCollection = this.currentCollection[filterObjectName];
+                var currentName = $.trim(currentElement.text());
+                var filterContainerElement = currentElement.closest('.filterFullContainer');
+                var filterNameElement = filterContainerElement.find('.filterName')
+                var constantsName = filterNameElement.attr('data-value');
+                var currentCollection = this.currentCollection[constantsName];
                 var collectionElement;
                 var intVal;
                 var index;
@@ -58,28 +57,28 @@ define([
 
                 if (currentElement.hasClass('checkedValue')) {
 
-                    if (!App.filter[filterObjectName]) {
-                        App.filter[filterObjectName] = {
-                            key: groupType,
-                            value: []
-                        };
-                    }
+                    //if (!this.filter[constantsName]) {
+                        this.filter[constantsName] = [];
+                    //}
 
-                    App.filter[filterObjectName]['value'].push(currentValue);
+                    this.filter[constantsName].push(currentValue);
                     collectionElement.set({status: true});
 
-                    groupNameElement.addClass('checkedGroup');
+                    filterNameElement.addClass('checkedGroup');
+                    filterNameElement.find('input').val(currentName);
 
                 } else {
-                    index = App.filter[filterObjectName]['value'].indexOf(currentValue);
+                    index = this.filter[constantsName].indexOf(currentValue);
 
                     if (index >= 0) {
-                        App.filter[filterObjectName]['value'].splice(index, 1);
+                        this.filter[constantsName].splice(index, 1);
                         collectionElement.set({status: false});
 
-                        if (App.filter[filterObjectName]['value'].length === 0) {
-                            delete App.filter[filterObjectName];
-                            groupNameElement.removeClass('checkedGroup');
+                        if (this.filter[constantsName].length === 0) {
+                            delete this.filter[constantsName];
+                            filterNameElement.removeClass('checkedGroup');
+
+                            filterNameElement.find('input').val('');
                         }
                     }
                     ;
@@ -89,7 +88,7 @@ define([
             },
 
             showHideValues: function (e) {
-                var filterGroupContainer = $(e.target).closest('.filterGroup');
+                var filterGroupContainer = $(e.target).closest('.filterFullContainer');
 
                 filterGroupContainer.find('.ulContent').toggle();
                 filterGroupContainer.toggleClass('activeGroup');
@@ -105,7 +104,7 @@ define([
                     keys.forEach(function (key) {
                         filterDisplayName = self.constantsObject[key].displayName;
 
-                        containerString = '<div id="' + key + 'FilterContainer">';
+                        containerString = '<div id="' + key + 'FilterContainer" class="filterFullContainer">';
                         containerString += '</div>';
                         self.$el.append(containerString);
 
@@ -123,7 +122,7 @@ define([
 
                 if (!App.filterCollections || !App.filterCollections[key]) {
                     return setTimeout(function () {
-                        self.renderGroup(key, filterDisplayName);
+                        self.renderFilter(key, filterDisplayName);
                     }, 10);
                 }
 
