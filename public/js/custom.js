@@ -1,4 +1,4 @@
-define(['constants'], function (CONTENT_TYPES) {
+define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, dataService) {
 
     var runApplication = function (success) {
         var url;
@@ -15,6 +15,20 @@ define(['constants'], function (CONTENT_TYPES) {
 
             Backbone.history.fragment = "";
             Backbone.history.navigate(url, {trigger: true});
+            if (!App || !App.filterCollections) {
+                async.parallel({
+                        country: function(callback){dataService.getData('/country/getForDD', null, callback)},
+                        branch: function(callback){dataService.getData('/branch/getForDD', null, callback)},
+                        outlet: function(callback){dataService.getData('/outlet/getForDD', null, callback)},
+                    },
+                    function (err, result) {
+
+                        if (err) {
+                            return console.dir(err);
+                        }
+                        App.filterCollections = result;
+                    });
+            }
         } else {
             if (App.requestedURL === null) {
                 App.requestedURL = Backbone.history.fragment;
@@ -22,6 +36,8 @@ define(['constants'], function (CONTENT_TYPES) {
             Backbone.history.fragment = "";
             Backbone.history.navigate("login", {trigger: true});
         }
+
+
     };
 
     var getCurrentVT = function (option) {
@@ -54,7 +70,7 @@ define(['constants'], function (CONTENT_TYPES) {
         return viewType;
     };
 
-    var applyDefaults = function(){
+    var applyDefaults = function () {
         $(document).on("keydown", ".ui-dialog", function (e) {
             if ($(e.target).get(0).tagName.toLowerCase() == "textarea") {
                 return;
@@ -85,7 +101,7 @@ define(['constants'], function (CONTENT_TYPES) {
         });
     };
 
-    var navigateToDefaultUrl = function(options){
+    var navigateToDefaultUrl = function (options) {
         var defaultLocation = '#qualPro/' + CONTENT_TYPES.PERSONNEL;
 
         Backbone.history.navigate(defaultLocation, options);

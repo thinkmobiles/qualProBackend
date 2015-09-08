@@ -19,7 +19,7 @@ var adminObject = {
 var testObject = {
     name: 'test',
     description: 'sdfsdf',
-    isOwn: fals,
+    isOwn: false,
 };
 
 var objectUpdate = {

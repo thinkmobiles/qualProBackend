@@ -4,7 +4,8 @@ define([
     'dataService',
     'custom',
     /*'common',*/
-    'constants'
+    'constants',
+
 
 ], function (mainView, loginView, dataService, custom/*, common*/, CONTENT_TYPES) {
 
@@ -36,9 +37,11 @@ define([
             });
 
             custom.applyDefaults();
+
+
         },
 
-        redirectTo: function(){
+        redirectTo: function () {
             if (App.requestedURL === null) {
                 App.requestedURL = Backbone.history.fragment;
             }
@@ -54,7 +57,7 @@ define([
         },
 
         changeView: function (view, hideTopBar) {
-            if(hideTopBar){
+            if (hideTopBar) {
                 $('#top-bar').hide();
             } else {
                 $('#top-bar').show();
@@ -107,7 +110,7 @@ define([
                 }
             });
 
-            function getContent (context) {
+            function getContent(context) {
                 var newCollection = true;
                 var self = context;
                 var savedFilter;
@@ -135,7 +138,7 @@ define([
 
                     collection.bind('reset', _.bind(createViews, self));
 
-                    function createViews () {
+                    function createViews() {
                         var topbarView;
                         var contentview;
 

@@ -107,6 +107,7 @@ define([
                 data: data,
                 success: function () {
                     custom.runApplication(true);
+                    //todo get filters
                 },
                 error: function () {
                     loginForm.addClass("notRegister");
