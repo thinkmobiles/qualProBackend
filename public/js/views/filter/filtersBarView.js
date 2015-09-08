@@ -91,7 +91,7 @@ define([
             showHideValues: function (e) {
                 var filterGroupContainer = $(e.target).closest('.filterGroup');
 
-                filterGroupContainer.find('.ulContent').toggle()
+                filterGroupContainer.find('.ulContent').toggle();
                 filterGroupContainer.toggleClass('activeGroup');
             },
 
@@ -153,6 +153,7 @@ define([
             render: function () {
                 this.$el.append(this.template());
                 this.renderFilterElements();
+
                 return this;
             },
 
