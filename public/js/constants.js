@@ -26,7 +26,7 @@ define([], function () {
 
         ACTIVITYLIST: 'activityList',
         LOCATION: 'location',
-        COUNTRIES: 'countries',
+        COUNTRY: 'country',
         OUTLETS: 'outlets',
         BRUNCHES: 'brunches',
         PERSONNEL: 'personnel',

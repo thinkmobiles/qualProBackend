@@ -1,0 +1,8 @@
+<% countryCollection.forEach(function(country, index){ %>
+<tr data-id="<%=country._id%>">
+    <td class = "notForm"><input type="checkbox" value="<%=country._id%>" class="checkbox" /></td>
+    <td><img src="<%=country.imageSrc%>"/></td>
+    <td><%=country.name%></td>
+    <td><%=(country.createdBy&&country.createdBy.date)?country.createdBy.date:''%></td>
+</tr>
+<% }) %>
