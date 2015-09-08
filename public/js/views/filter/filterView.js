@@ -5,8 +5,7 @@ define([
     ],
     function (valuesTemplate, filterCollection, CONSTANTS) {
         var filterValuesView = Backbone.View.extend({
-            el: '#filterContainer',
-
+            template: _.template(valuesTemplate),
             initialize: function (options) {
                 this.status = options.status;
                 this.currentPage = 1;
@@ -90,10 +89,10 @@ define([
             render: function () {
                 var self = this;
 
-                this.$el.append(_.template(valuesTemplate, {
+                this.$el.append(this.template({
                     filterDisplayName: this.filterDisplayName,
                     status: this.status,
-                    filterName: this.filterDisplayName,
+                    filterName: this.filterName,
                     paginationBool: this.paginationBool
                 }));
 

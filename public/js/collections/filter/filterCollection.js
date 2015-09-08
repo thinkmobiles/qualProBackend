@@ -1,5 +1,5 @@
 define([
-    'models/FilterModel'
+    'models/filterModel'
 ], function (FilterModel) {
     var FilterCollection = Backbone.Collection.extend({
         model: FilterModel,

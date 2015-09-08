@@ -2,10 +2,11 @@ define([
         'text!templates/personnel/list/header.html',
         'views/personnel/createView',
         'views/personnel/list/listItemView',
+        'views/filter/filtersBarView',
         'collections/personnel/collection'
     ],
 
-    function (headerTemplate, createView, listItemView, contentCollection) {
+    function (headerTemplate, createView, listItemView, filterView, contentCollection) {
         var View = Backbone.View.extend({
             el: '#contentHolder',
             newCollection: null,
@@ -52,6 +53,17 @@ define([
                 } else {
                     pagenation.show();
                 }
+
+                this.filterview = new filterView({ contentType: self.contentType });
+
+                /*this.filterview.bind('filter', function (filter) {
+                    this.showFilteredPage(filter, self)
+                });
+                this.filterview.bind('defaultFilter', function () {
+                    this.showFilteredPage({}, self);
+                });*/
+
+                this.filterview.render();
             },
 
             createItem: function () {

@@ -1,5 +1,5 @@
 define([
-        'text!templates/filter/filterTemplate.html',
+        'text!templates/filter/filterBarTemplate.html',
         'views/filter/filterView',
         'collections/filter/filterCollection',
         'custom',
@@ -9,11 +9,12 @@ define([
     function (filterTemplate, valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
         var FilterView;
         FilterView = Backbone.View.extend({
-            el: '#filterContainer',
+            el: '#filterBar',
             contentType: "Filter",
             savedFilters: {},
             filterIcons: {},
             template: _.template(filterTemplate),
+            filter: {},
 
             events: {
                 'click .groupName': 'showHideValues',
@@ -95,13 +96,10 @@ define([
             },
 
             renderFilterElements: function () {
-                var filtersContainer;
                 var self = this;
                 var keys = Object.keys(this.constantsObject);
                 var containerString;
                 var filterDisplayName;
-
-                filtersContainer = this.$el.find('#filtersContainer');
 
                 if (keys.length) {
                     keys.forEach(function (key) {
@@ -109,7 +107,7 @@ define([
 
                         containerString = '<div id="' + key + 'FilterContainer">';
                         containerString += '</div>';
-                        filtersContainer.append(containerString);
+                        self.$el.append(containerString);
 
                         self.renderFilter(key, filterDisplayName);
                     });
