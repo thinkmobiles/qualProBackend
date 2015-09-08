@@ -12,6 +12,32 @@ li {
 a {
   text-decoration: none;
 }
+.triangle {
+  display: inline-block;
+  margin: 0 0px;
+  vertical-align: middle;
+  height: 100%;
+  border-left: solid 5px transparent;
+  border-right: solid 5px transparent;
+}
+.downArrow {
+  display: inline-block;
+  margin: 0 0px;
+  vertical-align: middle;
+  height: 100%;
+  border-left: solid 5px transparent;
+  border-right: solid 5px transparent;
+  border-top: solid 5px black;
+}
+.topArrow {
+  display: inline-block;
+  margin: 0 0px;
+  vertical-align: middle;
+  height: 100%;
+  border-left: solid 5px transparent;
+  border-right: solid 5px transparent;
+  border-bottom: solid 5px black;
+}
 .notification {
   z-index: 20000;
   position: fixed;
