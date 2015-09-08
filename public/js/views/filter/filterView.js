@@ -6,6 +6,15 @@ define([
     function (valuesTemplate, filterCollection, CONSTANTS) {
         var filterValuesView = Backbone.View.extend({
             template: _.template(valuesTemplate),
+
+            events: {
+                'click .dropDown': 'showHideValues',
+            },
+
+            showHideValues:function(sender){
+                this.$el.find('.ulContent').toggle();
+            },
+
             initialize: function (options) {
                 this.status = options.status;
                 this.currentPage = 1;
