@@ -16,16 +16,8 @@ define([
             template: _.template(filterTemplate),
 
             events: {
-                "mouseover .search-content": 'showSearchContent',
-                "click .filter-dialog-tabs .btn": 'showFilterContent',
-                'click #applyFilter': 'applyFilter',
-                'click .condition li': 'conditionClick',
                 'click .groupName': 'showHideValues',
-                "click .filterValues li": "selectValue",
-                "click .filters": "useFilter",
-                "click #saveFilterButton": "saveFilter",
-                "click .removeSavedFilter": "removeFilterFromDB",
-                "click .removeValues": "removeFilter"
+                "click .filterValues li": "selectValue"
             },
 
             initialize: function (options) {
@@ -121,10 +113,7 @@ define([
 
                         self.renderFilter(key, filterDisplayName);
                     });
-                }
-                ;
-
-                this.showFilterIcons(App.filter);
+                };
             },
 
             renderFilter: function (key, filterDisplayName) {
@@ -186,30 +175,6 @@ define([
                     collectionElement = this.currentCollection[filterKey].findWhere({_id: valuesArray[i]});
                     collectionElement.set({status: true});
                 }
-            },
-
-            showSearchContent: function () {
-                var el = this.$el.find('.search-content');
-                var searchOpt = this.$el.find('.search-options');
-                var selector = 'fa-caret-up';
-
-                searchOpt.removeClass('hidden');
-
-                if (el.hasClass(selector)) {
-                    el.removeClass(selector)
-                } else {
-                    el.addClass(selector)
-                }
-            },
-
-            showFilterContent: function (e) {
-                var currentValue = $(e.target).attr('data-value');
-
-                this.$el.find(currentValue)
-                    .removeClass('hidden')
-                    .siblings()
-                    .addClass('hidden');
-
             }
         });
 
