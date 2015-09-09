@@ -21,7 +21,7 @@ var Personnel = function (db) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass = body.pass;
+        var pass = generator.generate(8);
         var mailer = new Mailer();
         var shaSum = crypto.createHash('sha256');
         var personnelModel;

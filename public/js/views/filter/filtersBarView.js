@@ -18,7 +18,7 @@ define([
 
             events: {
                 'click .dropDown': 'showHideValues',
-                "click .filterValues li": "selectValue",
+                'click .filterValues li': 'selectValue',
             },
 
             initialize: function (options) {
