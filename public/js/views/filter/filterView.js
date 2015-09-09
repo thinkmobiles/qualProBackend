@@ -27,8 +27,6 @@ define([
                 this.paginationBool = (this.collectionLength > this.elementToShow) ? true : false;
 
                 this.allPages = Math.ceil(this.collectionLength / this.elementToShow);
-                this.start;
-                this.end;
 
                 this.$el = $(options.element);
             },
