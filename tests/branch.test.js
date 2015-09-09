@@ -44,10 +44,10 @@ describe("BDD for " + singular, function () {
                 csrfToken = res.header['set-cookie'][0].split(';')[0].replace('_csrf=', '');
                // adminObject._csrf = csrfToken;
 
-                var hed=res.headers['set-cookie']
+                //var hed=res.headers['set-cookie']
                 agent
-                    .post('/login',{_csrf:csrfToken})
-                  //  .set('cookie', hed)
+                    .post()
+                    .set('csrf-token', csrfToken)
                     .send(adminObject)
                     .expect(200, function (err, resp) {
                         var body;
