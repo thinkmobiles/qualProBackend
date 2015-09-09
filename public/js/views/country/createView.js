@@ -15,6 +15,7 @@ define([
             initialize: function () {
                 _.bindAll(this, "saveItem");
                 this.model = new Model();
+
                 this.render();
             },
 
@@ -30,27 +31,14 @@ define([
                 var model = new Model();
                 var currEl = this.$el;
 
-                var firstName = $.trim(currEl.find("#firstName").val());
-                var lastName = $.trim(currEl.find("#lastName").val());
-                var email = $.trim(currEl.find("#email").val());
-                var pass = $.trim(currEl.find("#password").val());
-                var phone = $.trim(currEl.find("#phone").val());
-                var position = currEl.find("#positionDd").attr("data-id");
-                var country = currEl.find("#countryDd").attr("data-id");
+                var name = $.trim(currEl.find("#name").val());
                 var manager = currEl.find("#managerDD").attr("data-id");
-                var dateBirth = $.trim(currEl.find("#dateBirth").val());
 
                 model.save({
-                        country: country,
-                        firstName: firstName,
-                        lastName: lastName,
+
+                        name: name,
                         imageSrc: this.imageSrc,
-                        email: email,
-                        phoneNumber: phone,
-                        position: position,
                         manager: manager,
-                        dateBirth: dateBirth,
-                        pass: pass
                         /*groups: {
                          owner: $("#allUsersSelect").data("id"),
                          users: usersId,
@@ -104,13 +92,6 @@ define([
                     }
                 });
                 //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
-
-                $('#dateBirth').datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '-100y:c+nn',
-                    maxDate: '-18y'
-                });
 
                 common.canvasDraw({model: this.model.toJSON()}, this);
                 return this;
