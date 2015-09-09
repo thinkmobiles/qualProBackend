@@ -2,86 +2,34 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 
+/**
+ *  Represents a LocalFile Storage constructor.
+ *  Allow __You__ bulk post `file` & then retrieve `url` for uploaded `files` .
+ * @constructor
+ */
+
 var LocalFs = function () {
     var defaultFileDir = process.env.FOLDER_NAME || 'attachments';
 
-    this.getFileUrl = function (folderName, fileName, options, callback) {
+    /**
+     * @callback cb
+     * @param {object} err Error Object. Can be empty, if request is succeed
+     * @param {string} url Url for requested file
+     */
 
-        if (validateIncomingParameters(arguments)) {
-            callback = arguments[arguments.length - 1];
-        }
+    /**
+     * @param {string} folderName Destination name, include type of content, like `personnel` and `id`, for example `personnel\adf23674hgd4h5`
+     * @param {string} fileName One or more url''s. Retrieves from posted `form data`
+     * @param {cb} callback - The callback that handles the response with an error parameter. Err can be empty, if there is no error.
+     */
 
-        var fileUrl = getFilePath(folderName, fileName);
+    this.getFileUrl = function (folderName, fileName, callback) {
+        var folder = folderName || defaultFileDir;
+        var fileUrl = path.join(folder, fileName);
 
         if (callback) {
             callback(null, fileUrl);
         }
-    };
-
-    function getFilePath(folderName, fileName) {
-        var folder = folderName || defaultFileDir;
-
-        return path.join(defaultPublicDir, folder, fileName);
-    };
-
-    this.postFile = function (folderName, fileData, callback) {
-        var targetPath = path.join(defaultFileDir, folderName);
-        var filePath;
-
-        if(!(fileData instanceof Array)){
-            fileData = [fileData];
-        }
-
-        async.each(fileData, function(item, eachCb){
-            filePath = path.join(defaultFileDir, folderName, item.name);
-
-            if (fs.existsSync(targetPath)) {
-                var files = fs.readdirSync(targetPath);
-
-                var k = '';
-                var maxK = 0;
-                var checkIs = false;
-                var attachfileName = item.name.slice(0, item.name.lastIndexOf('.'));
-
-                files.forEach(function (fileName) {
-                    var intVal;
-
-                    if (fileName === item.name) {
-                        k = 1;
-                        checkIs = true;
-                    } else {
-                        if ((fileName.indexOf(attachfileName) === 0) &&
-                            (fileName.lastIndexOf(attachfileName) === 0) &&
-                            (fileName.lastIndexOf(').') !== -1) &&
-                            (fileName.lastIndexOf('(') !== -1) &&
-                            (fileName.lastIndexOf('(') < fileName.lastIndexOf(').')) &&
-                            (attachfileName.length === fileName.lastIndexOf('('))) {
-                            intVal = fileName.slice(fileName.lastIndexOf('(') + 1, fileName.lastIndexOf(').'));
-                            k = parseInt(intVal) + 1;
-                        }
-                    }
-                    if (maxK < k) {
-                        maxK = k;
-                    }
-                });
-
-                if (!(maxK == 0) && checkIs) {
-                    item.name = attachfileName + '(' + maxK + ')' + item.name.slice(item.name.lastIndexOf('.'));
-                }
-
-                filePath = path.join(defaultFileDir, folderName, item.name);
-
-                writeFile(filePath, fileData, eachCb);
-            } else {
-                makeDir(targetPath, function (err) {
-                    if (err) {
-                        eachCb(err);
-                    } else {
-                        writeFile(filePath, fileData, eachCb);
-                    }
-                });
-            }
-        }, callback);
     };
 
     function makeDir(p, opts, f, made) {
@@ -135,6 +83,77 @@ var LocalFs = function () {
                     break;
             }
         });
+    };
+
+    /**
+     * @callback responseCallback
+     * @param {object} err Error Object. Can be empty, if request is succeed
+     */
+
+    /**
+     * @param {string} folderName Destination name, include type of content, like `personnel` and `id`, for example `personnel\adf23674hgd4h5`
+     * @param {(string|string[]) } fileData One or more url''s. Retrieves from posted `form data`
+     * @param {responseCallback} callback - The callback that handles the response with an error parameter. Err can be empty, if there is no error.
+     */
+
+    this.postFile = function (folderName, fileData, callback) {
+        var targetPath = path.join(defaultFileDir, folderName);
+        var filePath;
+
+        if(!(fileData instanceof Array)){
+            fileData = [fileData];
+        }
+
+        async.each(fileData, function(item, eachCb){
+            filePath = path.join(defaultFileDir, folderName, item.name);
+
+            if (fs.existsSync(targetPath)) {
+                var files = fs.readdirSync(targetPath);
+
+                var k = '';
+                var maxK = 0;
+                var checkIs = false;
+                var attachfileName = item.name.slice(0, item.name.lastIndexOf('.'));
+
+                files.forEach(function (fileName) {
+                    var intVal;
+
+                    if (fileName === item.name) {
+                        k = 1;
+                        checkIs = true;
+                    } else {
+                        if ((fileName.indexOf(attachfileName) === 0) &&
+                            (fileName.lastIndexOf(attachfileName) === 0) &&
+                            (fileName.lastIndexOf(').') !== -1) &&
+                            (fileName.lastIndexOf('(') !== -1) &&
+                            (fileName.lastIndexOf('(') < fileName.lastIndexOf(').')) &&
+                            (attachfileName.length === fileName.lastIndexOf('('))) {
+                            intVal = fileName.slice(fileName.lastIndexOf('(') + 1, fileName.lastIndexOf(').'));
+                            k = parseInt(intVal) + 1;
+                        }
+                    }
+                    if (maxK < k) {
+                        maxK = k;
+                    }
+                });
+
+                if (!(maxK === 0) && checkIs) {
+                    item.name = attachfileName + '(' + maxK + ')' + item.name.slice(item.name.lastIndexOf('.'));
+                }
+
+                filePath = path.join(defaultFileDir, folderName, item.name);
+
+                writeFile(filePath, fileData, eachCb);
+            } else {
+                makeDir(targetPath, function (err) {
+                    if (err) {
+                        eachCb(err);
+                    } else {
+                        writeFile(filePath, fileData, eachCb);
+                    }
+                });
+            }
+        }, callback);
     };
 
     function writeFile(filePath, fileData, callback) {

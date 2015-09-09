@@ -16,7 +16,7 @@ define([
             template: _.template(headerTemplate),
 
             events: {
-                "click .checkbox": "checked",
+                "click .checkbox": "checked"
             },
 
             initialize: function (options) {
@@ -26,7 +26,6 @@ define([
 
                 this.render();
             },
-
 
 
             render: function () {
@@ -51,9 +50,9 @@ define([
                     //else
                     //    $("#top-bar-deleteBtn").hide();
                 });
-               /* $(document).on("click", function (e) {
-                    self.hideItemsNumber(e);
-                });*/
+                /* $(document).on("click", function (e) {
+                 self.hideItemsNumber(e);
+                 });*/
 
                 //currentEl.append(_.template(paginationTemplate));
 
@@ -63,16 +62,18 @@ define([
                     pagenation.show();
                 }
 
-                this.filterview = new filterView({ contentType: self.contentType });
+                //this.filterview = new filterView({contentType: self.contentType});
 
                 /*this.filterview.bind('filter', function (filter) {
-                    this.showFilteredPage(filter, self)
-                });
-                this.filterview.bind('defaultFilter', function () {
-                    this.showFilteredPage({}, self);
-                });*/
+                 this.showFilteredPage(filter, self)
+                 });
+                 this.filterview.bind('defaultFilter', function () {
+                 this.showFilteredPage({}, self);
+                 });*/
 
-                this.filterview.render();
+                //this.filterview.render();
+
+                return this;
             },
 
             createItem: function () {
@@ -80,20 +81,22 @@ define([
             },
 
             checked: function () {
+                var checkLength;
+
                 if (this.collection.length > 0) {
-                    var checkLength = $("input.checkbox:checked").length;
+                    checkLength = $("input.checkbox:checked").length;
                     //if ($("input.checkbox:checked").length > 0) {
                     //    $("#top-bar-deleteBtn").show();
-                        if (checkLength == this.collection.length) {
-                            $('#check_all').prop('checked', true);
-                        }
+                    if (checkLength == this.collection.length) {
+                        $('#check_all').prop('checked', true);
+                    }
                     //}
                     else {
                         //$("#top-bar-deleteBtn").hide();
                         $('#check_all').prop('checked', false);
                     }
                 }
-            },
+            }
 
         });
 
