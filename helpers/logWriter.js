@@ -1,6 +1,3 @@
-/**
- * Created by Roman on 02.04.2015.
- */
 var logWriter = (function () {
     var fs = require('fs');
 

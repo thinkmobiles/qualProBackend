@@ -4,7 +4,21 @@ module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
+    /**
+     * @namespace PersonnelModel
+     * @type {*|Schema}
+     *
+     * @property {String} pass
+     * @property {Date} lastAccess last access of personnel
+     * @property {String} imageSrc ___base64___ representation of avatar
+     * @property {String} firstName _First name_ of _Personnel_
+     * @property {String} lastName _Last name_ of _Personnel_
+     * @property {String} country ___reference___ to {@link CountryModel}
+     * @property {String} email _Email_ address of _Personnel_. __Required__
+     */
+
     var personnelSchema = new mongoose.Schema({
+        id: false,
         pass: {type: String, default: ''},
         lastAccess: {type: Date},
         imageSrc: {
@@ -39,7 +53,7 @@ module.exports = (function () {
         },
         forgotToken: {type: String}
         //attachments: {type: Array, default: []},
-    }, {collection: 'personnels'});
+    }, {collection: 'personnels', versionKey: false});
 
     personnelSchema.virtual('fullName').get(function () {
         return this.firstName + ' ' + this.lastName;

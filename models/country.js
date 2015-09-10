@@ -4,6 +4,18 @@ module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
+    /**
+     * @namespace CountryModel
+     * @type {*|Schema}
+     *
+     * @property {String} pass
+     * @property {Date} lastAccess last access of personnel
+     * @property {String} imageSrc ___base64___ representation of avatar
+     * @property {String} firstName _First name_ of _Personnel_
+     * @property {String} lastName _Last name_ of _Personnel_
+     * @property {String} email _Email_ address of _Personnel_. __Required__
+     */
+
     var schema = new mongoose.Schema({
 
         name: {type: String, default: '', unique: true},

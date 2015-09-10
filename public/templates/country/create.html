@@ -6,18 +6,10 @@
         <fieldset>
             <div class="inner">
                 <div class="avatar block-left block">
-                    <canvas id="avatar"
-                            width="240"
-                            height="240">
-                        <input type="file"
-                               value="Edit"
-                               id="File1">
-                    </canvas>
+                    <canvas id="avatar" width="240" height="240"><input type="file" value="Edit" id="File1"></canvas>
                     <div class="upload">
                         <p>Change flag</p>
-                        <input type="file"
-                               value="Edit"
-                               id="inputImg">
+                        <input type="file" value="Edit" id="inputImg">
                     </div>
                 </div>
 
@@ -27,19 +19,10 @@
                         <!--todo class name is not good. This is country-related view. Name it more generally -->
                         <!--(model-info / general-info) or create specific class for country-info-->
                         <dl class="personnel-info">
-                            <dt class="general-name">
-                            <h3>General Information</h3></dt>
-                            <dt>
-                                <label for="name">Name</label>
-                            </dt>
-                            <dd>
-                                <input type="text"
-                                       name="name"
-                                       id="name"
-                                       value=""
-                                       required maxlength="32"
-                                       placeholder="Name"/>
-                            </dd>
+                            <dt class="general-name"><h3>General Information</h3></dt>
+                            <dt><label for="name">Name</label></dt>
+                            <dd><input type="text" name="name" id="name" value="" required maxlength="32"
+                                       placeholder="Name"/></dd>
 
                             <dt><label for="managerDd">Manager</label></dt>
                             <dd>
@@ -49,34 +32,29 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="descriptionContainer block block-right">
-                        <div class="half-block">
-                            <dl class="personnel-description">
-                                <dt class="general-name">
-                                <h3>Description</h3></dt>
-                                <dd><textarea name="description"
-                                              id="description"
-                                              value="<%=description%>"
-                                              required maxlength="255"
-                                        />
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
-                    <!--todo set class and check propper binding. Check easyErp companies-->
-                    <!--   <div class="half-block">
-                          <div class="formTitle">
-                              <h3 class="left">Persons</h3>
-                              <div class="btnHolder">
-                                  <a href="javascript:;" class="addPersons" title="Add">5</a>
-                              </div>
-                              <div class="clearfix"></div>
-                          </div>
-                          <div id="persons"></div>
-                      </div>-->
+                    <!--<div class="half-block ">-->
+                        <!--<dl class="personnel-description">-->
+                            <!--<dt class="general-name"><h3>Other Information</h3></dt>-->
+                           <!-- -->
+                            <!--<dd><input type="text" name="email" id="email" value="" required maxlength="48"-->
+                                       <!--placeholder="Email"/></dd>-->
+                            <!--<dt><label for="password">Password</label></dt>-->
+                            <!--<dd><input type="password" name="password" id="password" value="" required maxlength="48"-->
+                                       <!--/></dd>-->
+                        <!--</dl>-->
+                    <!--</div>-->
 
                 </div>
-
+                <div class="descriptionContainer block block-right">
+                    <div class="half-block">
+                        <dl class="personnel-description">
+                            <dt class="general-name"><h3>Description</h3></dt>
+                            <dd><textarea name="description" id="description" value="" required maxlength="255"
+                                         />
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
             <div class="cropImages form" style="display:none;">
                 <div class="formTitle">
@@ -86,8 +64,7 @@
                 </div>
                 <br/>
 
-                <div class="image_input"
-                     style="float: left;margin-right: 20px;"></div>
+                <div class="image_input" style="float: left;margin-right: 20px;"></div>
                 <img class="image_output"/>
 
                 <div class="clearfix"></div>
