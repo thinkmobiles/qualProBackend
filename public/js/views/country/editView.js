@@ -3,9 +3,10 @@ define([
         "text!templates/personnel/changePassword.html",
         'models/personnel',
         "populate",
-        'common'
+        'common',
+        "views/personnel/createView"
     ],
-    function (template, changePassword, personnelModel, populate, common) {
+    function (template, changePassword, personnelModel, populate, common, CreateViewPersonnel) {
 
         var EditView = Backbone.View.extend({
             contentType: "country",
@@ -13,8 +14,8 @@ define([
             template: _.template(template),
             $errrorHandler: null,
 
-            initialize: function (options) {
-                _.bindAll(this, "render", "saveItem", "changePass");
+            initialize: function () {
+                _.bindAll(this, "render", "saveItem");
 
                 this.currentModel = new personnelModel(App.currentUser);
                 this.responseObj = {};
@@ -25,7 +26,8 @@ define([
                 /* "mouseenter .avatar": "showEdit",
                  "mouseleave .avatar": "hideEdit",*/
                 "click .current-selected": "showNewSelect",
-                "click .upload:not(>input)": "changePassword",
+
+                "click .addPersons": "addPersons",
                 "click": "hideNewSelect"
             },
 
@@ -36,104 +38,29 @@ define([
                 $(".crop-images-dialog").remove();
             },
 
-            hideChangePassDialog: function () {
-                $(".changePass-dialog").remove();
-            },
-
-            changePassword: function (e) {
-                var self = this;
-                var changePassTempl = _.template(changePassword);
-
-                $(changePassTempl()).dialog({
-                    modal: true,
-                    closeOnEscape: false,
-                    autoOpen: true,
-                    dialogClass: "changePass-dialog",
-                    width: "20%",
-                    resizable: true,
-                    title: "Change Password",
-                    buttons: {
-                        save: {
-                            text: "Save",
-                            class: "btn",
-                            click: self.changePass
-                        },
-                        cancel: {
-                            text: "Cancel",
-                            class: "btn",
-                            click: function () {
-                                self.hideChangePassDialog();
-                            }
-                        }
-                    }
-                });
-            },
-
-            changePass: function (e) {
-                var self = this;
-                var Model = this.currentModel;
-                var oldPass = $.trim($("#oldPassword").val());
-                var newPass = $.trim($("#newPassword").val());
-                var confirmPass = $.trim($("#confirmNewPassword").val());
-
-                var canProcess = newPass === confirmPass;
-
-                if (!canProcess) {
-                    return App.render({type: 'error', message: 'Passwords mismatch'});
-                }
-
-                Model.save({
-                        oldPass: oldPass,
-                        newPass: newPass
-                    },
-                    {
-                        wait: true,
-                        patch: true,
-
-                        success: function (model, response) {
-                            self.hideChangePassDialog();
-                        },
-                        error: function (model, xhr) {
-                            App.render({type: 'error', message: xhr.responseText});
-                        }
-                    });
-            },
-
             saveItem: function () {
                 var self = this;
-                var Model = this.currentModel;
+                var model = new Model();
                 var currEl = this.$el;
 
-                var firstName = $.trim(currEl.find("#firstName").val());
-                var lastName = $.trim(currEl.find("#lastName").val());
-                var email = $.trim(currEl.find("#email").val());
-                var phone = $.trim(currEl.find("#phone").val());
-                var position = currEl.find("#positionDd").attr("data-id");
-                var country = currEl.find("#countryDd").attr("data-id");
+                var name = $.trim(currEl.find("#name").val());
                 var manager = currEl.find("#managerDD").attr("data-id");
-                var dateBirth = $.trim(currEl.find("#dateBirth").val());
 
-                Model.save({
-                        country: country,
-                        firstName: firstName,
-                        lastName: lastName,
+                model.save({
+                        name: name,
                         imageSrc: this.imageSrc,
-                        email: email,
-                        phoneNumber: phone,
-                        position: position,
                         manager: manager,
-                        dateBirth: dateBirth
-                        /*groups: {
-                         owner: $("#allUsersSelect").data("id"),
-                         users: usersId,
-                         group: groupsId
-                         },
-                         whoCanRW: whoCanRW,*/
                     },
                     {
                         wait: true,
                         success: function (model, response) {
+
+                            alert('saved');
                             self.hideDialog();
+                            Backbone.history.fragment = '';
+                            Backbone.history.navigate('#qualPro/country/list', {trigger: true});
+
+
                         },
                         error: function (model, xhr) {
                             App.render({type: 'error', message: xhr.responseText});
@@ -184,7 +111,12 @@ define([
 
                 this.$errrorHandler = $('#errorHandler');
                 return this;
-            }
+            },
+
+            addPersons: function (e) {
+                e.preventDefault();
+                new CreateViewPersonnel();
+            },
 
         });
 
