@@ -12,9 +12,18 @@ define([
             template: _.template(CreateTemplate),
             imageSrc: '',
 
-            initialize: function () {
+            initialize: function (options) {
+
                 _.bindAll(this, "saveItem");
                 this.model = new Model();
+                if (options && options.hasOwnProperty('country')){
+                    this.model.country=options.country._id;
+                    var countryDropDown=this.$el.find("#countryDd");
+                    countryDropDown.disabled=true;
+                }
+
+
+
                 this.render();
             },
 

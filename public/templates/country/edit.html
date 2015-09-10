@@ -1,8 +1,8 @@
 <div class="form-holder">
     <div class="title">
-        <span>Personnel Profile</span>
+        <span>Country</span>
     </div>
-    <form method="post" action="" id="createPersonnelForm" class="form">
+    <form method="put" action="" id="editCountryForm" class="form">
         <fieldset>
             <div class="inner">
                 <div class="avatar block-left block">
@@ -23,12 +23,12 @@
                             <dt class="general-name">
                             <h3>General Information</h3></dt>
                             <dt><label for="name">Name</label></dt>
-                            <dd><input type="text" name="name" id="name" value="" required maxlength="32"
+                            <dd><input type="text" name="name" id="name" value="<%=name%>" required maxlength="32"
                                        placeholder="Name"/></dd>
 
                             <dt><label for="managerDd">Manager</label></dt>
                             <dd>
-                                <select id="managerDd" class="current-selected">
+                                <select id="managerDd" class="current-selected" value="<%=manager%>">
                                     <option value="null">Master Admin</option>
                                 </select>
                             </dd>
@@ -39,7 +39,7 @@
                         <div class="formTitle">
                             <h3 class="left">Persons</h3>
                             <div class="btnHolder">
-                                <a href="javascript;" class="addPersons" title="Add">5</a>
+                                <a href="javascript:;" class="addPersons" title="Add">+</a>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -51,8 +51,12 @@
                     <div class="half-block">
                         <dl class="personnel-description">
                             <dt class="general-name"><h3>Description</h3></dt>
-                            <dd><textarea name="description" id="description" value="<%=description%>" required maxlength="255"
-                                    />
+                            <dd>
+                                <textarea name="description"
+                                          id="description"
+                                          value="<%=description%>"
+                                          required maxlength="255">
+                                </textarea>
                             </dd>
                         </dl>
                     </div>
