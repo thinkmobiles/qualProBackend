@@ -21,11 +21,7 @@ define([
             },
 
             events: {
-                "mouseenter .avatar": "showEdit",
-                "mouseleave .avatar": "hideEdit",
-                "click .current-selected": "showNewSelect",
-                "click .addPersons": "addPersons",
-                "click": "hideNewSelect"
+                "click a.addPersons": "addPersons",
             },
 
             saveItem: function () {
@@ -66,6 +62,7 @@ define([
             },
 
             render: function () {
+                debugger;
                 var formString = this.template();
                 var self = this;
 
