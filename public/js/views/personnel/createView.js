@@ -33,7 +33,7 @@ define([
                 var firstName = $.trim(currEl.find("#firstName").val());
                 var lastName = $.trim(currEl.find("#lastName").val());
                 var email = $.trim(currEl.find("#email").val());
-                var pass = $.trim(currEl.find("#password").val());
+                //var pass = $.trim(currEl.find("#password").val());
                 var phone = $.trim(currEl.find("#phone").val());
                 var position = currEl.find("#positionDd").attr("data-id");
                 var country = currEl.find("#countryDd").attr("data-id");
@@ -50,7 +50,7 @@ define([
                         position: position,
                         manager: manager,
                         dateBirth: dateBirth,
-                        pass: pass
+                        //pass: pass
                         /*groups: {
                          owner: $("#allUsersSelect").data("id"),
                          users: usersId,
