@@ -5,12 +5,19 @@
             <h2>SIGN IN</h2>
 
             <label for="email">Email address</label><br/>
-            <input type="email" id="email" name="email" value="" autofocus maxlength="32" required/>
+            <span class="sp-email"><input type="email" id="email" name="email" value="" autofocus maxlength="32" required/></span>
             <label for="email">Password</label><br/>
-            <input type="password" id="pass" name="upass" value="" maxlength="15"/>
+            <span class="sp-pass"><input type="password" id="pass" name="upass" value="" maxlength="15"/></span>
 
             <a class="login-button" href="javascript:;">sign in<i></i></a>
-            <a class="forgot-button" href="<%=forgotUrl%>">forgot password<i></i></a>
+            <div class="bottom-loginForm">
+                <span>Remember Me</span>
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                    <label class="onoffswitch-label" for="myonoffswitch"></label>
+                </div>
+                <a class="forgot-button" href="<%=forgotUrl%>">forgot password?<i></i></a>
+            </div>
 
             <input type="submit" value="">
         </fieldset>
