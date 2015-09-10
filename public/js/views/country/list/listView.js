@@ -69,8 +69,10 @@ define([
                new createView();
             },
 
-            checked: function () {
+            checked: function (e) {
                 var checkLength;
+
+                e.stopPropagation();
 
                 if (this.collection.length > 0) {
                     checkLength = $("input.checkbox:checked").length;

@@ -21,7 +21,7 @@ define([
             },
 
             events: {
-                "click a.addPersons": "addPersons",
+                "click .addPersons": "addPersons",
             },
 
             saveItem: function () {
@@ -62,7 +62,6 @@ define([
             },
 
             render: function () {
-                debugger;
                 var formString = this.template();
                 var self = this;
 
@@ -94,11 +93,15 @@ define([
                 //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
 
                 common.canvasDraw({model: this.model.toJSON()}, this);
+
+                this.delegateEvents(this.events);
+
                 return this;
             },
 
             addPersons: function (e) {
                 e.preventDefault();
+
                 new CreateViewPersonnel();
             },
 
