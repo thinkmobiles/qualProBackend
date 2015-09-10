@@ -1,7 +1,7 @@
 var CONSTANTS = require('../constants/mainConstants');
 
 
-process.env.DB_HOST = 'localhost';
+process.env.DB_HOST = '127.0.0.1';
 
 process.env.HOST = 'http://localhost:9797';
 process.env.PORT = 9797;
