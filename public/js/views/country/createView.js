@@ -1,10 +1,11 @@
 define([
         "text!templates/country/create.html",
         "models/country",
-        "common"
-        //"populate"
+        "common",
+        //"populate",
+        "views/personnel/createView"
     ],
-    function (CreateTemplate, Model, common/*, populate*/) {
+    function (CreateTemplate, Model, common/*, populate*/, CreateViewPersonnel) {
 
         var CreateView = Backbone.View.extend({
             el: "#contentHolder",
@@ -23,6 +24,7 @@ define([
                 "mouseenter .avatar": "showEdit",
                 "mouseleave .avatar": "hideEdit",
                 "click .current-selected": "showNewSelect",
+                "click .addPersons": "addPersons",
                 "click": "hideNewSelect"
             },
 
@@ -35,22 +37,20 @@ define([
                 var manager = currEl.find("#managerDD").attr("data-id");
 
                 model.save({
-
                         name: name,
                         imageSrc: this.imageSrc,
                         manager: manager,
-                        /*groups: {
-                         owner: $("#allUsersSelect").data("id"),
-                         users: usersId,
-                         group: groupsId
-                         },
-                         whoCanRW: whoCanRW,*/
                     },
                     {
                         wait: true,
                         success: function (model, response) {
+
+                            alert('saved');
+                            self.hideDialog();
                             Backbone.history.fragment = '';
-                            Backbone.history.navigate('#qualPro/country/list');
+                            Backbone.history.navigate('#qualPro/country/list', {trigger: true});
+
+
                         },
                         error: function (model, xhr) {
                             App.render({type: 'error', message: xhr.responseText});
@@ -79,8 +79,11 @@ define([
                     buttons: {
                         save: {
                             text: "Create",
+                            id: "createCountryBtn",
                             class: "btn",
-                            click: self.saveItem
+                            click: function () {
+                                self.saveItem();
+                            }
                         },
                         cancel: {
                             text: "Cancel",
@@ -95,7 +98,14 @@ define([
 
                 common.canvasDraw({model: this.model.toJSON()}, this);
                 return this;
-            }
+            },
+
+            addPersons: function (e) {
+                e.preventDefault();
+                new CreateViewPersonnel();
+            },
+
+
         });
 
         return CreateView;

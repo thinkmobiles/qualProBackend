@@ -13,6 +13,7 @@ module.exports = (function () {
         },
         description: {type: String, default: ''},
         manager: {type: ObjectId, ref: CONSTANTS.PERSONNEL},
+        personnels: {type: [ObjectId], ref: CONSTANTS.PERSONNEL},
         outlets: {type: [ObjectId], ref: CONSTANTS.OUTLET},
         isArchived: Boolean,
 

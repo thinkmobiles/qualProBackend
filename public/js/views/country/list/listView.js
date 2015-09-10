@@ -62,21 +62,13 @@ define([
                 } else {
                     pagenation.show();
                 }
-
-                this.filterview = new filterView({ contentType: self.contentType });
-
-                /*this.filterview.bind('filter', function (filter) {
-                    this.showFilteredPage(filter, self)
-                });
-                this.filterview.bind('defaultFilter', function () {
-                    this.showFilteredPage({}, self);
-                });*/
-
-                this.filterview.render();
+                return this
             },
 
             createItem: function () {
-                new createView();
+               new createView();
+
+
             },
 
             checked: function () {

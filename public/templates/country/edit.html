@@ -5,50 +5,28 @@
     <form method="post" action="" id="createPersonnelForm" class="form">
         <fieldset>
             <div class="inner">
-                <div class="tabs">
-                    <ul>
-                        <li><a href="javascript:;">objectives</a></li>
-                        <li><a href="javascript:;">main</a></li>
-                    </ul>
-                </div>
                 <div class="avatar block-left block">
                     <canvas id="avatar" width="240" height="240"><input type="file" value="Edit" id="File1"></canvas>
                     <div class="upload">
-                        <p>Change photo</p>
+                        <p>Change flag</p>
                         <input type="file" value="Edit" id="inputImg">
                     </div>
-                    <div class="upload">
-                        <span id="changePassword">Change password</span>
-                    </div>
                 </div>
+
 
                 <div class="avatarInfoContainer block block-center">
 
                     <div class="half-block ">
+                        <!--todo class name is not good. This is country-related view. Name it more generally -->
+                        <!--(model-info / general-info) or create specific class for country-info-->
                         <dl class="personnel-info">
-                            <dt class="general-name"><h3>General Information</h3></dt>
-                            <dt><label for="firstName">First Name</label></dt>
-                            <dd><input type="text" name="firstName" id="firstName" value="<%=firstName%>" required maxlength="32"
-                                       placeholder="First Name"/></dd>
-                            <dt><label for="lastName">Last Name</label></dt>
-                            <dd><input type="text" name="lastName" id="lastName" value="<%=lastName%>" required maxlength="32"
-                                       placeholder="Last Name"/></dd>
-                            <dt><label for="dateBirth">Date of Birth </label></dt>
-                            <dd><input type="text" name="dateBirth" id="dateBirth" readonly value="<%=dateBirth || ''%>"/>
-                            </dd>
-                            <dt><label for="positionDd">Position</label></dt>
-                            <dd>
-                                <select id="positionDd" class="current-selected">
-                                    <option value="1">Country Admin</option>
-                                </select>
-                            </dd>
-                            <dt><label for="countryDd">Country</label></dt>
-                            <dd>
-                                <select id="countryDd" class="current-selected">
-                                    <option value="null">UAE</option>
-                                </select>
-                            </dd>
-                            <dt><label for="managerDd">Supervisor</label></dt>
+                            <dt class="general-name">
+                            <h3>General Information</h3></dt>
+                            <dt><label for="name">Name</label></dt>
+                            <dd><input type="text" name="name" id="name" value="" required maxlength="32"
+                                       placeholder="Name"/></dd>
+
+                            <dt><label for="managerDd">Manager</label></dt>
                             <dd>
                                 <select id="managerDd" class="current-selected">
                                     <option value="null">Master Admin</option>
@@ -56,16 +34,16 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="half-block ">
-                        <dl class="personnel-description">
-                            <dt class="general-name"><h3>Other Information</h3></dt>
-                            <dt><label for="phone">Phone Number</label></dt>
-                            <dd><input type="text" name="email" id="phone" value="<%=phoneNumber%>" required maxlength="48"
-                                       placeholder="Phone Number"/></dd>
-                            <dt><label for="email">Email</label></dt>
-                            <dd><input type="text" name="email" id="email" value="<%=email%>" required maxlength="48"
-                                       placeholder="Email"/></dd>
-                        </dl>
+                    <!--todo set class and check propper binding. Check easyErp companies-->
+                    <div class="half-block">
+                        <div class="formTitle">
+                            <h3 class="left">Persons</h3>
+                            <div class="btnHolder">
+                                <a href="javascript;" class="icon add persons" title="Add">5</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div id="persons"></div>
                     </div>
 
                 </div>
