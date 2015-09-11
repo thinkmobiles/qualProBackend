@@ -15,16 +15,14 @@ define([
                 imageSrc: '',
 
                 initialize: function (options) {
-
                     _.bindAll(this, "saveItem");
+
                     this.model = new Model();
+                    this.responseObj = {};
+
                     if (options && options.hasOwnProperty('countryId')) {
-
                         this.model.set('country', options.countryId);
-                        //var countryDropDown=this.$el.find("#countryDd");
-                        //countryDropDown.disabled=true;
                     }
-
 
                     this.render();
                 },
@@ -32,13 +30,12 @@ define([
                 events: {
                     "mouseenter .avatar": "showEdit",
                     "mouseleave .avatar": "hideEdit",
-                    "click .current-selected": "showNewSelect",
-                    "click #countryDd": "countryDropDownClick",
+                    "click .current-selected": "countryDropDownClick",
                     "click": "hideNewSelect"
                 },
 
                 countryDropDownClick: function (e, prev, next) {
-                  //  populate.showSelect(e, prev, next, this);
+                    alert('nelnenfrkn');
                 },
 
                 saveItem: function () {
@@ -120,7 +117,7 @@ define([
                             }
                         }
                     });
-                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true);
+                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true, true);
                     //this.setUpCountriesDropdown(this);
                     $('#dateBirth').datepicker({
                         changeMonth: true,
@@ -130,6 +127,9 @@ define([
                     });
 
                     common.canvasDraw({model: this.model.toJSON()}, this);
+
+                    this.delegateEvents(this.events);
+
                     return this;
                 },
 
@@ -137,8 +137,8 @@ define([
                     dataService.getData("/country/getForDD", null, function (err, countries) {
                         context.responseObj['#country'] = countries;
                         countries.forEach(function (country) {
-                            var countrydd=context.$el.find('#countryDd')
-                            countrydd.options.add('<option>'+country.name+"</option>");
+                            var countrydd = context.$el.find('#countryDd')
+                            countrydd.options.add('<option>' + country.name + "</option>");
                         })
 
                     });

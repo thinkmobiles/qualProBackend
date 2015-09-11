@@ -39,10 +39,10 @@ define([], function () {
         /**
          * Fetch the first page in server mode, or reset the current page of this
          * collection to the first page in client or infinite mode.
-         * @param {Object} options.
+         * @param {object} options.
          * @return {XMLHttpRequest} The XMLHttpRequest
          * from fetch or this.
-         * @method getFirstPage
+         * @function getFirstPage
          * @memberof ParrentCollection
          * @instance
          */
