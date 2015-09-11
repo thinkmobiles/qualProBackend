@@ -5,13 +5,14 @@
 @import "_vendor";
 @import "_typography";
 @import "_login";
-
+@import "_header";
+@import "_leftMenuHolder";
 a {
   text-decoration: none;
 }
 
 .triangle {
-  display: inline-block;
+  //display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -22,7 +23,7 @@ a {
 
 .downArrow {
   .triangle();
-  border-top: solid 5px black;
+   border-top: solid 5px black;
 }
 
 .topArrow {
@@ -62,66 +63,11 @@ a {
   }
 }
 
-
-
-#leftMenuHolder {
-  width: 20%;
-  height: 100vh;
-  border: 2px solid darkgray;
-  ul {
-    li {
-      a {
-        color: @text-color-menu;
-        text-transform: uppercase;
-        font-size: 14px;
-        line-height: 24px;
-        border-bottom: 1px solid @leftmenu-border-color;
-        display: block;
-        padding-left: 20px;
-        font-weight: 600;
-      }
-
-      ul {
-        li {
-          a {
-            padding-left: 40px;
-          }
-        }
-      }
-    }
-  }
-
-  a {
-    &:hover {
-      background-color: @leftmenu-hover-color;
-    }
-  }
-}
-
-#leftMenuHolder {
-  position: relative;
-  float: left;
-}
-
 .clear {
   content: "\0020";
   display: block;
   height: 0;
   overflow: hidden;
-}
-
-.clearfix {
-  zoom: 1;
-  clear: both;
-
-  &:before {
-    .clear;
-  }
-
-  &:after {
-    .clear;
-    clear: both;
-  }
 }
 
 .no-close .ui-dialog-titlebar-close {
@@ -144,7 +90,7 @@ a {
   .ui-dialog-content {
     position: relative;
     border: 0;
-    //padding: .5em 1em;
+    padding: .5em 1em;
     background: 0;
     .title {
       border: 3px solid @border-color;
@@ -152,7 +98,7 @@ a {
       span {
         font-size: 18px;
         font-weight: 600;
-        color: @text-color-menu;
+        color: @main-font-color;
         padding: 0 10px;
         line-height: 38px;
       }
@@ -174,7 +120,7 @@ a {
               font-weight: 600;
               line-height: 38px;
               padding: 0 10px;
-              color: @text-color-menu;
+              color: @main-font-color;
               border: 1px solid #eee;
               min-width: 60px;
               text-transform: uppercase;
@@ -224,7 +170,7 @@ a {
           p, span {
             text-align: center;
             font-size: 14px;
-            color: @text-color-menu;
+            color: @main-font-color;
             font-weight: 400;
             position: absolute;
             top: 24%;
@@ -239,7 +185,7 @@ a {
           h3 {
             font-size: 18px;
             font-weight: 600;
-            color: @text-color-menu;
+            color: @main-font-color;
             margin-bottom: 10px;
           }
 
@@ -259,7 +205,7 @@ a {
               padding-left: 20px;
               label {
 
-                color: @text-color-menu;
+                color: @main-font-color;
               }
 
             }
@@ -282,7 +228,7 @@ a {
           h3 {
             font-size: 18px;
             font-weight: 600;
-            color: @text-color-menu;
+            color: @main-font-color;
             margin-bottom: 10px;
           }
           dl {
