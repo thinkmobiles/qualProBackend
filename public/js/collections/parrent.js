@@ -21,15 +21,22 @@ define([], function () {
      * `firstPage` is 0 or 1. If left as default, it will be set to `firstPage`
      * on initialization.
      *
+     * @property {number} [state.totalPages=null] How many pages there are. This
+     * value is __read only__ and it is calculated from `totalRecords`.
+     *
      * @property {number} pageSize How many records to show per
      * page. This value is __read only__ after initialization, if you want to
      * change the page size after initialization, you must call #setPageSize.
      */
 
+    var MasterCollection = Backbone.Collection.extend({});
+
     var Collection = Backbone.Collection.extend({
         firstPage: 1,
         lastPage: null,
         currentPage: null,
+        totalPages: null,
+        totalRecords: null,
         pageSize: 25,
 
         offset: function () {
@@ -47,17 +54,36 @@ define([], function () {
          * @instance
          */
 
+        getPage: function(options) {
+            return this.fetch(options);
+        },
+
+        getPage: function (page, options) {
+            options = options || {fetch: false};
+            var _omit = _.omit;
+
+            var firstPage = this.firstPage;
+            var currentPage = this.currentPage;
+            var lastPage = this.lastPage;
+            var pageSize = this.pageSize;
+
+            return this.fetch(options);
+        },
+
         getFirstPage: function (options) {
             var self = this;
             var filterObject = options || {};
+            var waite = !!options.waite;
 
-            filterObject['page'] = (options && options.page) ? options.page : this.currentPage;
+            this.currentPage = 1;
+
+            filterObject['page'] = this.currentPage;
             filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
             filterObject['filter'] = (options) ? options.filter : {};
 
             this.fetch({
                 data: filterObject,
-                waite: true,
+                waite: waite,
 
                 success: function (models) {
                     self.currentPage++;
@@ -72,14 +98,15 @@ define([], function () {
         getLastPage: function (options) {
             var self = this;
             var filterObject = options || {};
+            var waite = !!options.waite;
 
-            filterObject['page'] = (options && options.page) ? options.page : this.currentPage;
+            filterObject['page'] = this.lastPage;
             filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
             filterObject['filter'] = (options) ? options.filter : {};
 
             this.fetch({
                 data: filterObject,
-                waite: true,
+                waite: waite,
 
                 success: function (models) {
                     self.currentPage++;
