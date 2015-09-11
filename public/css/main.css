@@ -220,6 +220,8 @@ li {
 /*== End login.less =================*/
 /*== Begin leftMenuHolders ==============*/
 /*== End leftMenuHolders ==============*/
+/*== Begin topBarMenuHolders ==============*/
+/*== End topBarMenuHolders ==============*/
 /*== ui dialog==================*/
 .clearfix {
   /* display: table */
@@ -638,8 +640,9 @@ button {
 }
 #rightMenuHolder {
   float: right;
-  width: 79%;
-  margin-left: 1%;
+  width: 76%;
+  margin: 0 3% 0 1%;
+  margin-top: 40px;
   /* display: table */
   -height: 1%;
   /*IE6*/
@@ -658,11 +661,77 @@ button {
   overflow: hidden;
   /*IE8-*/
 }
+#topBarHolder {
+  border: 1px solid #cfd8dc;
+}
+#topBarHolder .pl {
+  padding: 0 25px;
+}
+#topBarHolder #filterBar .title {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #cfd8dc;
+  /* display: table */
+  -height: 1%;
+  /*IE6*/
+  *zoom: 1;
+  /*IE6-7*/
+  display: table;
+  padding: 0 25px;
+}
+#topBarHolder #filterBar .title:after {
+  content: '1 1';
+  /*Op15+*/
+  content: '1 1 1 1 1 1 1 1 1 1 1';
+  /*Op12+*/
+  font: 0.1px/0 a;
+  display: block;
+  word-spacing: 99in;
+  overflow: hidden;
+  /*IE8-*/
+}
+#topBarHolder #filterBar .title span {
+  font-size: 1em;
+  color: #000000;
+  line-height: 50px;
+  text-transform: capitalize;
+  float: left;
+}
+#topBarHolder #filterBar .title span:last-child {
+  float: right;
+  position: relative;
+}
+#topBarHolder #filterBar .title span:last-child:before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  display: block;
+  background-image: url('../images/topbarmenu/search.png');
+  position: absolute;
+  top: 18px;
+  left: 15px;
+}
+#topBarHolder #filterBar .title input[type="text"] {
+  color: #c4c4c4;
+  font-size: 1em;
+  height: 36px;
+  width: 270px;
+  padding: 0 15px 0 38px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #cfd8dc;
+}
+#topBarHolder #filterBar .filterFullContainer {
+  float: left;
+  margin-top: 20px;
+}
+#topBarHolder #filterBar .filterFullContainer:first-child {
+  margin-left: 25px;
+}
 a {
   text-decoration: none;
 }
 .triangle {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -670,7 +739,6 @@ a {
   border-right: solid 5px transparent;
 }
 .downArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -679,7 +747,6 @@ a {
   border-top: solid 5px black;
 }
 .topArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
