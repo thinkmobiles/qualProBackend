@@ -1,0 +1,47 @@
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.border-radius-bottom(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+.border-radius-bottom-left(@radius, @height) {
+  -webkit-border-bottom-left-radius: @radius @height;
+  -moz-border-bottom-left-radius: @radius @height;
+  border-bottom-left-radius: @radius @height;
+}
+.border-radius-bottom-right(@radius, @height) {
+  -webkit-border-bottom-right-radius: @radius @height;
+  -moz-border-bottom-right-radius: @radius @height;
+  border-bottom-right-radius: @radius @height;
+}
+
+.box-shadow(@y, @x, @blur, @color) {
+  -webkit-box-shadow:  @y @x @blur @color;
+  -moz-box-shadow:  @y @x @blur @color;
+  box-shadow:  @y @x @blur @color;
+}
+
+.box-sizing (@type) {
+  -webkit-box-sizing: @type;
+  -moz-box-sizing: @type;
+  box-sizing: @type;
+}
+
+.rotate(@deg) {
+  /* Safari */
+  -webkit-transform: rotate(@deg * 1deg);
+  /* Firefox */
+  -moz-transform: rotate(@deg * 1deg);
+  /* IE10+ */
+  transform: rotate(@deg * 1deg);
+  /* Opera */
+  -o-transform: rotate(@deg * 1deg);
+  /* Internet Explorer */
+  @IEdeg: round(@deg / 90, 0);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=@IEdeg);
+}

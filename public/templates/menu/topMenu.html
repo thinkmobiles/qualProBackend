@@ -1,15 +1,26 @@
 <div id="loginPanel">
-    <div class="logo"><a href="http://alalali.com/en/" title="Return to the al alali homepage"><img src="../../images/logo.png" alt=""/></a></div>
+    <div class="logo">
+        <a href="http://alalali.com/en/" title="Return to the al alali homepage">
+            <img src="../../images/logo.png" alt="Logo"/>
+        </a>
+    </div>
     <div class="personelShortDetail">
         <div class="avatar">
             <img src="<%= imageSrc %>" />
         </div>
         <div id="personnelDescription">
-            <span id="personnelName"><%= fullName %></span>
+            <span id="personnelName"><%= fullName %></span><br/>
             <span id="personnelJobposition"><%= position %></span>
         </div>
     </div>
     <div id="aditionalInfo">
-
+        <ul>
+            <li>
+                <a href="javascript:;" class="bell"><span></span></a>
+            </li>
+            <li>
+                <a href="javascript:;" class="list"></a>
+            </li>
+        </ul>
     </div>
 </div>
