@@ -1,13 +1,20 @@
+/**
+.list-number - for li ho have numbers
+.drop-arrow - arrow for li ho have childs
+.menu-drop-down - for dropDown list
+*/
+
 #leftMenuHolder {
   width: 19%;
-  margin-top: 60px;
+  margin-top: 40px;
   border: 2px solid darkgray;
+  position: relative;
+  float: left;
   ul {
     li {
-      //padding-right: 35px;
-      .list-number {
-
-      }
+      position: relative;
+      overflow: hidden;
+      height: 43px;
       a {
         color: @leftmenu-font-color-menu;
         .pxToEm(14);
@@ -26,6 +33,41 @@
         }
       }
     }
+
+    li.list-number {
+      &:after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        line-height: 20px;
+        background-color: @leftmenu-listnum-bg;
+        position: absolute;
+        top: 11px;
+        right: 15px;
+        border-radius: 4px;
+        color: @leftmenu-listnum-text-color;
+        text-align: center;
+      }
+    }
+    li.drop-arrow {
+      &:after {
+        content: '\2304';
+        display: inline-block;
+        width: 20px;
+        line-height: 20px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #394850;
+        cursor: pointer;
+        font-family: @fontBold;
+        .pxToEm(31);
+      }
+    }
+
+    li.menu-drop-down {
+      height: auto;
+    }
   }
 
   a {
@@ -35,7 +77,3 @@
   }
 }
 
-#leftMenuHolder {
-  position: relative;
-  float: left;
-}
