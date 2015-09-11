@@ -8,7 +8,7 @@ define([
     function (valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
         var FilterView;
         FilterView = Backbone.View.extend({
-            el: '#filterBar',
+            el: '#filtersFullHolder',
             contentType: "Filter",
             savedFilters: {},
             filterIcons: {},
