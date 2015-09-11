@@ -220,6 +220,8 @@ li {
 /*== End login.less =================*/
 /*== Begin leftMenuHolders ==============*/
 /*== End leftMenuHolders ==============*/
+/*== Begin topBarMenuHolders ==============*/
+/*== End topBarMenuHolders ==============*/
 /*== ui dialog==================*/
 .clearfix {
   /* display: table */
@@ -638,8 +640,9 @@ button {
 }
 #rightMenuHolder {
   float: right;
-  width: 79%;
-  margin-left: 1%;
+  width: 76%;
+  margin: 0 3% 0 1%;
+  margin-top: 40px;
   /* display: table */
   -height: 1%;
   /*IE6*/
@@ -658,11 +661,26 @@ button {
   overflow: hidden;
   /*IE8-*/
 }
+#topBarHolder {
+  border: 1px solid #cfd8dc;
+}
+#topBarHolder .pl {
+  padding-left: 25px;
+}
+#topBarHolder #filterBar {
+  background-color: #f7f7f7;
+  padding-left: 25px;
+}
+#topBarHolder #filterBar span {
+  font-size: 1em;
+  color: #000000;
+  line-height: 50px;
+  text-transform: capitalize;
+}
 a {
   text-decoration: none;
 }
 .triangle {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -670,7 +688,6 @@ a {
   border-right: solid 5px transparent;
 }
 .downArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -679,7 +696,6 @@ a {
   border-top: solid 5px black;
 }
 .topArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
