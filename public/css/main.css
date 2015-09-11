@@ -582,8 +582,10 @@ button {
 */
 #leftMenuHolder {
   width: 19%;
-  margin-top: 60px;
+  margin-top: 40px;
   border: 2px solid darkgray;
+  position: relative;
+  float: left;
 }
 #leftMenuHolder ul li {
   position: relative;
@@ -634,9 +636,27 @@ button {
 #leftMenuHolder a:hover {
   background-color: #f7f7f7;
 }
-#leftMenuHolder {
-  position: relative;
-  float: left;
+#rightMenuHolder {
+  float: right;
+  width: 79%;
+  margin-left: 1%;
+  /* display: table */
+  -height: 1%;
+  /*IE6*/
+  *zoom: 1;
+  /*IE6-7*/
+  display: table;
+}
+#rightMenuHolder:after {
+  content: '1 1';
+  /*Op15+*/
+  content: '1 1 1 1 1 1 1 1 1 1 1';
+  /*Op12+*/
+  font: 0.1px/0 a;
+  display: block;
+  word-spacing: 99in;
+  overflow: hidden;
+  /*IE8-*/
 }
 a {
   text-decoration: none;
