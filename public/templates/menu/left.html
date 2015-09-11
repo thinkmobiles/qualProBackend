@@ -1,7 +1,8 @@
 <ul>
     <% rootModules.forEach(function(rootModule){%>
-        <li>
+        <li class="list-number">
             <a href="#qualPro/<%=rootModule.href%>" class="mainMenu"><%= rootModule.mname %></a>
+
                 <% if(getChild(rootModule._id)){%>
                     <ul>
                         <% getChild(rootModule._id).forEach(function(childEl){%>

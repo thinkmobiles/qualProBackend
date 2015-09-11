@@ -6,11 +6,15 @@
 /*== Begin Main Colors ================*/
 @main-bg-color: #C62828;
 @main-sub-color: #fff;
+@main-font-color: #000;
+
+@main-border-color: #CFD8DC;
 /*== End Main Colors ================*/
 
 /*== Begin Header===================*/
 @header-bg: @main-bg-color;
 @header-font-color: @main-sub-color;
+
 /*== End Header===================*/
 
 /*== Begin login.less =================*/
@@ -30,12 +34,14 @@
 
 /*== End login.less =================*/
 
-/*==Left menu color==============*/
+/*== Begin leftMenuHolders ==============*/
+@leftmenu-font-color-menu: @main-font-color;
+@leftmenu-subfont-color-menu: #546E7A;
 
-@text-color-menu: #6a6a6a;
-@leftmenu-border-color: #eee;
-@leftmenu-hover-color: #eee;
+@leftmenu-border-color: @main-border-color;
+@leftmenu-hover-color: #F7F7F7;
 
+/*== End leftMenuHolders ==============*/
 
 /*== ui dialog==================*/
 @border-color: black;

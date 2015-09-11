@@ -218,7 +218,8 @@ li {
 /*Switcher*/
 /*=========*/
 /*== End login.less =================*/
-/*==Left menu color==============*/
+/*== Begin leftMenuHolders ==============*/
+/*== End leftMenuHolders ==============*/
 /*== ui dialog==================*/
 .clearfix {
   /* display: table */
@@ -457,6 +458,9 @@ button {
 }
 #topMenuHolder {
   margin-bottom: 20px;
+  -webkit-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
 }
 #loginPanel {
   height: 107px;
@@ -565,11 +569,37 @@ button {
 #loginPanel #aditionalInfo ul li:last-child {
   float: right;
 }
+#leftMenuHolder {
+  width: 19%;
+  margin-top: 60px;
+  border: 2px solid darkgray;
+}
+#leftMenuHolder ul li {
+  padding-right: 35px;
+}
+#leftMenuHolder ul li a {
+  color: #000000;
+  font-size: 0.875em;
+  font-family: 'proxima_nova_rgregular';
+  line-height: 43px;
+  display: block;
+  padding-left: 10.5%;
+}
+#leftMenuHolder ul li ul li a {
+  padding-left: 25%;
+  color: #546e7a;
+}
+#leftMenuHolder a:hover {
+  background-color: #f7f7f7;
+}
+#leftMenuHolder {
+  position: relative;
+  float: left;
+}
 a {
   text-decoration: none;
 }
 .triangle {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -577,7 +607,6 @@ a {
   border-right: solid 5px transparent;
 }
 .downArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -586,7 +615,6 @@ a {
   border-top: solid 5px black;
 }
 .topArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -621,31 +649,6 @@ a {
 .notification .animate .error {
   background: darkred;
 }
-#leftMenuHolder {
-  width: 20%;
-  height: 100vh;
-  border: 2px solid darkgray;
-}
-#leftMenuHolder ul li a {
-  color: #6a6a6a;
-  text-transform: uppercase;
-  font-size: 14px;
-  line-height: 24px;
-  border-bottom: 1px solid #eeeeee;
-  display: block;
-  padding-left: 20px;
-  font-weight: 600;
-}
-#leftMenuHolder ul li ul li a {
-  padding-left: 40px;
-}
-#leftMenuHolder a:hover {
-  background-color: #eeeeee;
-}
-#leftMenuHolder {
-  position: relative;
-  float: left;
-}
 .clear {
   content: "\0020";
   display: block;
@@ -668,6 +671,7 @@ a {
 .ui-dialog .ui-dialog-content {
   position: relative;
   border: 0;
+  padding: .5em 1em;
   background: 0;
 }
 .ui-dialog .ui-dialog-content .title {
@@ -677,7 +681,7 @@ a {
 .ui-dialog .ui-dialog-content .title span {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   padding: 0 10px;
   line-height: 38px;
 }
@@ -686,7 +690,7 @@ a {
   overflow: hidden;
 }
 .ui-dialog .ui-dialog-content .inner .tabs {
-  border-bottom: 2px solid #eeeeee;
+  border-bottom: 2px solid #cfd8dc;
   background-color: #ffffff;
 }
 .ui-dialog .ui-dialog-content .inner .tabs ul {
@@ -702,7 +706,7 @@ a {
   font-weight: 600;
   line-height: 38px;
   padding: 0 10px;
-  color: #6a6a6a;
+  color: #000000;
   border: 1px solid #eee;
   min-width: 60px;
   text-transform: uppercase;
@@ -745,7 +749,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-left .upload span {
   text-align: center;
   font-size: 14px;
-  color: #6a6a6a;
+  color: #000000;
   font-weight: 400;
   position: absolute;
   top: 24%;
@@ -757,7 +761,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-center .half-block h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   margin-bottom: 10px;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl {
@@ -776,7 +780,7 @@ a {
   padding-left: 20px;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl dt label {
-  color: #6a6a6a;
+  color: #000000;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl dd {
   float: right;
@@ -796,7 +800,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-right .half-block h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   margin-bottom: 10px;
 }
 .ui-dialog .ui-dialog-content .inner .block-right .half-block dl {
