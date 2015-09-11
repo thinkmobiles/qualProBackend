@@ -5,8 +5,7 @@ define([], function () {
      * @class ParrentCollection
      * @extends Backbone.Collection
      *
-     *  @property {number} firstPage The first page index. Set to 0 if
-     * your server API uses 0-based indices. You should only override this value
+     * @property {number} firstPage The first page index. You should only override this value
      * during extension, initialization or reset by the server after
      * fetching. This value should be read only at other times.
      *
@@ -41,7 +40,73 @@ define([], function () {
             return this.currentPage * this.pageSize;
         },
 
+        getFirstPage: function (options) {
+            var self = this;
+            var filterObject = options || {};
+
+            filterObject['page'] = (options && options.page) ? options.page : this.currentPage;
+            filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
+            filterObject['filter'] = (options) ? options.filter : {};
+
+            this.fetch({
+                data: filterObject,
+                waite: true,
+
+                success: function (models) {
+                    self.currentPage++;
+                    self.trigger('showmore', models);
+                },
+                error: function (models, err) {
+                    self.trigger('errorPaganation', err);
+                }
+            });
+        },
+
+        getLastPage: function (options) {
+            var self = this;
+            var filterObject = options || {};
+
+            filterObject['page'] = (options && options.page) ? options.page : this.currentPage;
+            filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
+            filterObject['filter'] = (options) ? options.filter : {};
+
+            this.fetch({
+                data: filterObject,
+                waite: true,
+
+                success: function (models) {
+                    self.currentPage++;
+                    self.trigger('showmore', models);
+                },
+                error: function (models, err) {
+                    self.trigger('errorPaganation', err);
+                }
+            });
+        },
+
         getNextPage: function (options) {
+            var self = this;
+            var filterObject = options || {};
+
+            filterObject['page'] = (options && options.page) ? options.page : this.currentPage;
+            filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
+            filterObject['filter'] = (options) ? options.filter : {};
+
+            this.fetch({
+                data: filterObject,
+                waite: true,
+
+                success: function (models) {
+                    self.currentPage++;
+                    self.trigger('showmore', models);
+                },
+                error: function (models, err) {
+                    self.trigger('errorPaganation', err);
+                }
+            });
+        },
+
+        getPreviousPage: function (options) {
             var self = this;
             var filterObject = options || {};
 
