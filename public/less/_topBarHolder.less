@@ -2,17 +2,53 @@
   border: 1px solid @topbarmenu-border-color;
 
   .pl {
-    padding-left: 25px;
+    padding: 0 25px;
   }
 
   #filterBar {
-    background-color: @topbarmenu-block-bg;
-    .pl;
-    span {
-      .pxToEm(16);
-      color: @topbarmenu-font-color-menu;
-      line-height: 50px;
-      text-transform: capitalize;
+    .title {
+      background-color: @topbarmenu-block-bg;
+      border-bottom: 1px solid @topbarmenu-border-color;
+      .clearfix;
+      .pl;
+      span {
+        .pxToEm(16);
+        color: @topbarmenu-font-color-menu;
+        line-height: 50px;
+        text-transform: capitalize;
+        float: left;
+        &:last-child {
+          float: right;
+          position: relative;
+          &:before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            display: block;
+            background-image: url('../images/topbarmenu/search.png');
+            position: absolute;
+            top: 18px;
+            left: 15px;
+          }
+        }
+      }
+      input[type="text"] {
+        color: @topbarmenu-input-color;
+        .pxToEm(16);
+        height: 36px;
+        width: 270px;
+        padding: 0 15px 0 38px;
+        .box-sizing(border-box);
+        border: 1px solid @topbarmenu-border-color;
+      }
+    }
+
+    .filterFullContainer {
+      float: left;
+      margin-top: 20px;
+      &:first-child {
+        margin-left: 25px;
+      }
     }
   }
 }
