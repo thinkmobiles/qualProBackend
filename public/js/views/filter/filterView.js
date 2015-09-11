@@ -7,15 +7,8 @@ define([
         var filterValuesView = Backbone.View.extend({
             template: _.template(valuesTemplate),
 
-            events: {
-                'click .dropDown': 'showHideValues',
-            },
-
-            showHideValues:function(sender){
-                this.$el.find('.ulContent').toggle();
-            },
-
             initialize: function (options) {
+                _.bindAll(this, "renderContent");
                 this.status = options.status;
                 this.currentPage = 1;
                 this.filterName = options.filterName;
@@ -24,11 +17,43 @@ define([
                 this.collectionLength = this.collection.length;
                 this.elementToShow = options.elementToShow || (CONSTANTS.FILTERVALUESCOUNT > this.collectionLength) ? this.collectionLength : CONSTANTS.FILTERVALUESCOUNT;
 
-                this.paginationBool = (this.collectionLength > this.elementToShow) ? true : false;
-
                 this.allPages = Math.ceil(this.collectionLength / this.elementToShow);
 
                 this.$el = $(options.element);
+
+                this.filteredCollection = new filterCollection(this.collection.toJSON());
+                this.filteredCollection.on('reset', this.renderContent);
+
+                this.inputEvent = _.debounce(
+                    function (e) {
+                        var target = e.target;
+                        var value = target.value;
+                        var newFilteredCollection;
+
+                        if (!value) {
+                            return this.filteredCollection.reset(this.collection.toJSON());
+                        }
+
+                        newFilteredCollection = this.filterCollection(value);
+
+                        this.filteredCollection.reset(newFilteredCollection);
+                    }, 500);
+
+
+                _.bindAll(this, "inputEvent");
+            },
+
+            filterCollection: function (value) {
+                var resultCollection;
+                var regex;
+
+                regex = new RegExp(value, 'i');
+
+                resultCollection = this.collection.filter(function (model) {
+                        return model.get('name').match(regex);
+                });
+
+                return resultCollection;
             },
 
             paginationChange: function (e, context) {
@@ -51,13 +76,13 @@ define([
                 var element;
 
                 this.start = (this.currentPage - 1) * this.elementToShow;
-                this.end = Math.min(this.currentPage * this.elementToShow, this.collectionLength);
+                this.end = Math.min(this.currentPage * this.elementToShow, this.filteredCollection.length);
 
                 var prevPage;
                 var nextPage;
                 var status = '';
 
-                displayCollection = this.collection.toJSON();
+                displayCollection = this.filteredCollection.toJSON();
                 displayCollection = displayCollection.slice(this.start, this.end);
 
                 ulElement.html('');
@@ -77,7 +102,18 @@ define([
                     }
                 }
 
-                paginationLi.find('.counter').html((this.start + 1) + '-' + this.end + ' of ' + this.collectionLength);
+                this.paginationBool = (this.filteredCollection.length > this.elementToShow) ? true : false;
+
+                if (this.paginationBool) {
+                    paginationLi.find('.counter').html((this.start + 1) + '-' + this.end + ' of ' + this.filteredCollection.length);
+                    if (!paginationLi.is(":visible")) {
+                        paginationLi.toggle();
+                    }
+                } else {
+                    if (paginationLi.is(":visible")) {
+                        paginationLi.toggle();
+                    }
+                }
 
                 prevPage = paginationLi.find('.prev');
                 nextPage = paginationLi.find('.next');
@@ -95,21 +131,26 @@ define([
 
             render: function () {
                 var self = this;
+                var curentEl = this.$el;
+                var nameInput = curentEl.find(".filterName input");
 
-                this.$el.append(this.template({
+                curentEl.append(this.template({
                     filterDisplayName: this.filterDisplayName,
                     status: this.status,
                     filterName: this.filterName,
-                    paginationBool: this.paginationBool
                 }));
 
                 this.renderContent();
 
-                this.$el.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
+                curentEl.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
                     self.paginationChange(e, self);
                 });
 
-                this.$el.find('.ulContent').toggle();
+                nameInput.keyup(function(e) {self.inputEvent(e)});
+
+                nameInput.change(function(e) {self.inputEvent(e)});
+
+                curentEl.find('.ulContent').toggle();
             }
         });
 
