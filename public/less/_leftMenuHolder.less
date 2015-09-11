@@ -1,0 +1,41 @@
+#leftMenuHolder {
+  width: 19%;
+  margin-top: 60px;
+  border: 2px solid darkgray;
+  ul {
+    li {
+      //padding-right: 35px;
+      .list-number {
+
+      }
+      a {
+        color: @leftmenu-font-color-menu;
+        .pxToEm(14);
+        font-family: @fontRegular;
+        line-height: 43px;
+        display: block;
+        padding-left: 10.5%;
+      }
+
+      ul {
+        li {
+          a {
+            padding-left: 25%;
+            color: @leftmenu-subfont-color-menu;
+          }
+        }
+      }
+    }
+  }
+
+  a {
+    &:hover {
+      background-color: @leftmenu-hover-color;
+    }
+  }
+}
+
+#leftMenuHolder {
+  position: relative;
+  float: left;
+}

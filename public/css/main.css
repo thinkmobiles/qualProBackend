@@ -1,4 +1,8 @@
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+* {
+  margin: 0;
+  padding: 0;
+}
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -180,6 +184,10 @@ td,
 th {
   padding: 0;
 }
+ul,
+li {
+  list-style: none;
+}
 @font-face {
   font-family: 'proxima_nova_rgbold';
   src: url('../fonts/proxima_nova_bold-webfont.eot');
@@ -202,11 +210,16 @@ th {
   font-style: normal;
 }
 /*== Fonts ===========================*/
+/*== Begin Main Colors ================*/
+/*== End Main Colors ================*/
+/*== Begin Header===================*/
+/*== End Header===================*/
 /*== Begin login.less =================*/
 /*Switcher*/
 /*=========*/
 /*== End login.less =================*/
-/*==Left menu color==============*/
+/*== Begin leftMenuHolders ==============*/
+/*== End leftMenuHolders ==============*/
 /*== ui dialog==================*/
 .clearfix {
   /* display: table */
@@ -367,8 +380,6 @@ button {
   *zoom: 1;
   /*IE6-7*/
   display: table;
-  zoom: 1;
-  clear: both;
   width: 100%;
   /*--Switcher--*/
 }
@@ -382,19 +393,6 @@ button {
   word-spacing: 99in;
   overflow: hidden;
   /*IE8-*/
-}
-#login .bottom-loginForm:before {
-  content: "\0020";
-  display: block;
-  height: 0;
-  overflow: hidden;
-}
-#login .bottom-loginForm:after {
-  content: "\0020";
-  display: block;
-  height: 0;
-  overflow: hidden;
-  clear: both;
 }
 #login .bottom-loginForm span {
   float: left;
@@ -458,11 +456,150 @@ button {
   color: #ff9800;
   text-transform: capitalize !important;
 }
+#topMenuHolder {
+  margin-bottom: 20px;
+  -webkit-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
+}
+#loginPanel {
+  height: 107px;
+  background: #c62828;
+  padding: 0 70px 0 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  /* display: table */
+  -height: 1%;
+  /*IE6*/
+  *zoom: 1;
+  /*IE6-7*/
+  display: table;
+}
+#loginPanel:after {
+  content: '1 1';
+  /*Op15+*/
+  content: '1 1 1 1 1 1 1 1 1 1 1';
+  /*Op12+*/
+  font: 0.1px/0 a;
+  display: block;
+  word-spacing: 99in;
+  overflow: hidden;
+  /*IE8-*/
+}
+#loginPanel .logo {
+  float: left;
+  position: relative;
+  height: 107px;
+  width: 150px;
+}
+#loginPanel .logo a {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  display: block;
+}
+#loginPanel .logo a img {
+  width: 150px;
+}
+#loginPanel .personelShortDetail {
+  float: left;
+  margin-left: 45px;
+  padding: 20px 0;
+}
+#loginPanel .personelShortDetail .avatar {
+  margin: 0 20px;
+  float: left;
+}
+#loginPanel .personelShortDetail #personnelDescription {
+  float: left;
+}
+#loginPanel .personelShortDetail #personnelDescription #personnelName {
+  font-size: 1.125em;
+  font-family: 'proxima_nova_rgbold';
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+#loginPanel .personelShortDetail #personnelDescription #personnelJobposition {
+  font-size: 0.875em;
+  font-family: 'proxima_nova_rgregular';
+  color: #ffffff;
+}
+#loginPanel #aditionalInfo {
+  float: right;
+  width: 100px;
+}
+#loginPanel #aditionalInfo ul {
+  height: 107px;
+}
+#loginPanel #aditionalInfo ul li {
+  position: relative;
+  margin-top: 38px;
+}
+#loginPanel #aditionalInfo ul li a {
+  display: block;
+  width: 27px;
+  height: 27px;
+  background: url("../images/header/header-sprit.png");
+}
+#loginPanel #aditionalInfo ul li span {
+  position: absolute;
+  top: -12px;
+  right: -20px;
+  display: block;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+  padding: 1px 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#loginPanel #aditionalInfo ul li .bell {
+  background-position: 0 0;
+}
+#loginPanel #aditionalInfo ul li .list {
+  background-position: 27px 0;
+}
+#loginPanel #aditionalInfo ul li:first-child {
+  float: left;
+}
+#loginPanel #aditionalInfo ul li:last-child {
+  float: right;
+}
+#leftMenuHolder {
+  width: 19%;
+  margin-top: 60px;
+  border: 2px solid darkgray;
+}
+#leftMenuHolder ul li {
+  padding-right: 35px;
+}
+#leftMenuHolder ul li a {
+  color: #000000;
+  font-size: 0.875em;
+  font-family: 'proxima_nova_rgregular';
+  line-height: 43px;
+  display: block;
+  padding-left: 10.5%;
+}
+#leftMenuHolder ul li ul li a {
+  padding-left: 25%;
+  color: #546e7a;
+}
+#leftMenuHolder a:hover {
+  background-color: #f7f7f7;
+}
+#leftMenuHolder {
+  position: relative;
+  float: left;
+}
 a {
   text-decoration: none;
 }
 .triangle {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -470,7 +607,6 @@ a {
   border-right: solid 5px transparent;
 }
 .downArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -479,7 +615,6 @@ a {
   border-top: solid 5px black;
 }
 .topArrow {
-  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -514,53 +649,11 @@ a {
 .notification .animate .error {
   background: darkred;
 }
-#leftMenuHolder {
-  width: 20%;
-  height: 100vh;
-  border: 2px solid darkgray;
-}
-#leftMenuHolder ul li a {
-  color: #6a6a6a;
-  text-transform: uppercase;
-  font-size: 14px;
-  line-height: 24px;
-  border-bottom: 1px solid #eeeeee;
-  display: block;
-  padding-left: 20px;
-  font-weight: 600;
-}
-#leftMenuHolder ul li ul li a {
-  padding-left: 40px;
-}
-#leftMenuHolder a:hover {
-  background-color: #eeeeee;
-}
-#leftMenuHolder {
-  position: relative;
-  float: left;
-}
 .clear {
   content: "\0020";
   display: block;
   height: 0;
   overflow: hidden;
-}
-.clearfix {
-  zoom: 1;
-  clear: both;
-}
-.clearfix:before {
-  content: "\0020";
-  display: block;
-  height: 0;
-  overflow: hidden;
-}
-.clearfix:after {
-  content: "\0020";
-  display: block;
-  height: 0;
-  overflow: hidden;
-  clear: both;
 }
 .no-close .ui-dialog-titlebar-close {
   display: none;
@@ -578,6 +671,7 @@ a {
 .ui-dialog .ui-dialog-content {
   position: relative;
   border: 0;
+  padding: .5em 1em;
   background: 0;
 }
 .ui-dialog .ui-dialog-content .title {
@@ -587,7 +681,7 @@ a {
 .ui-dialog .ui-dialog-content .title span {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   padding: 0 10px;
   line-height: 38px;
 }
@@ -596,7 +690,7 @@ a {
   overflow: hidden;
 }
 .ui-dialog .ui-dialog-content .inner .tabs {
-  border-bottom: 2px solid #eeeeee;
+  border-bottom: 2px solid #cfd8dc;
   background-color: #ffffff;
 }
 .ui-dialog .ui-dialog-content .inner .tabs ul {
@@ -612,7 +706,7 @@ a {
   font-weight: 600;
   line-height: 38px;
   padding: 0 10px;
-  color: #6a6a6a;
+  color: #000000;
   border: 1px solid #eee;
   min-width: 60px;
   text-transform: uppercase;
@@ -655,7 +749,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-left .upload span {
   text-align: center;
   font-size: 14px;
-  color: #6a6a6a;
+  color: #000000;
   font-weight: 400;
   position: absolute;
   top: 24%;
@@ -667,7 +761,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-center .half-block h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   margin-bottom: 10px;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl {
@@ -686,7 +780,7 @@ a {
   padding-left: 20px;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl dt label {
-  color: #6a6a6a;
+  color: #000000;
 }
 .ui-dialog .ui-dialog-content .inner .block-center .half-block dl dd {
   float: right;
@@ -706,7 +800,7 @@ a {
 .ui-dialog .ui-dialog-content .inner .block-right .half-block h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #6a6a6a;
+  color: #000000;
   margin-bottom: 10px;
 }
 .ui-dialog .ui-dialog-content .inner .block-right .half-block dl {
