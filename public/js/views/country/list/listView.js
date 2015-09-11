@@ -2,11 +2,13 @@ define([
         'text!templates/country/list/header.html',
         'views/country/createView',
         'views/country/list/listItemView',
-        'views/filter/filtersBarView',
-        'collections/country/collection'
+        'views/country/editView',
+        //'collections/country/collection'
+        'models/country'
+
     ],
 
-    function (headerTemplate, createView, listItemView, filterView, contentCollection) {
+    function (headerTemplate, CreateView, listItemView, EditView, /*contentCollection,*/ Model) {
         var View = Backbone.View.extend({
             el: '#contentHolder',
             newCollection: null,
@@ -16,7 +18,8 @@ define([
             template: _.template(headerTemplate),
 
             events: {
-                "click .checkbox": "checked"
+                "click .checkbox": "checked",
+                "click #listTable": "tableRowClick"
             },
 
             initialize: function (options) {
@@ -26,7 +29,6 @@ define([
 
                 this.render();
             },
-
 
 
             render: function () {
@@ -51,9 +53,9 @@ define([
                     //else
                     //    $("#top-bar-deleteBtn").hide();
                 });
-               /* $(document).on("click", function (e) {
-                    self.hideItemsNumber(e);
-                });*/
+                /* $(document).on("click", function (e) {
+                 self.hideItemsNumber(e);
+                 });*/
 
                 //currentEl.append(_.template(paginationTemplate));
 
@@ -66,7 +68,7 @@ define([
             },
 
             createItem: function () {
-               new createView();
+                new CreateView();
             },
 
             checked: function (e) {
@@ -87,6 +89,20 @@ define([
                         $('#check_all').prop('checked', false);
                     }
                 }
+            },
+
+            tableRowClick: function (e) {
+                var id = $(e.target).closest("tr").data("id");
+                var model = new Model({validate: false});
+                model.urlRoot = '/country/'+id;
+                model.fetch({
+                    data: {_id: id},
+                    success: function (model) {
+                        new EditView(model);
+                    },
+                    error: function () { alert('Please refresh browser'); }
+                });
+
             }
 
         });

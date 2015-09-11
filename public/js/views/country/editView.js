@@ -1,12 +1,11 @@
 define([
-        "text!templates/personnel/edit.html",
-        "text!templates/personnel/changePassword.html",
-        'models/personnel',
+        "text!templates/country/edit.html",
+        'models/country',
         "populate",
         'common',
         "views/personnel/createView"
     ],
-    function (template, changePassword, personnelModel, populate, common, CreateViewPersonnel) {
+    function (template, Model, populate, common, CreateViewPersonnel) {
 
         var EditView = Backbone.View.extend({
             contentType: "country",
@@ -14,11 +13,14 @@ define([
             template: _.template(template),
             $errrorHandler: null,
 
-            initialize: function () {
+
+            initialize: function (model) {
                 _.bindAll(this, "render", "saveItem");
 
-                this.currentModel = new personnelModel(App.currentUser);
-                this.responseObj = {};
+                if (!model) {
+                    alert("Wrong, wrong, wrong!!! No country model here")
+                }
+                this.model = model;
                 this.render();
             },
 
@@ -40,13 +42,13 @@ define([
 
             saveItem: function () {
                 var self = this;
-                var model = new Model();
+
                 var currEl = this.$el;
 
                 var name = $.trim(currEl.find("#name").val());
                 var manager = currEl.find("#managerDD").attr("data-id");
 
-                model.save({
+                this.model.save({
                         name: name,
                         imageSrc: this.imageSrc,
                         manager: manager,
@@ -70,8 +72,8 @@ define([
 
             render: function () {
                 var self = this;
-                var currentUser = App.currentUser;
-                var formString = this.template(currentUser);
+                var jsonModel = this.model.toJSON();
+                var formString = this.template(jsonModel);
 
                 this.$el = $(formString).dialog({
                     modal: true,
@@ -80,7 +82,7 @@ define([
                     dialogClass: "edit-dialog",
                     width: "80%",
                     resizable: true,
-                    title: "Create Country",
+                    title: "Edit Country",
                     buttons: {
                         save: {
                             text: "Save",
@@ -98,15 +100,6 @@ define([
                 });
                 //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
 
-                $('#dateBirth').datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '-100y:c+nn',
-                    maxDate: '-18y'
-                });
-
-                common.canvasDraw({model: currentUser}, this);
-
                 this.delegateEvents(this.events);
 
                 this.$errrorHandler = $('#errorHandler');
@@ -115,8 +108,8 @@ define([
 
             addPersons: function (e) {
                 e.preventDefault();
-                new CreateViewPersonnel();
-            },
+                new CreateViewPersonnel({country: this.model});
+            }
 
         });
 

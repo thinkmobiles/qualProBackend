@@ -20,10 +20,6 @@ define([
                 this.render();
             },
 
-            events: {
-                "click .addPersons": "addPersons",
-            },
-
             saveItem: function () {
                 var self = this;
                 var model = new Model();
@@ -94,16 +90,8 @@ define([
 
                 common.canvasDraw({model: this.model.toJSON()}, this);
 
-                this.delegateEvents(this.events);
-
                 return this;
-            },
-
-            addPersons: function (e) {
-                e.preventDefault();
-
-                new CreateViewPersonnel();
-            },
+            }
 
 
         });

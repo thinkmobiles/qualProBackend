@@ -6,12 +6,12 @@ define([
         var dataFormServer = {};
 
         var get = function (id, url, data, field, content, isCreate, canBeEmpty, parrrentContentId) {
-            dataService.getData(url, data, function (response) {
+            dataService.getData(url, data, function (err, response) {
                 content.responseObj[id] = [];
                 if (canBeEmpty) {
                     content.responseObj[id].push({_id: "", name: "Select"});
                 }
-                content.responseObj[id] = content.responseObj[id].concat(_.map(response.data, function (item) {
+                content.responseObj[id] = content.responseObj[id].concat(_.map(response, function (item) {
                     return {_id: item._id, name: item[field], level: item.projectShortDesc || ""};
                 }));
 
@@ -22,7 +22,7 @@ define([
                     parrrentContentId = parrrentContentId.split("=")[1]
                 }
                 if (parrrentContentId) {
-                    var current = _.filter(response.data, function (item) {
+                    var current = _.filter(response, function (item) {
                         return item._id === parrrentContentId;
                     });
                     $(id).text(current[0][field]).attr("data-id", current[0]._id);
@@ -31,12 +31,12 @@ define([
         };
 
         var getParrentDepartment = function (id, url, data, content, isCreate, canBeEmpty) {
-            dataService.getData(url, data, function (response) {
+            dataService.getData(url, data, function (err, response) {
                 content.responseObj[id] = [];
                 if (canBeEmpty) {
                     content.responseObj[id].push({_id: "", name: "Select"});
                 }
-                content.responseObj[id] = content.responseObj[id].concat(_.map(response.data, function (item) {
+                content.responseObj[id] = content.responseObj[id].concat(_.map(response, function (item) {
                     return {
                         _id: item._id,
                         name: item.departmentName,
@@ -51,12 +51,12 @@ define([
         };
 
         var getParrentCategory = function (id, url, data, content, isCreate, canBeEmpty) {
-            dataService.getData(url, data, function (response) {
+            dataService.getData(url, data, function (err, response) {
                 content.responseObj[id] = [];
                 if (canBeEmpty) {
                     content.responseObj[id].push({_id: "", name: "Select"});
                 }
-                content.responseObj[id] = content.responseObj[id].concat(_.map(response.data, function (item) {
+                content.responseObj[id] = content.responseObj[id].concat(_.map(response, function (item) {
                     return {
                         _id: item._id,
                         name: item.name,
@@ -72,8 +72,8 @@ define([
         };
 
         var getPriority = function (id, content, isCreate) {
-            dataService.getData("/Priority", {}, function (response) {
-                content.responseObj[id] = _.map(response.data, function (item) {
+            dataService.getData("/Priority", {}, function (err, response) {
+                content.responseObj[id] = _.map(response, function (item) {
                     return {_id: item.priority, name: item.priority};
                 });
                 if (isCreate) {
@@ -84,11 +84,11 @@ define([
         };
 
         var getWorkflow = function (nameId, statusId, url, data, field, content, isCreate, callback) {
-            dataService.getData(url, data, function (response) {
-                content.responseObj[nameId] = _.map(response.data, function (item) {
+            dataService.getData(url, data, function (err, response) {
+                content.responseObj[nameId] = _.map(response, function (item) {
                     return {_id: item._id, name: item[field], status: item.status};
                 });
-                var wNames = $.map(response.data, function (item) {
+                var wNames = $.map(response, function (item) {
                     return item.wName;
                 });
                 wNames = _.uniq(wNames);
@@ -105,12 +105,12 @@ define([
         };
 
         var get2name = function (id, url, data, content, isCreate, canBeEmpty, parrrentContentId) {
-            dataService.getData(url, data, function (response) {
+            dataService.getData(url, data, function (err, response) {
                 content.responseObj[id] = [];
                 if (canBeEmpty) {
                     content.responseObj[id].push({_id: "", name: "Select"});
                 }
-                content.responseObj[id] = content.responseObj[id].concat(_.map(response.data, function (item) {
+                content.responseObj[id] = content.responseObj[id].concat(_.map(response, function (item) {
                     return {_id: item._id, name: item.name.first + " " + item.name.last};
                 }));
 
@@ -118,7 +118,7 @@ define([
                     $(id).text(content.responseObj[id][0].name).attr("data-id", content.responseObj[id][0]._id);
                 }
                 if (parrrentContentId) {
-                    var current = _.filter(response.data, function (item) {
+                    var current = _.filter(response, function (item) {
                         return item._id == parrrentContentId;
                     });
 
@@ -127,12 +127,12 @@ define([
             });
         };
         var getCompanies = function (id, url, data, content, isCreate, canBeEmpty, parrrentContentId) {
-            dataService.getData(url, data, function (response) {
+            dataService.getData(url, data, function (err, response) {
                 content.responseObj[id] = [];
                 if (canBeEmpty) {
                     content.responseObj[id].push({_id: "", name: "Select"});
                 }
-                content.responseObj[id] = content.responseObj[id].concat(_.map(response.data, function (item) {
+                content.responseObj[id] = content.responseObj[id].concat(_.map(response, function (item) {
                     return {_id: item._id, name: item.name.first};
                 }));
 
@@ -140,7 +140,7 @@ define([
                     $(id).text(content.responseObj[id][0].name).attr("data-id", content.responseObj[id][0]._id);
                 }
                 if (parrrentContentId) {
-                    var current = _.filter(response.data, function (item) {
+                    var current = _.filter(response, function (item) {
                         return item._id == parrrentContentId;
                     });
                     $(id).text(current[0].name.first).attr("data-id", current[0]._id);
