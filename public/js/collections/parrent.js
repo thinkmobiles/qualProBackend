@@ -2,7 +2,7 @@ define([], function () {
     /**
      * Drop-in replacement for Backbone.Collection. Encapsulate main pagination logic
      * @see {@link http://backbonejs.org/#Collection|Backbone.Collection }
-     * @class ParrentCollection
+     * @constructor ParrentCollection
      * @extends Backbone.Collection
      *
      * @property {number} firstPage The first page index. You should only override this value
@@ -25,10 +25,6 @@ define([], function () {
      * page. This value is __read only__ after initialization, if you want to
      * change the page size after initialization, you must call #setPageSize.
      */
-    /*books.getFirstPage();
-     books.getPreviousPage();
-     books.getNextPage();
-     books.getLastPage();*/
 
     var Collection = Backbone.Collection.extend({
         firstPage: 1,
@@ -39,6 +35,17 @@ define([], function () {
         offset: function () {
             return this.currentPage * this.pageSize;
         },
+
+        /**
+         * Fetch the first page in server mode, or reset the current page of this
+         * collection to the first page in client or infinite mode.
+         * @param {Object} options.
+         * @return {XMLHttpRequest} The XMLHttpRequest
+         * from fetch or this.
+         * @method getFirstPage
+         * @memberof ParrentCollection
+         * @instance
+         */
 
         getFirstPage: function (options) {
             var self = this;
