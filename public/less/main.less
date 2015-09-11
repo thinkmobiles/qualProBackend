@@ -5,6 +5,7 @@
 @import "_vendor";
 @import "_typography";
 @import "_login";
+@import "_header";
 
 a {
   text-decoration: none;
@@ -22,7 +23,7 @@ a {
 
 .downArrow {
   .triangle();
-  border-top: solid 5px black;
+   border-top: solid 5px black;
 }
 
 .topArrow {
@@ -108,20 +109,6 @@ a {
   display: block;
   height: 0;
   overflow: hidden;
-}
-
-.clearfix {
-  zoom: 1;
-  clear: both;
-
-  &:before {
-    .clear;
-  }
-
-  &:after {
-    .clear;
-    clear: both;
-  }
 }
 
 .no-close .ui-dialog-titlebar-close {

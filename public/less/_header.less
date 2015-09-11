@@ -1,0 +1,94 @@
+#topMenuHolder {
+  margin-bottom: 20px;
+}
+
+#loginPanel {
+  height: 107px;
+  background: @header-bg;
+  padding: 0 70px 0 40px;
+  .box-sizing(border-box);
+  .clearfix;
+
+  .logo {
+    float: left;
+    position: relative;
+    height: 107px;
+    width: 150px;
+    a {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      display: block;
+      img {
+        width: 150px;
+      }
+    }
+  }
+
+  .personelShortDetail {
+    float: left;
+    margin-left: 45px;
+    padding: 20px 0;
+    .avatar {
+      margin: 0 20px;
+      float: left;
+    }
+    #personnelDescription {
+      float: left;
+      #personnelName {
+        .pxToEm(18);
+        font-family: @fontBold;
+        color: @header-font-color;
+        margin-bottom: 10px;
+      }
+      #personnelJobposition {
+        .pxToEm(14);
+        font-family: @fontRegular;
+        color: @header-font-color;
+      }
+    }
+  }
+
+  #aditionalInfo {
+    float: right;
+    width: 100px;
+    ul {
+      height: 107px;
+      li {
+        position: relative;
+        margin-top: 38px;
+        a {
+          display: block;
+          width: 27px;
+          height: 27px;
+          background: url("../images/header/header-sprit.png");
+        }
+        span {
+          position: absolute;
+          top: -12px;
+          right: -20px;
+          display: block;
+          border: 1px solid @header-font-color;
+          border-radius: 50%;
+          width: 22px;
+          height: 22px;
+          color: @header-font-color;
+          padding: 1px 6px;
+          .box-sizing(border-box);
+        }
+        .bell {
+          background-position: 0 0;
+        }
+        .list {
+          background-position: 27px 0;
+        }
+        &:first-child {
+          float: left;
+        }
+        &:last-child {
+          float: right;
+        }
+      }
+    }
+  }
+}
