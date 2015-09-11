@@ -1,19 +1,17 @@
 define([
-        'text!templates/filter/filterBarTemplate.html',
         'views/filter/filterView',
         'collections/filter/filterCollection',
         'custom',
         'common',
         'constants'
     ],
-    function (filterTemplate, valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
+    function (valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
         var FilterView;
         FilterView = Backbone.View.extend({
             el: '#filterBar',
             contentType: "Filter",
             savedFilters: {},
             filterIcons: {},
-            template: _.template(filterTemplate),
             filter: {},
 
             events: {
@@ -150,9 +148,7 @@ define([
             },
 
             render: function () {
-                this.$el.append(this.template());
                 this.renderFilterElements();
-
                 return this;
             },
 
