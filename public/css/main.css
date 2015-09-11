@@ -456,6 +456,9 @@ button {
   color: #ff9800;
   text-transform: capitalize !important;
 }
+/*
+#header-number - for nuber span. Span will be visible
+*/
 #topMenuHolder {
   margin-bottom: 20px;
   -webkit-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.8);
@@ -543,19 +546,22 @@ button {
   background: url("../images/header/header-sprit.png");
 }
 #loginPanel #aditionalInfo ul li span {
+  display: none;
+}
+#loginPanel #aditionalInfo ul li #header-number {
   position: absolute;
   top: -12px;
   right: -20px;
-  display: block;
+  display: inline-block;
   border: 1px solid #ffffff;
   border-radius: 50%;
   width: 22px;
-  height: 22px;
+  line-height: 19px;
   color: #ffffff;
-  padding: 1px 6px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  text-align: center;
 }
 #loginPanel #aditionalInfo ul li .bell {
   background-position: 0 0;
@@ -569,13 +575,20 @@ button {
 #loginPanel #aditionalInfo ul li:last-child {
   float: right;
 }
+/**
+.list-number - for li ho have numbers
+.drop-arrow - arrow for li ho have childs
+.menu-drop-down - for dropDown list
+*/
 #leftMenuHolder {
   width: 19%;
   margin-top: 60px;
   border: 2px solid darkgray;
 }
 #leftMenuHolder ul li {
-  padding-right: 35px;
+  position: relative;
+  overflow: hidden;
+  height: 43px;
 }
 #leftMenuHolder ul li a {
   color: #000000;
@@ -589,6 +602,35 @@ button {
   padding-left: 25%;
   color: #546e7a;
 }
+#leftMenuHolder ul li.list-number:after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  line-height: 20px;
+  background-color: #f44336;
+  position: absolute;
+  top: 11px;
+  right: 15px;
+  border-radius: 4px;
+  color: #ffffff;
+  text-align: center;
+}
+#leftMenuHolder ul li.drop-arrow:after {
+  content: '\2304';
+  display: inline-block;
+  width: 20px;
+  line-height: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #394850;
+  cursor: pointer;
+  font-family: 'proxima_nova_rgbold';
+  font-size: 1.9375em;
+}
+#leftMenuHolder ul li.menu-drop-down {
+  height: auto;
+}
 #leftMenuHolder a:hover {
   background-color: #f7f7f7;
 }
@@ -600,6 +642,7 @@ a {
   text-decoration: none;
 }
 .triangle {
+  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -607,6 +650,7 @@ a {
   border-right: solid 5px transparent;
 }
 .downArrow {
+  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
@@ -615,6 +659,7 @@ a {
   border-top: solid 5px black;
 }
 .topArrow {
+  display: inline-block;
   margin: 0 0px;
   vertical-align: middle;
   height: 100%;
