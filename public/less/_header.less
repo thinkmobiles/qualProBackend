@@ -1,3 +1,7 @@
+/*
+#header-number - for nuber span. Span will be visible
+*/
+
 #topMenuHolder {
   margin-bottom: 20px;
   .box-shadow(1px, 0, 4px, rgba(0,0,0,.8));
@@ -65,17 +69,20 @@
           background: url("../images/header/header-sprit.png");
         }
         span {
+         display: none;
+        }
+        #header-number {
           position: absolute;
           top: -12px;
           right: -20px;
-          display: block;
+          display: inline-block;
           border: 1px solid @header-font-color;
           border-radius: 50%;
           width: 22px;
-          height: 22px;
+          line-height: 19px;
           color: @header-font-color;
-          padding: 1px 6px;
           .box-sizing(border-box);
+          text-align: center;
         }
         .bell {
           background-position: 0 0;
