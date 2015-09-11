@@ -51,7 +51,7 @@ define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, da
         if (option) {
             switch (option.contentType) {
                 case CONTENT_TYPES.PERSONNEL:
-                case CONTENT_TYPES.COUNTRIES:
+                case CONTENT_TYPES.COUNTRY:
                     App.currentViewType = 'list';
                     break;
                 default:

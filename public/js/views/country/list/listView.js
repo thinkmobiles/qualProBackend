@@ -16,7 +16,7 @@ define([
             template: _.template(headerTemplate),
 
             events: {
-                "click .checkbox": "checked",
+                "click .checkbox": "checked"
             },
 
             initialize: function (options) {
@@ -62,38 +62,32 @@ define([
                 } else {
                     pagenation.show();
                 }
-
-                this.filterview = new filterView({ contentType: self.contentType });
-
-                /*this.filterview.bind('filter', function (filter) {
-                    this.showFilteredPage(filter, self)
-                });
-                this.filterview.bind('defaultFilter', function () {
-                    this.showFilteredPage({}, self);
-                });*/
-
-                this.filterview.render();
+                return this;
             },
 
             createItem: function () {
-                new createView();
+               new createView();
             },
 
-            checked: function () {
+            checked: function (e) {
+                var checkLength;
+
+                e.stopPropagation();
+
                 if (this.collection.length > 0) {
-                    var checkLength = $("input.checkbox:checked").length;
+                    checkLength = $("input.checkbox:checked").length;
                     //if ($("input.checkbox:checked").length > 0) {
                     //    $("#top-bar-deleteBtn").show();
-                        if (checkLength == this.collection.length) {
-                            $('#check_all').prop('checked', true);
-                        }
+                    if (checkLength == this.collection.length) {
+                        $('#check_all').prop('checked', true);
+                    }
                     //}
                     else {
                         //$("#top-bar-deleteBtn").hide();
                         $('#check_all').prop('checked', false);
                     }
                 }
-            },
+            }
 
         });
 
