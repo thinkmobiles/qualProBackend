@@ -20,5 +20,6 @@ module.exports = function (db) {
     router.post('/getBy',handler.getBy);
     router.put('/:id', handler.update);
     router.delete('/:id', checkAuth, handler.remove);
+
     return router;
 };
