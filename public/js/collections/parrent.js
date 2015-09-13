@@ -127,21 +127,10 @@ define([], function () {
          */
 
         getLastPage: function (options) {
-            var filterObject = options || {};
-            var waite = !!options.waite;
             var page = this.lastPage;
 
             this.currentPage = page;
-
-            filterObject['page'] = options.page || this.currentPage;
-            filterObject['count'] = options.count || this.pageSize;
-            filterObject['filter'] = options.filter || {};
-
-            this.getPage(page, {
-                data: filterObject,
-                waite: waite,
-                reset: true
-            });
+            this.getPage(page, options);
         },
 
         /**
@@ -155,39 +144,18 @@ define([], function () {
          */
 
         getNextPage: function (options) {
-            var filterObject = options || {};
-            var waite = !!options.waite;
             var page = this.currentPage;
 
-            filterObject['page'] = options.page || this.currentPage;
-            filterObject['count'] = options.count || this.pageSize;
-            filterObject['filter'] = options.filter || {};
-
-            this.getPage(page, {
-                data: filterObject,
-                waite: waite,
-                reset: true
-            });
+            this.getPage(page, options);
         },
 
         getPreviousPage: function (options) {
-            var filterObject = options || {};
-            var waite = !!options.waite;
             var page = --this.currentPage;
 
             if (page <= 0) {
                 page = 1;
             }
-
-            filterObject['page'] = options.page || this.currentPage;
-            filterObject['count'] = options.count || this.pageSize;
-            filterObject['filter'] = options.filter || {};
-
-            this.getPage(page, {
-                data: filterObject,
-                waite: waite,
-                reset: true
-            });
+            this.getPage(page, options);
         }
     });
     return Collection;

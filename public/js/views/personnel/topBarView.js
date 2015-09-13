@@ -75,6 +75,7 @@ define([
                 var paginationContainer;
 
                 $('title').text(this.contentType);
+
                 viewType = custom.getCurrentVT();
 
                 thisEl.html(this.template({
