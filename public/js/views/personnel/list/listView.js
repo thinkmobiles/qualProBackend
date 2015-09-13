@@ -3,17 +3,19 @@ define([
         'views/personnel/createView',
         'views/personnel/list/listItemView',
         'views/filter/filtersBarView',
+        'views/paginator',
         'collections/personnel/collection'
     ],
 
-    function (headerTemplate, createView, listItemView, filterView, contentCollection) {
-        var View = Backbone.View.extend({
+    function (headerTemplate, createView, listItemView, filterView, paginator, contentCollection) {
+        var View = paginator.extend({
             el: '#contentHolder',
             newCollection: null,
             page: null,
             contentType: 'personnel',
             viewType: 'list',
             template: _.template(headerTemplate),
+            $pagination: null,
 
             initialize: function (options) {
                 this.startTime = options.startTime;
@@ -32,7 +34,8 @@ define([
 
                 var self = this;
                 var currentEl = this.$el;
-                var pagenation = currentEl.find('.pagination');
+
+                var pagination = this.$pagination = $('#paginationHolder');
 
                 currentEl.html('');
                 currentEl.append(this.template());
@@ -46,12 +49,10 @@ define([
                     self.hideItemsNumber(e);
                 });*/
 
-                //currentEl.append(_.template(paginationTemplate));
-
                 if (this.collection.length === 0) {
-                    pagenation.hide();
+                    pagination.hide();
                 } else {
-                    pagenation.show();
+                    pagination.show();
                 }
 
                 this.filterview = new filterView({ contentType: self.contentType });
@@ -64,6 +65,30 @@ define([
                 });*/
 
                 this.filterview.render();
+            },
+
+            showMoreContent: function (newModels) {
+                var holder = this.$el;
+                var itemView;
+                var pagination = this.$pagination;
+
+                holder.find("#listTable").empty();
+                itemView = new listItemView({
+                    collection: newModels,
+                    page: holder.find("#currentShowPage").val(),
+                    itemsNumber: holder.find("span#itemsNumber").text()
+                });
+
+                holder.append(itemView.render());
+                itemView.undelegateEvents();
+
+                if (newModels.length !== 0) {
+                    pagination.show();
+                } else {
+                    pagination.hide();
+                }
+
+                $('#check_all').prop('checked', false);
             },
 
             createItem: function () {

@@ -76,6 +76,8 @@ define([
             this.changeWrapperView(this.mainView);
         },
 
+        paginatorBinder: function(){},
+
         testContent: function (contentType) {
             if (!CONTENT_TYPES[contentType.toUpperCase()]) {
                 contentType = CONTENT_TYPES.PERSONNEL;
@@ -148,7 +150,14 @@ define([
                             newCollection: newCollection
                         });
 
+                        collection.bind('showmore', contentview.showMoreContent, contentview);
+
                         topbarView.bind('createEvent', contentview.createItem, contentview);
+                        topbarView.bind('firstPage', contentview.firstPage, contentview);
+                        topbarView.bind('lastPage', contentview.lastPage, contentview);
+                        topbarView.bind('nextPage', contentview.nextPage, contentview);
+                        topbarView.bind('previousPage', contentview.previousPage, contentview);
+                        topbarView.bind('getPage', contentview.getPage, contentview);
 
                         context.changeView(contentview);
                         context.changeTopBarView(topbarView);

@@ -31,8 +31,6 @@ define([], function () {
      * This value is __read only__.
      */
 
-    var MasterCollection = Backbone.Collection.extend({});
-
     var Collection = Backbone.Collection.extend({
         firstPage: 1,
         lastPage: null,
@@ -49,10 +47,13 @@ define([], function () {
             var self = this;
             var data;
             var _opts = {};
-            var waite = !!options.waite;
-            var reset = !!options.reset;
+            var waite;
+            var reset;
 
             options = options || {waite: true, reset: true};
+
+            waite = !!options.waite;
+            reset = !!options.reset;
 
             if (options.newCollection) {
                 _opts.data = options;

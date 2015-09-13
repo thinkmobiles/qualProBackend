@@ -14,9 +14,10 @@ define(['collections/parrent',
                 options = options || {};
                 page = options.page;
                 options.reset = true;
+
                 this.getPage(page, options);
-                //this.getFirstPage(options);
             }
         });
+
         return Collection;
     });
