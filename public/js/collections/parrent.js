@@ -54,44 +54,41 @@ define([], function () {
          * @instance
          */
 
-        getPage: function(options) {
-            return this.fetch(options);
-        },
+        getPage: function(page, options) {
+            var self = this;
+            var data;
 
-        getPage: function (page, options) {
-            options = options || {fetch: false};
-            var _omit = _.omit;
+            options = options || {waite: true};
+            options.data = options.data || {};
+            data = options.data;
 
-            var firstPage = this.firstPage;
-            var currentPage = this.currentPage;
-            var lastPage = this.lastPage;
-            var pageSize = this.pageSize;
+            data.page = page;
+
+            options.success = function (models) {
+                self.currentPage++;
+                self.trigger('showmore', models);
+            };
+            options.error = function (models, err) {
+                self.trigger('errorPaganation', err);
+            };
 
             return this.fetch(options);
         },
 
         getFirstPage: function (options) {
-            var self = this;
             var filterObject = options || {};
             var waite = !!options.waite;
 
             this.currentPage = 1;
 
-            filterObject['page'] = this.currentPage;
-            filterObject['count'] = (options && options.count) ? options.count : this.pageSize;
-            filterObject['filter'] = (options) ? options.filter : {};
+            filterObject['page'] = options.page || this.currentPage;
+            filterObject['count'] = options.count || this.pageSize;
+            filterObject['filter'] = options.filter || {};
 
-            this.fetch({
+            this.getPage(1, {
                 data: filterObject,
                 waite: waite,
-
-                success: function (models) {
-                    self.currentPage++;
-                    self.trigger('showmore', models);
-                },
-                error: function (models, err) {
-                    self.trigger('errorPaganation', err);
-                }
+                reset: true
             });
         },
 

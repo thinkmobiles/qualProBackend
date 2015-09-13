@@ -118,9 +118,6 @@ define([
                 var contentViewUrl = "views/" + contentType + "/list/listView";
                 var topBarViewUrl = "views/" + contentType + "/topBarView";
                 var collectionUrl = "collections/" + contentType + "/collection";
-                var navigatePage = (page) ? parseInt(page) : 1;
-                var count = (countPerPage) ? parseInt(countPerPage) || 50 : 50;
-
 
                 if (context.mainView === null) {
                     context.main(contentType);
@@ -129,8 +126,8 @@ define([
                 require([contentViewUrl, topBarViewUrl, collectionUrl], function (contentView, topBarView, contentCollection) {
                     var collection = new contentCollection({
                         viewType: 'list',
-                        page: navigatePage,
-                        count: count,
+                        page: page,
+                        count: countPerPage,
                         filter: savedFilter,
                         contentType: contentType,
                         newCollection: newCollection
