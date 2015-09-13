@@ -9,7 +9,13 @@ define(['collections/parrent',
             contentType: null,
 
             initialize: function (options) {
-                this.getFirstPage(options);
+                var page;
+
+                options = options || {};
+                page = options.page;
+                options.reset = true;
+                this.getPage(page, options);
+                //this.getFirstPage(options);
             }
         });
         return Collection;
