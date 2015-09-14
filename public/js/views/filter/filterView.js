@@ -50,7 +50,7 @@ define([
                 regex = new RegExp(value, 'i');
 
                 resultCollection = this.collection.filter(function (model) {
-                        return model.get('name').match(regex);
+                    return model.get('name').match(regex);
                 });
 
                 return resultCollection;
@@ -106,13 +106,9 @@ define([
 
                 if (this.paginationBool) {
                     paginationLi.find('.counter').html((this.start + 1) + '-' + this.end + ' of ' + this.filteredCollection.length);
-                    if (!paginationLi.is(":visible")) {
-                        paginationLi.toggle();
-                    }
+                    paginationLi.show();
                 } else {
-                    if (paginationLi.is(":visible")) {
-                        paginationLi.toggle();
-                    }
+                    paginationLi.hide();
                 }
 
                 prevPage = paginationLi.find('.prev');
@@ -131,10 +127,10 @@ define([
 
             render: function () {
                 var self = this;
-                var curentEl = this.$el;
-                var nameInput = curentEl.find(".filterName input");
+                var currentEl = this.$el;
+                var nameInput = currentEl.find(".filterName input");
 
-                curentEl.append(this.template({
+                currentEl.append(this.template({
                     filterDisplayName: this.filterDisplayName,
                     status: this.status,
                     filterName: this.filterName,
@@ -142,15 +138,19 @@ define([
 
                 this.renderContent();
 
-                curentEl.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
+                currentEl.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
                     self.paginationChange(e, self);
                 });
 
-                nameInput.keyup(function(e) {self.inputEvent(e)});
+                nameInput.keyup(function (e) {
+                    self.inputEvent(e)
+                });
 
-                nameInput.change(function(e) {self.inputEvent(e)});
+                nameInput.change(function (e) {
+                    self.inputEvent(e)
+                });
 
-                curentEl.find('.ulContent').toggle();
+                currentEl.find('.ulContent').toggle();
             }
         });
 

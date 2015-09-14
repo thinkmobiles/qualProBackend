@@ -23,10 +23,18 @@ define([
                 this.page = options.collection.page;
 
                 this.render();
+
+                this.inputEvent = _.debounce(
+                    function (e) {
+                        var target = e.target;
+                        var value = target.value;
+
+                        this.collection = this.collection.getSearchedCollection('fullName', value);
+
+                    }, 500);
             },
 
             events: {
-
             },
 
             showFilteredPage: function (filter) {
@@ -52,6 +60,7 @@ define([
                 var currentEl = this.$el;
 
                 var pagination = this.$pagination = $('#paginationHolder');
+                var searchInput;
 
                 currentEl.html('');
                 currentEl.append(this.template());
@@ -81,6 +90,12 @@ define([
                 });
 
                 this.filterView.render();
+
+                searchInput = $("#searchInput");
+
+                searchInput.keyup(function (e) {
+                    self.inputEvent(e)
+                });
             },
 
             showMoreContent: function (newModels) {
