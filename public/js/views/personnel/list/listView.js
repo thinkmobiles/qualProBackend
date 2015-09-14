@@ -23,10 +23,34 @@ define([
                 this.page = options.collection.page;
 
                 this.render();
+
+                this.inputEvent = _.debounce(
+                    function (e) {
+                        var target = e.target;
+                        var value = target.value;
+
+                        this.collection = this.collection.getSearchedCollection('fullName', value);
+
+                    }, 500);
             },
 
             events: {
+            },
 
+            showFilteredPage: function (filter) {
+                var itemsNumber = $("#itemsNumber").text();
+                this.filter = filter;
+
+                this.startTime = new Date();
+                this.newCollection = false;
+                //this.filter = custom.getFiltersValues(chosen, defaultFilterStatus, logicAndStatus);
+
+                $("#top-bar-deleteBtn").hide();
+                $('#check_all').prop('checked', false);
+
+                this.changeLocationHash(1, itemsNumber, filter);
+                this.collection.getPage({page: 1, options: {count: itemsNumber, filter: filter}});
+                //this.getTotalLength(null, itemsNumber, filter);
             },
 
             render: function () {
@@ -36,6 +60,7 @@ define([
                 var currentEl = this.$el;
 
                 var pagination = this.$pagination = $('#paginationHolder');
+                var searchInput;
 
                 currentEl.html('');
                 currentEl.append(this.template());
@@ -55,16 +80,22 @@ define([
                     pagination.show();
                 }
 
-                this.filterview = new filterView({ contentType: self.contentType });
+                this.filterView = new filterView({ contentType: self.contentType });
 
-                /*this.filterview.bind('filter', function (filter) {
-                    this.showFilteredPage(filter, self)
+                this.filterView.bind('filter', function (filter) {
+                    self.showFilteredPage(filter, self)
                 });
-                this.filterview.bind('defaultFilter', function () {
-                    this.showFilteredPage({}, self);
-                });*/
+                this.filterView.bind('defaultFilter', function () {
+                    self.showFilteredPage({}, self);
+                });
 
-                this.filterview.render();
+                this.filterView.render();
+
+                searchInput = $("#searchInput");
+
+                searchInput.keyup(function (e) {
+                    self.inputEvent(e)
+                });
             },
 
             showMoreContent: function (newModels) {

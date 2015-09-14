@@ -1,0 +1,31 @@
+#contentHolder {
+  //border: 1px solid @contentholder-border-color;
+
+  table {
+    //height: 330px;
+    thead {
+      tr {
+        height: 42px;
+        border-bottom: 1px solid @contentholder-border-color;
+
+        th {
+          border: 1px solid @contentholder-border-color;
+          background-color: @contentholder-block-bg;
+
+        }
+      }
+    }
+    tbody {
+      min-height: 330px;
+      overflow-x: scroll;
+      tr {
+        height: 42px;
+        border-bottom: 1px solid @contentholder-border-color;
+        td {
+          border: 1px solid @contentholder-border-color;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

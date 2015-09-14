@@ -1,16 +1,23 @@
+/*
+* .viewBarBtnActive - for active tabs
+*/
+
 #topBarHolder {
-  border: 1px solid @topbarmenu-border-color;
+  .clearfix;
 
   .pl {
-    padding: 0 25px;
+    padding: 0 2.75%;
   }
 
   #filterBar {
+    border: 1px solid @topbarmenu-border-color;
+    padding-bottom: 20px;
+    .clearfix;
     .title {
       background-color: @topbarmenu-block-bg;
       border-bottom: 1px solid @topbarmenu-border-color;
-      .clearfix;
       .pl;
+      .clearfix;
       span {
         .pxToEm(16);
         color: @topbarmenu-font-color-menu;
@@ -43,12 +50,99 @@
       }
     }
 
-    .filterFullContainer {
+    #filtersFullHolder {
+      width: 67%;
       float: left;
-      margin-top: 20px;
-      &:first-child {
-        margin-left: 25px;
+      .pl;
+      padding-top: 20px;
+      .clearfix;
+
+      .filterFullContainer {
+        float: left;
+        margin-right: 20px;
+        .filterName {
+          position: relative;
+          input {
+            border-width: 0;
+            border-bottom: 1px solid @topbarmenu-border-color;
+            line-height: 40px;
+            .pxToEm(14);
+            color: @topbarmenu-font-color-menu;
+            width: 185px;
+            &:focus {
+              outline: none;
+              border-width: 0;
+              border-bottom: 1px solid #A5C7FE;
+            }
+          }
+          span {
+            position: absolute;
+            top: 20px;
+            right: 0;
+            cursor: pointer;
+          }
+          .downArrow {
+            .triangle();
+            border-top: solid 5px @topbarmenu-border-color;
+          }
+
+          .topArrow {
+            .triangle();
+            border-bottom: solid 5px @topbarmenu-border-color;
+          }
+        }
       }
     }
+
+    #filtersBtnHolder {
+      width: 22%;
+      float: right;
+      text-align: right;
+      .pl;
+      padding-top: 20px;
+      #clearBtn {
+        .btn(14, @main-sub-color, 100px);
+        .btnWarn;
+      }
+    }
+
+  }
+
+  #viewBar {
+    margin-top: 20px;
+    .clearfix;
+
+    #templateSwitcher {
+      float: left;
+      min-width: 280px;
+      border: 1px solid @topbarmenu-border-color;
+      border-bottom: 0;
+      padding-bottom: 7px;  
+      a {
+        &:first-child {
+          border-right: 1px solid @topbarmenu-border-color;
+        }
+      }
+      .changeContentView {
+        .btn(14, @topbarmenu-font-color-menu, 140px);
+        display: block;
+        float: left;
+        border-bottom: 1px solid @topbarmenu-border-color;
+        background-color: @topbarmenu-block-bg;
+      }
+      .viewBarBtnActive {
+        border-bottom: 0;
+        background-color: transparent;
+      }
+    }
+
+    #btnHolder {
+      float: left;
+      .holderBtn {
+        .btn(14, @main-sub-color, 120px);
+        margin-left: 20px;
+      }
+    }
+
   }
 }

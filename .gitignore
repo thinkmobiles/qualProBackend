@@ -33,3 +33,4 @@ build/Release
 node_modules
 /log.txt
 /attachments
+/documentation/index.html

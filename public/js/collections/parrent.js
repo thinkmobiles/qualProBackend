@@ -156,7 +156,33 @@ define([], function () {
                 page = 1;
             }
             this.getPage(page, options);
-        }
+        },
+
+        getSearchedCollection : function (field, value) {
+            var newFilteredCollection;
+            var self = this;
+
+            if (!value) {
+                return self.trigger('showmore', this.toJSON());
+            }
+
+            newFilteredCollection = this.filterCollection(field, value);
+
+            return self.trigger('showmore', newFilteredCollection);
+        },
+
+        filterCollection: function (field, value) {
+            var resultCollection;
+            var regex;
+
+            regex = new RegExp(value, 'i');
+
+            resultCollection = _.filter(this, function (model) {
+                return model.get(field).match(regex);
+            });
+
+            return resultCollection;
+        },
     });
     return Collection;
 });
