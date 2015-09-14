@@ -39,7 +39,7 @@ module.exports = function (app, db) {
     var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
     var priorityRouter = require('./priority')(db);
-
+    var mobileRouter = require('./mobile')(db);
 
     var RESPONSES = require('../constants/responses');
 
@@ -111,6 +111,7 @@ module.exports = function (app, db) {
     app.use('/category', categoryRouter);
     app.use('/comment', commentRouter);
     app.use('/priority', priorityRouter);
+    app.use('/mobile', mobileRouter);
 
     function notFound(req, res, next) {
         res.status(404);
