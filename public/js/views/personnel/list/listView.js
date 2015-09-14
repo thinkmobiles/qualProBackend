@@ -29,7 +29,7 @@ define([
                         var target = e.target;
                         var value = target.value;
 
-                        this.collection = this.collection.getSearchedCollection('fullName', value);
+                        this.collection.getSearchedCollection('fullName', value, contentCollection);
 
                     }, 500);
             },
@@ -39,6 +39,7 @@ define([
 
             showFilteredPage: function (filter) {
                 var itemsNumber = $("#itemsNumber").text();
+
                 this.filter = filter;
 
                 this.startTime = new Date();

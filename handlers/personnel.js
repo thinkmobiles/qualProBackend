@@ -169,7 +169,66 @@ var Personnel = function (db) {
         });
     };
 
+    /*function caseFilter(filter) {
+        var filterValue;
+        var resArray = [];
+        var filterElement = {};
+        var key;
+
+        for (var filterName in filter){
+            filterValue = filter[filterName]['value'];
+
+            switch (filterName) {
+                case 'country':
+                    filterElement[filterName] = {$in: filterValue.objectID()};
+                    resArray.push(filterElement);
+                    break;
+                case 'projectName':
+                    filterElement[filterName] = {$in: condition.objectID()};
+                    resArray.push(filterElement);
+                    break;
+                case 'customer':
+                    filtrElement[key] = {$in: condition.objectID()};
+                    resArray.push(filtrElement);
+                    break;
+                case 'employee':
+                    filtrElement[key] = {$in: condition.objectID()};
+                    resArray.push(filtrElement);
+                    break;
+                case 'department':
+                    filtrElement[key] = {$in: condition.objectID()};
+                    resArray.push(filtrElement);
+                    break;
+                case 'year':
+                    ConvertType(condition, 'integer');
+                    filtrElement[key] = {$in: condition};
+                    resArray.push(filtrElement);
+                    break;
+                case 'month':
+                    ConvertType(condition, 'integer');
+                    filtrElement[key] = {$in: condition};
+                    resArray.push(filtrElement);
+                    break;
+                case 'week':
+                    ConvertType(condition, 'integer');
+                    filtrElement[key] = {$in: condition};
+                    resArray.push(filtrElement);
+                    break;
+                case 'isPaid':
+                    ConvertType(condition, 'boolean');
+                    filtrElement[key] = {$in: condition};
+                    resArray.push(filtrElement);
+                    break;
+            }
+        };
+
+        return resArray;
+    };*/
+
     this.getAll = function (req, res, next) {
+        var query = req.query;
+        var filter = query.filter || {};
+
         PersonnelModel.find({}, {pass: 0})
             .exec(function (err, result) {
                 if (err) {

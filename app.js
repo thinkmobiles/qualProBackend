@@ -15,8 +15,6 @@ module.exports = function (db) {
 
     var app = express();
 
-
-
     var logWriter = require('./helpers/logWriter');
 
     var MemoryStore = require('connect-mongo')(session);
@@ -61,7 +59,25 @@ module.exports = function (db) {
         store: new MemoryStore(sessionConfig)
     }));
 
+    Array.prototype.objectID = function () {
+        var _arrayOfID = [];
+        var objectId = mongoose.Types.ObjectId;
 
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] && typeof this[i] == 'object' && this[i].hasOwnProperty('_id')) {
+                _arrayOfID.push(this[i]._id);
+            } else {
+                if (typeof this[i] == 'string' && this[i].length === 24) {
+                    _arrayOfID.push(objectId(this[i]));
+                }
+                if (this[i] === null || this[i] === 'null') {
+                    _arrayOfID.push(null);
+                }
+
+            }
+        }
+        return _arrayOfID;
+    };
 
     require('./routes/index')(app, db);
 
