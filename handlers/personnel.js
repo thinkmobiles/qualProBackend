@@ -271,7 +271,7 @@ var Personnel = function (db) {
 
                 mailer.forgotPassword(result.toJSON());
 
-                res.status(200).send({_id: result._id});
+                res.status(200).send();
             });
     };
 
