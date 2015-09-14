@@ -11,15 +11,22 @@
 </div>
 
 <div id="viewBar">
-    <div id="btnHolder">
-        <a href="javascript:;" title="Create" id="top-bar-createBtn">CREATE NEW</a>
-        <a href="javascript:;" title="Remove" id="top-bar-deleteBtn">DELETE</a>
-    </div>
-
     <div id="templateSwitcher">
         <a href="javascript:;" class="changeContentView" data-view-type="thumbnails" id="thumbBtn"><%=contentType.toUpperCase()%></a>
         <a href="javascript:;" class="changeContentView" data-view-type="list" id="listBtn"><%=contentType.toUpperCase()%>
             LIST</a>
+    </div>
+
+    <div id="btnHolder">
+        <a href="javascript:;" title="Create" id="top-bar-createBtn" class="holderBtn">CREATE NEW</a>
+        <a href="javascript:;" title="Remove" id="top-bar-deleteBtn" class="holderBtn">DELETE</a>
+    </div>
+
+    <div id="contentViewSwitcher">
+        <ul class="btn-list">
+            <li><a href="javascript;" class="changeContentView" data-view="thumbnails">k</a></li>
+            <li><a href="javascript;" class="changeContentView" data-view="list">i</a></li>
+        </ul>
     </div>
 
     <div id="paginationHolder">
