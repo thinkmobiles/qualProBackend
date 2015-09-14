@@ -33,34 +33,34 @@ describe("BDD for " + singular, function () {
 
 
 
-    var csrfToken;
-    before(function (done) {
-        agent = request.agent(host);
-       // this.sess = new Session();
-        agent.get('/#login')
-            .end(function (err, res) {
-                if (err) return done(err);
-
-                csrfToken = res.header['set-cookie'][0].split(';')[0].replace('_csrf=', '');
-               // adminObject._csrf = csrfToken;
-
-                //var hed=res.headers['set-cookie']
-                agent
-                    .post()
-                    .set('csrf-token', csrfToken)
-                    .send(adminObject)
-                    .expect(200, function (err, resp) {
-                        var body;
-                        if (err) {
-                            return done(err);
-                        }
-
-                        body = resp.body;
-                        expect(body).to.be.instanceOf(Object);
-                        done();
-                    });
-            });
-    });
+    //var csrfToken;
+    //before(function (done) {
+    //    agent = request.agent(host);
+    //   // this.sess = new Session();
+    //    agent.get('/#login')
+    //        .end(function (err, res) {
+    //            if (err) return done(err);
+    //
+    //            csrfToken = res.header['set-cookie'][0].split(';')[0].replace('_csrf=', '');
+    //           // adminObject._csrf = csrfToken;
+    //
+    //            //var hed=res.headers['set-cookie']
+    //            agent
+    //                .post()
+    //                .set('csrf-token', csrfToken)
+    //                .send(adminObject)
+    //                .expect(200, function (err, resp) {
+    //                    var body;
+    //                    if (err) {
+    //                        return done(err);
+    //                    }
+    //
+    //                    body = resp.body;
+    //                    expect(body).to.be.instanceOf(Object);
+    //                    done();
+    //                });
+    //        });
+    //});
 
 
     //before("Authenticate and get csrf token)", function (done) {
@@ -87,23 +87,23 @@ describe("BDD for " + singular, function () {
     //});
 
 // Runs once before all tests start.
-//    before("Login: (should return logged personnel)", function (done) {
-//        agent = request.agent(host);
-//
-//        agent
-//            .post('/login')
-//            .send(adminObject)
-//            .expect(200, function (err, resp) {
-//                var body;
-//                if (err) {
-//                    return done(err);
-//                }
-//
-//                body = resp.body;
-//                expect(body).to.be.instanceOf(Object);
-//                done();
-//            });
-//    });
+    before("Login: (should return logged personnel)", function (done) {
+        agent = request.agent(host);
+
+        agent
+            .post('/login')
+            .send(adminObject)
+            .expect(200, function (err, resp) {
+                var body;
+                if (err) {
+                    return done(err);
+                }
+
+                body = resp.body;
+                expect(body).to.be.instanceOf(Object);
+                done();
+            });
+    });
 
     it("Create new " + singular + " should return " + singular, function (done) {
         agent
