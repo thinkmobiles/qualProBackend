@@ -158,6 +158,7 @@ define([
                         topbarView.bind('nextPage', contentview.nextPage, contentview);
                         topbarView.bind('previousPage', contentview.previousPage, contentview);
                         topbarView.bind('getPage', contentview.getPage, contentview);
+                        topbarView.bind('switchPageCounter', contentview.switchPageCounter, contentview);
 
                         context.changeView(contentview);
                         context.changeTopBarView(topbarView);

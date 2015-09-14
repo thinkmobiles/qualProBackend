@@ -7,7 +7,7 @@ define([], function(){
 
         changeLocationHash: function (page, count, filter) {
             var location = window.location.hash;
-            var mainLocation = '#easyErp/' + this.contentType + '/' + this.viewType;
+            var mainLocation = '#qualPro/' + this.contentType + '/' + this.viewType;
             var pId = (location.split('/pId=')[1]) ? location.split('/pId=')[1].split('/')[0] : '';
             var url;
             var thumbnails;
@@ -159,17 +159,14 @@ define([], function(){
             var itemsNumber = $("#itemsNumber").text();
             var currentShowPage = $("#currentShowPage");
             var page = 1;
-            var lastPage;
+            var lastPage = $("#lastPage").text();
 
             currentShowPage.val(page);
 
-            $("#lastPage").text();
-
-            if (page === 1) {
-                $("#firstShowPage").prop("disabled", true);
-            }
+            $("#firstShowPage").prop("disabled", true);
 
             $("#pageList").empty();
+
             if (lastPage >= 7) {
                 for (var i = 1; i <= 7; i++) {
                     $("#pageList").append('<li class="showPage">' + i + '</li>');
@@ -181,7 +178,7 @@ define([], function(){
             }
             $("#gridStart").text((page - 1) * itemsNumber + 1);
 
-            if (this.listLength <= page * itemsNumber) {
+            if (this.listLength <= 1 * itemsNumber) {
                 $("#gridEnd").text(this.listLength);
             } else {
                 $("#gridEnd").text(page * itemsNumber);
@@ -191,8 +188,14 @@ define([], function(){
             $("#nextPage").prop("disabled", false);
             $("#lastShowPage").prop("disabled", false);
 
+            options = options || {
+                    count: itemsNumber,
+                    filter: this.filter,
+                    newCollection: false
+                };
+
             this.collection.getFirstPage(options);
-            this.changeLocationHash(page, itemsNumber);
+            this.changeLocationHash(1, itemsNumber);
         },
 
         lastPage: function(options){
@@ -318,16 +321,19 @@ define([], function(){
         },
 
         //ToDo refactor
-        pageElementRender: function(totalCount, itemsNumber, currentPage){
+        pageElementRender: function(totalCount, currentPage){
             var itemsNumber = this.defaultItemsNumber;
-
-            $("#itemsNumber").text(itemsNumber);
             var start = $("#gridStart");
             var end = $("#gridEnd");
+            var pageNumber;
+            var itemsOnPage = 7;
 
-            if (totalCount == 0 || totalCount == undefined) {
+            $("#itemsNumber").text(itemsNumber);
+
+            if (totalCount === 0 || totalCount === undefined) {
                 start.text(0);
                 end.text(0);
+
                 $("#gridCount").text(0);
                 $("#previousPage").prop("disabled", true);
                 $("#nextPage").prop("disabled", true);
@@ -339,44 +345,40 @@ define([], function(){
             } else {
                 currentPage = currentPage || 1;
                 start.text(currentPage * itemsNumber - itemsNumber + 1);
+
                 if (totalCount <= itemsNumber || totalCount <= currentPage * itemsNumber) {
                     end.text(totalCount);
                 } else {
                     end.text(currentPage * itemsNumber);
                 }
                 $("#gridCount").text(totalCount);
-
                 $("#pageList").empty();
-                var pageNumber = Math.ceil(totalCount / itemsNumber);
-                //number page show (Vasya)
-                var itemsOnPage = 7;
+
+                pageNumber = Math.ceil(totalCount / itemsNumber);
+
                 if (pageNumber <= itemsOnPage) {
                     for (var i = 1; i <= pageNumber; i++) {
                         $("#pageList").append('<li class="showPage">' + i + '</li>');
                     }
-                }
-                else if (pageNumber >= itemsOnPage && currentPage <= itemsOnPage) {
+                } else if (pageNumber >= itemsOnPage && currentPage <= itemsOnPage) {
                     for (var i = 1; i <= itemsOnPage; i++) {
                         $("#pageList").append('<li class="showPage">' + i + '</li>');
                     }
-                }
-
-                else if (pageNumber >= itemsOnPage && currentPage > 3 && currentPage <= pageNumber - 3) {
+                } else if (pageNumber >= itemsOnPage && currentPage > 3 && currentPage <= pageNumber - 3) {
                     for (var i = currentPage - 3; i <= currentPage + 3; i++) {
                         $("#pageList").append('<li class="showPage">' + i + '</li>');
                     }
-                }
-
-                else if (currentPage >= pageNumber - 3) {
+                } else if (currentPage >= pageNumber - 3) {
                     for (var i = pageNumber - 6; i <= pageNumber; i++) {
                         $("#pageList").append('<li class="showPage">' + i + '</li>');
                     }
                 }
-                //end number page show
+
                 $("#lastPage").text(pageNumber);
                 $("#currentShowPage").val(currentPage);
                 $("#previousPage").prop("disabled", parseInt(start.text()) <= parseInt(currentPage));
                 $("#firstShowPage").prop("disabled", parseInt(start.text()) <= parseInt(currentPage));
+
                 if (pageNumber <= 1) {
                     $("#nextPage").prop("disabled", true);
                     $("#lastShowPage").prop("disabled", true);
@@ -385,6 +387,26 @@ define([], function(){
                     $("#lastShowPage").prop("disabled", parseInt(end.text()) === parseInt(totalCount));
                 }
             }
+        },
+
+        switchPageCounter: function (e) {
+            e.preventDefault();
+
+            var itemsNumber = e.target.textContent;
+
+            this.defaultItemsNumber = itemsNumber;
+
+            $("#top-bar-deleteBtn").hide();
+            $('#check_all').prop('checked', false);
+
+            this.collection.getPage(1, {
+                count: itemsNumber,
+                page: 1,
+                filter: this.filter,
+                newCollection: false
+            });
+
+            this.changeLocationHash(1, itemsNumber);
         }
 
     });
