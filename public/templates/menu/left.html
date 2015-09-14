@@ -4,7 +4,7 @@
             <a href="#qualPro/<%=rootModule.href%>" class="mainMenu"><%= rootModule.mname %></a>
 
                 <% if(getChild(rootModule._id)){%>
-                    <ul >
+                    <ul class="dropArrow">
                         <% getChild(rootModule._id).forEach(function(childEl){%>
                             <li >
                                 <a href="#qualPro/<%=childEl.href%>" data-module-id="<%=childEl._id%>" title="<%= childEl.mname %>" class="childMenu"><%= childEl.mname %></a>

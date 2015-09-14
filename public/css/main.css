@@ -210,6 +210,15 @@ li {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot);
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/MaterialIcons-Regular.woff) format('woff'), url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+  
+  /* For IE6-8 */
+}
 /*== Fonts ===========================*/
 /*== Begin Main Colors ================*/
 /*== End Main Colors =================================================
@@ -290,13 +299,35 @@ input[type='text'],
 button {
   font-family: 'proxima_nova_rgregular', sans-serif;
 }
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
 .btnWarn {
   background-color: #f44336;
 }
 .btnSuc {
   background-color: #00c853;
 }
-#login .main-logo {
+#login .mainLogo {
   display: block;
   text-align: center;
   margin-bottom: 50px;
@@ -346,10 +377,10 @@ button {
   background-color: #f2f0f4;
   border: none;
 }
-#login fieldset .sp-email {
+#login fieldset .spEmail {
   position: relative;
 }
-#login fieldset .sp-email:after {
+#login fieldset .spEmail:after {
   content: '';
   display: block;
   width: 20px;
@@ -485,7 +516,7 @@ button {
   text-transform: capitalize !important;
 }
 /*
-#header-number - for nuber span. Span will be visible
+#headerNumber - for nuber span. Span will be visible
 */
 #topMenuHolder {
   margin-bottom: 20px;
@@ -576,7 +607,7 @@ button {
 #loginPanel #aditionalInfo ul li span {
   display: none;
 }
-#loginPanel #aditionalInfo ul li #header-number {
+#loginPanel #aditionalInfo ul li #headerNumber {
   position: absolute;
   top: -12px;
   right: -20px;
@@ -604,9 +635,9 @@ button {
   float: right;
 }
 /**
-.list-number - for li ho have numbers
-.drop-arrow - arrow for li ho have childs
-.menu-drop-down - for dropDown list
+.listNumber - for li who have numbers
+.dropArrow - arrow for li who have childs
+.menuDropDown - for dropDown list
 */
 #leftMenuHolder {
   width: 19%;
@@ -632,7 +663,7 @@ button {
   padding-left: 25%;
   color: #546e7a;
 }
-#leftMenuHolder ul li ul li.drop-arrow:after {
+#leftMenuHolder ul li ul.dropArrow:after {
   content: '\2304';
   display: inline-block;
   width: 20px;
@@ -645,7 +676,7 @@ button {
   font-family: 'proxima_nova_rgbold';
   font-size: 1.9375em;
 }
-#leftMenuHolder ul li li.list-number:after {
+#leftMenuHolder ul li li.listNumber:after {
   content: attr(data-content);
   display: inline-block;
   width: 20px;
@@ -658,7 +689,7 @@ button {
   color: #ffffff;
   text-align: center;
 }
-#leftMenuHolder ul li.menu-drop-down {
+#leftMenuHolder ul li.menuDropDown {
   height: auto;
 }
 #leftMenuHolder a:hover {
@@ -914,10 +945,6 @@ button {
   border-bottom: 1px solid #cfd8dc;
   background-color: #f7f7f7;
 }
-#topBarHolder #viewBar #templateSwitcher .viewBarBtnActive {
-  border-bottom: 0;
-  background-color: transparent;
-}
 #topBarHolder #viewBar #btnHolder {
   float: left;
 }
@@ -930,6 +957,192 @@ button {
   text-align: center;
   cursor: pointer;
   margin-left: 20px;
+}
+#topBarHolder #viewBar #contentViewSwitcher {
+  float: left;
+  margin-left: 60px;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list {
+  overflow: hidden;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list li {
+  float: left;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list li a {
+  display: block;
+  color: #000000;
+  border: 1px solid #cfd8dc;
+  text-align: center;
+  width: 35px;
+  background-color: #f7f7f7;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list li a .material-icons {
+  line-height: 30px;
+  font-size: 1.25em;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list li:first-child a {
+  border-right: none;
+  border-radius: 2px 0 0 2px;
+}
+#topBarHolder #viewBar #contentViewSwitcher .btn-list li:last-child a {
+  border-radius: 0 2px 2px 0;
+}
+#topBarHolder #viewBar #paginationHolder {
+  float: right;
+}
+#topBarHolder #viewBar .viewBarBtnActive {
+  border-bottom: 0;
+  background-color: transparent !important;
+}
+#topBarHolder .pagination {
+  width: 100%;
+  float: right;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#topBarHolder .pagination div {
+  float: left;
+}
+#topBarHolder .pagination .countOnPage {
+  float: left;
+  color: #000000;
+}
+#topBarHolder .pagination .nextPrev {
+  float: right;
+  margin-right: 5px;
+  color: #000000;
+}
+#topBarHolder .pagination .countOnPage {
+  margin-left: 5px;
+}
+#topBarHolder .pagination #previousPage,
+#topBarHolder .pagination #nextPage,
+#topBarHolder .pagination .currentPageList,
+#topBarHolder .pagination #firstShowPage,
+#topBarHolder .pagination #lastShowPage {
+  background-color: white;
+  background-image: none;
+  line-height: 15px;
+  width: 20px;
+  height: 18px;
+  display: block;
+  text-align: center;
+  padding: 0;
+  border-radius: 0;
+  font-weight: bold;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  float: left;
+}
+#topBarHolder .pagination #firstShowPage,
+#topBarHolder .pagination #lastShowPage {
+  width: 30px;
+  height: 18px;
+  display: block;
+  font-size: 12px;
+}
+#topBarHolder .pagination #previousPage {
+  margin: 0 3px;
+  font-size: 12px;
+}
+#topBarHolder .pagination #nextPage {
+  margin: 0 3px;
+  font-size: 12px;
+}
+#topBarHolder .pagination .allPage {
+  position: relative;
+}
+#topBarHolder .pagination button {
+  color: rgba(0, 0, 0, 0.75);
+}
+#topBarHolder .pagination button:hover {
+  background-color: #F7F8F9;
+  color: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+}
+#topBarHolder .pagination button[disabled] {
+  color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: default;
+}
+#topBarHolder .pagination #currentShowPage {
+  border: 1px solid #cfd8dc;
+  border-right: none;
+  background-color: #fff;
+  width: 21px;
+  height: 12px;
+  margin-left: 5px;
+  font-size: 12px !important;
+}
+#topBarHolder .pagination #pageList {
+  border: 1px solid #cfd8dc;
+  position: absolute;
+  bottom: 17px;
+  left: -7px;
+  display: none;
+}
+#topBarHolder .pagination #pageList li {
+  display: block;
+  width: 25px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+#topBarHolder .pagination #pageList li:hover {
+  color: white;
+  text-decoration: none;
+}
+#topBarHolder .pagination .currentPageList {
+  margin-right: 5px;
+  font-size: 12px;
+}
+#topBarHolder .pagination .currentPageList .caret {
+  display: block;
+  height: 15px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+#topBarHolder .pagination .pageList {
+  position: relative;
+}
+#topBarHolder .pagination .pageList button {
+  background-color: white;
+  background-image: none;
+  border-radius: 0;
+  width: 27px;
+  margin: 0 0 0 5px;
+  line-height: 10px;
+  font-size: 12px;
+  padding: 3px 2px;
+}
+#topBarHolder .pagination .pageList button:hover {
+  background-color: #F7F8F9;
+}
+#topBarHolder .pagination .pageList .currentPageList {
+  margin-left: 0;
+  border-left: none;
+}
+#topBarHolder .pagination .pageList ul {
+  border: 1px solid #cfd8dc;
+  position: absolute;
+  bottom: 17px;
+  left: 0px;
+  display: none;
+  font-size: 12px;
+}
+#topBarHolder .pagination .pageList ul li a {
+  display: block;
+  width: 25px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+#topBarHolder .pagination .pageList ul li a:hover {
+  background-color: #cfd8dc;
+  color: white;
+  text-decoration: none;
 }
 #contentHolder table thead tr {
   height: 42px;

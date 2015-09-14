@@ -26,6 +26,6 @@
     "jquery-ui": "1.11.4",
     "moment": "2.10.3",
     "requirejs": "~2.1.20",
-    "requirejs-text": "~2.0.14"
+    "requirejs-text": "~2.0.14",
   }
 }
