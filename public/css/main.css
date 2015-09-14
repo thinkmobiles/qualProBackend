@@ -607,7 +607,7 @@ button {
   color: #546e7a;
 }
 #leftMenuHolder ul li.list-number:after {
-  content: '';
+  content: attr(data-content);
   display: inline-block;
   width: 20px;
   line-height: 20px;
