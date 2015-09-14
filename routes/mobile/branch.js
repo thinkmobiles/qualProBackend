@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Handler = require('../handlers/branch');
+var Handler = require('../../handlers/branch');
 
 /**
  * dgfghtfhf

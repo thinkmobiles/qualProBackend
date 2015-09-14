@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Handler = require('../handlers/contract');
+var Handler = require('../../handlers/contract');
 module.exports = function (db) {
     var handler = new Handler(db);
 
