@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var personnelHandler = require('../handlers/personnel');
+var personnelHandler = require('../../handlers/personnel');
 
 /**
  * @module Mobile - Personnel

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Handler = require('../handlers/task');
+var Handler = require('../../handlers/task');
 module.exports = function (db) {
     var handler = new Handler(db);
 

@@ -39,7 +39,7 @@ module.exports = function (app, db) {
     var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
     var priorityRouter = require('./priority')(db);
-    var mobileRouter = require('./mobile')(db);
+    var mobileRouter = require('./mobile.js')(db);
 
     var RESPONSES = require('../constants/responses');
 

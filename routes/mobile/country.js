@@ -5,7 +5,7 @@ var router = express.Router();
  * @module Mobile - Country
  */
 
-var Handler = require('../handlers/country');
+var Handler = require('../../handlers/country');
 module.exports = function (db) {
     var handler = new Handler(db);
 

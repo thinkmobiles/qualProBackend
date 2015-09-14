@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var PersonnelHandler = require('../handlers/personnel')
 //var personnelRouter = require('./mobile/personnel');
 //var branchRouter = require('./mobile/branch');
 //var categoryRouter = require('./mobile/category');
@@ -15,7 +16,12 @@ var router = express.Router();
 //var shelfRouter = require('./mobile/shelf');
 //var taskRouter = require('./mobile/task');
 
+/**
+ * @module Mobile - Login
+ */
+
 module.exports = function (db) {
+    var personnelHandler=new PersonnelHandler(db);
     var routes = {
         "personnel": require('./mobile/personnel')(db),
         "branch": require('./mobile/branch')(db),
@@ -33,8 +39,38 @@ module.exports = function (db) {
         "task": require('./mobile/task')(db)
     }
 
-    for (var route in routes) {
-        router.use('/' + route, routes[route])
+    function checkAuth(req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            next();
+        } else {
+            res.send(401);
+        }
     }
+
+    for (var route in routes) {
+        router.use('/' + route, checkAuth, routes[route])
+    }
+    /**
+     * __Type__ 'POST'
+     *
+     * Base ___url___ for build __requests__ is `http:/<host>:<port>/mobile/login`
+     *
+     * Logs into system
+     *
+     *
+     * @example
+     * REQUEST:
+     *     'http://localhost:9797/mobile/personnel/login'
+     * BODY:
+     * {
+     *      email:'somebody@mail.com'
+     *      pass:'iddqd'
+     * }
+     * RESPONSE : status
+     *
+     * @method /mobile/login
+     * @instance
+     */
+    router.post('/login', personnelHandler.login);
     return router;
 };
