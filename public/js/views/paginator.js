@@ -2,6 +2,8 @@ define([], function(){
     var View = Backbone.View.extend({
 
         nextPage: function(options){
+
+
             this.collection.getNextPage(options);
         },
 
