@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Handler = require('../handlers/objective');
+var Handler = require('../../handlers/objective');
 module.exports = function (db) {
     var handler = new Handler(db);
 

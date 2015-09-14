@@ -49,13 +49,14 @@ define([], function () {
             var _opts = {};
             var waite;
             var reset;
+            var keysLength;
 
             options = options || {waite: true, reset: true};
 
             waite = !!options.waite;
             reset = !!options.reset;
 
-            if (options.newCollection) {
+            if (options.newCollection || !options.data) {
                 _opts.data = options;
             } else {
                 _opts.data = options.data || {};
@@ -70,6 +71,9 @@ define([], function () {
 
             _opts.reset = reset;
             _opts.waite = waite;
+
+            delete data.waite;
+            delete data.reset;
 
             _opts.success = options.success || function (models) {
                     if (self.currentPage !== self.lastPage) {

@@ -10,14 +10,12 @@ define([
     function (headerTemplate, createView, listItemView, filterView, paginator, contentCollection) {
         var View = paginator.extend({
             el: '#contentHolder',
-            newCollection: null,
-            page: null,
             contentType: 'personnel',
             viewType: 'list',
             template: _.template(headerTemplate),
-            $pagination: null,
 
             initialize: function (options) {
+                this.defaultItemsNumber = this.collection.pageSize;
                 this.startTime = options.startTime;
                 this.collection = options.collection;
                 this.page = options.collection.page;
