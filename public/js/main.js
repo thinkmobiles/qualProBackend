@@ -66,29 +66,40 @@ require(['app'], function (app) {
         var location = window.location.hash;
         var mainLocation = '#easyErp/' + this.contentType + '/' + this.viewType;
         var pId = (location.split('/pId=')[1]) ? location.split('/pId=')[1].split('/')[0] : '';
+        var url;
+        var thumbnails;
+        var locationFilter;
+        var notEmptyFilter;
+
         if (!page && this.viewType == 'list') {
             page = (location.split('/p=')[1]) ? location.split('/p=')[1].split('/')[0] : 1;
         }
 
         if (!count) {
-            var thumbnails = location.split('thumbnails')[0];
+            thumbnails = location.split('thumbnails')[0];
             count = (location.split('/c=')[1]) ? location.split('/c=')[1].split('/')[0] : 100;
-            if (thumbnails && count < 100)
+
+            if (thumbnails && count < 100) {
                 count = 100;
+            }
         }
-        var url = mainLocation;
-        if (pId)
+
+        url = mainLocation;
+        if (pId) {
             url += '/pId=' + pId;
-        if (page)
+        }
+        if (page) {
             url += '/p=' + page;
-        if (count)
+        }
+        if (count) {
             url += '/c=' + count;
+        }
         if (!filter) {
-            var locatioFilter = location.split('/filter=')[1];
-            filter = (locatioFilter) ? JSON.parse(decodeURIComponent(locatioFilter)) : null;
+            locationFilter = location.split('/filter=')[1];
+            filter = (locationFilter) ? JSON.parse(decodeURIComponent(locationFilter)) : null;
         }
         if (filter) {
-            var notEmptyFilter = false;
+            notEmptyFilter = false;
             for (var i in filter) {
                 if (filter[i] && filter[i].length !== 0) {
                     notEmptyFilter = true;
@@ -96,22 +107,26 @@ require(['app'], function (app) {
             }
             if (notEmptyFilter) {
                 url += '/filter=' + encodeURIComponent(JSON.stringify(filter));
-            } else url += '';
+            } else {
+                url += '';
+            }
         }
 
         Backbone.history.navigate(url);
     };
 
     Backbone.View.prototype.pageElementRender = function (totalCount, itemsNumber, currentPage) {
+        //ToDO Refactor this method
+
         var itemsNumber = this.defaultItemsNumber;
         $("#itemsNumber").text(itemsNumber);
-        var start = $("#grid-start");
-        var end = $("#grid-end");
+        var start = $("#gridStart");
+        var end = $("#gridEnd");
 
         if (totalCount == 0 || totalCount == undefined) {
             start.text(0);
             end.text(0);
-            $("#grid-count").text(0);
+            $("#gridCount").text(0);
             $("#previousPage").prop("disabled", true);
             $("#nextPage").prop("disabled", true);
             $("#firstShowPage").prop("disabled", true);
@@ -127,7 +142,7 @@ require(['app'], function (app) {
             } else {
                 end.text(currentPage * itemsNumber);
             }
-            $("#grid-count").text(totalCount);
+            $("#gridCount").text(totalCount);
 
             $("#pageList").empty();
             var pageNumber = Math.ceil(totalCount / itemsNumber);
@@ -171,58 +186,65 @@ require(['app'], function (app) {
     };
 
     Backbone.View.prototype.previousPage = function (dataObject) {
-        this.startTime = new Date();
         var itemsNumber = $("#itemsNumber").text();
         var currentShowPage = $("#currentShowPage");
         var page = parseInt(currentShowPage.val()) - 1;
-        this.startTime = new Date();
+        var pageNumber;
+        var itemsOnPage;
+        var serchObject;
 
         currentShowPage.val(page);
+
         if (page === 1) {
             $("#previousPage").prop("disabled", true);
             $("#firstShowPage").prop("disabled", true);
         }
 
-        var pageNumber = $("#lastPage").text();
-        var itemsOnPage = 7;
+        pageNumber = $("#lastPage").text();
+        itemsOnPage = 7;
+
         $("#pageList").empty();
-        //number page show (Vasya)
+
         if (pageNumber <= itemsOnPage) {
             for (var i = 1; i <= pageNumber; i++) {
                 $("#pageList").append('<li class="showPage">' + i + '</li>');
             }
-        }
-        else if (pageNumber >= itemsOnPage && page <= itemsOnPage) {
+        } else if (pageNumber >= itemsOnPage && page <= itemsOnPage) {
             for (var i = 1; i <= itemsOnPage; i++) {
                 $("#pageList").append('<li class="showPage">' + i + '</li>');
             }
-        }
-        else if (pageNumber >= itemsOnPage && page > 3 && page <= pageNumber - 3) {
+        } else if (pageNumber >= itemsOnPage && page > 3 && page <= pageNumber - 3) {
             for (var i = page - 3; i <= page + 3; i++) {
                 $("#pageList").append('<li class="showPage">' + i + '</li>');
             }
-        }
-        else if (page >= page - 3) {
+        } else if (page >= page - 3) {
             for (var i = pageNumber - 6; i <= pageNumber; i++) {
                 $("#pageList").append('<li class="showPage">' + i + '</li>');
             }
         }
-        //end number page show (Vasya)
-        $("#grid-start").text((page - 1) * itemsNumber + 1);
+
+        $("#gridStart").text((page - 1) * itemsNumber + 1);
+
         if (this.listLength <= page * itemsNumber) {
-            $("#grid-end").text(this.listLength);
+            $("#gridEnd").text(this.listLength);
         } else {
-            $("#grid-end").text(page * itemsNumber);
+            $("#gridEnd").text(page * itemsNumber);
         }
+
         $("#nextPage").prop("disabled", false);
         $("#lastShowPage").prop("disabled", false);
-        var serchObject = {
+
+        serchObject = {
             count: itemsNumber,
             page: page,
             letter: this.selectedLetter
         };
-        if (dataObject) _.extend(serchObject, dataObject);
-        this.collection.showMore(serchObject);
+
+        if (dataObject) {
+            _.extend(serchObject, dataObject);
+        }
+
+
         this.changeLocationHash(page, itemsNumber);
     };
 
@@ -259,13 +281,13 @@ require(['app'], function (app) {
         }
         //end number page show (Vasya)
         $("#currentShowPage").val(page);
-        $("#grid-start").text((page - 1) * itemsNumber + 1);
+        $("#gridStart").text((page - 1) * itemsNumber + 1);
         if (this.listLength <= page * itemsNumber) {
-            $("#grid-end").text(this.listLength);
+            $("#gridEnd").text(this.listLength);
             $("#nextPage").prop("disabled", true);
             $("#lastShowPage").prop("disabled", true);
         } else {
-            $("#grid-end").text(page * itemsNumber);
+            $("#gridEnd").text(page * itemsNumber);
         }
         $("#previousPage").prop("disabled", false);
         $("#firstShowPage").prop("disabled", false);
@@ -305,11 +327,11 @@ require(['app'], function (app) {
                 $("#pageList").append('<li class="showPage">' + i + '</li>');
             }
         }
-        $("#grid-start").text((page - 1) * itemsNumber + 1);
+        $("#gridStart").text((page - 1) * itemsNumber + 1);
         if (this.listLength <= page * itemsNumber) {
-            $("#grid-end").text(this.listLength);
+            $("#gridEnd").text(this.listLength);
         } else {
-            $("#grid-end").text(page * itemsNumber);
+            $("#gridEnd").text(page * itemsNumber);
         }
         $("#previousPage").prop("disabled", true);
         $("#nextPage").prop("disabled", false);
@@ -344,12 +366,12 @@ require(['app'], function (app) {
         }
         //end number page show (Vasya)
         $("#currentShowPage").val(page);
-        $("#grid-start").text((page - 1) * itemsNumber + 1);
+        $("#gridStart").text((page - 1) * itemsNumber + 1);
         if (this.listLength <= page * itemsNumber) {
-            $("#grid-end").text(this.listLength);
+            $("#gridEnd").text(this.listLength);
             $("#nextPage").prop("disabled", true);
         } else {
-            $("#grid-end").text(page * itemsNumber);
+            $("#gridEnd").text(page * itemsNumber);
         }
         $("#nextPage").prop("disabled", true);
         $("#lastShowPage").prop("disabled", true);
@@ -385,7 +407,7 @@ require(['app'], function (app) {
             var itemsOnPage = 7;
             $("#pageList").empty();
             if (parseInt(lastPage) <= itemsOnPage) {
-                for (var i = 1; i <= parseInt(lastPage) ; i++) {
+                for (var i = 1; i <= parseInt(lastPage); i++) {
                     $("#pageList").append('<li class="showPage">' + i + '</li>');
                 }
             }
@@ -406,17 +428,17 @@ require(['app'], function (app) {
             }
 
             else if (page >= parseInt(lastPage) - 3) {
-                for (var i = lastPage - 6; i <= parseInt(lastPage) ; i++) {
+                for (var i = lastPage - 6; i <= parseInt(lastPage); i++) {
                     $("#pageList").append('<li class="showPage">' + i + '</li>');
                 }
             }
             //number page show
             $("#currentShowPage").val(page);
-            $("#grid-start").text((page - 1) * itemsNumber + 1);
+            $("#gridStart").text((page - 1) * itemsNumber + 1);
             if (this.listLength <= page * itemsNumber) {
-                $("#grid-end").text(this.listLength);
+                $("#gridEnd").text(this.listLength);
             } else {
-                $("#grid-end").text(page * itemsNumber);
+                $("#gridEnd").text(page * itemsNumber);
             }
             if (page <= 1) {
                 $("#previousPage").prop("disabled", true);
@@ -471,9 +493,9 @@ require(['app'], function (app) {
             }
 
             if (deletePage == 0) {
-                $("#grid-start").text(0);
-                $("#grid-end").text(0);
-                $("#grid-count").text(0);
+                $("#gridStart").text(0);
+                $("#gridEnd").text(0);
+                $("#gridCount").text(0);
                 $("#previousPage").prop("disabled", true);
                 $("#nextPage").prop("disabled", true);
                 $("#currentShowPage").val(0);
@@ -482,16 +504,16 @@ require(['app'], function (app) {
                 $("#listTable").empty();
                 $("#startLetter .current").removeClass("current").addClass("empty");
             } else {
-                $("#grid-start").text((deletePage - 1) * itemsNumber + 1);
+                $("#gridStart").text((deletePage - 1) * itemsNumber + 1);
                 //page counter Vasya
                 var gridEnd = deletePage * itemsNumber;
                 if (this.listLength <= gridEnd) {
-                    $("#grid-end").text(this.listLength);
+                    $("#gridEnd").text(this.listLength);
                 } else {
-                    $("#grid-end").text(gridEnd);
+                    $("#gridEnd").text(gridEnd);
                 }
                 //end
-                $("#grid-count").text(this.listLength);
+                $("#gridCount").text(this.listLength);
                 $("#currentShowPage").val(deletePage);
                 $("#pageList").empty();
 
@@ -546,16 +568,16 @@ require(['app'], function (app) {
             });
             var that = this;
             newFetchModels.bind('reset', function () {
-                that.collection.add(newFetchModels.models, { merge: true });
+                that.collection.add(newFetchModels.models, {merge: true});
                 that.showMoreContent(that.collection);//added two parameters page and items number
             });
 
-            $("#grid-start").text((deletePage - 1) * itemsNumber + 1);
+            $("#gridStart").text((deletePage - 1) * itemsNumber + 1);
             if (itemsNumber === this.collectionLength && (deletePage * this.collectionLength <= this.listLength))
-                $("#grid-end").text(deletePage * itemsNumber);
+                $("#gridEnd").text(deletePage * itemsNumber);
             else
-                $("#grid-end").text((deletePage - 1) * itemsNumber + this.collectionLength - deleteCounter);
-            $("#grid-count").text(this.listLength);
+                $("#gridEnd").text((deletePage - 1) * itemsNumber + this.collectionLength - deleteCounter);
+            $("#gridCount").text(this.listLength);
             $("#currentShowPage").val(deletePage);
 
             $("#pageList").empty();

@@ -162,8 +162,10 @@ define([], function () {
             var newFilteredCollection;
             var self = this;
 
+            _.bind(this.filterCollection, this);
+
             if (!value) {
-                return self.trigger('showmore', this.toJSON());
+                return self.trigger('showmore', this);
             }
 
             newFilteredCollection = this.filterCollection(field, value);
