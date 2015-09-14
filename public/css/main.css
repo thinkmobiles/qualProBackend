@@ -632,20 +632,7 @@ button {
   padding-left: 25%;
   color: #546e7a;
 }
-#leftMenuHolder ul li.list-number:after {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  line-height: 20px;
-  background-color: #f44336;
-  position: absolute;
-  top: 11px;
-  right: 15px;
-  border-radius: 4px;
-  color: #ffffff;
-  text-align: center;
-}
-#leftMenuHolder ul li.drop-arrow:after {
+#leftMenuHolder ul li ul li.drop-arrow:after {
   content: '\2304';
   display: inline-block;
   width: 20px;
@@ -657,6 +644,19 @@ button {
   cursor: pointer;
   font-family: 'proxima_nova_rgbold';
   font-size: 1.9375em;
+}
+#leftMenuHolder ul li li.list-number:after {
+  content: attr(data-content);
+  display: inline-block;
+  width: 20px;
+  line-height: 20px;
+  background-color: #f44336;
+  position: absolute;
+  top: 11px;
+  right: 15px;
+  border-radius: 4px;
+  color: #ffffff;
+  text-align: center;
 }
 #leftMenuHolder ul li.menu-drop-down {
   height: auto;
@@ -891,17 +891,17 @@ button {
   overflow: hidden;
   /*IE8-*/
 }
-#topBarHolder #viewBar #template-switcher {
+#topBarHolder #viewBar #templateSwitcher {
   float: left;
   min-width: 280px;
   border: 1px solid #cfd8dc;
   border-bottom: 0;
   padding-bottom: 7px;
 }
-#topBarHolder #viewBar #template-switcher a:first-child {
+#topBarHolder #viewBar #templateSwitcher a:first-child {
   border-right: 1px solid #cfd8dc;
 }
-#topBarHolder #viewBar #template-switcher .changeContentView {
+#topBarHolder #viewBar #templateSwitcher .changeContentView {
   display: inline-block;
   line-height: 36px;
   font-size: 0.875em;
@@ -914,7 +914,7 @@ button {
   border-bottom: 1px solid #cfd8dc;
   background-color: #f7f7f7;
 }
-#topBarHolder #viewBar #template-switcher .viewBarBtnActive {
+#topBarHolder #viewBar #templateSwitcher .viewBarBtnActive {
   border-bottom: 0;
   background-color: transparent;
 }
