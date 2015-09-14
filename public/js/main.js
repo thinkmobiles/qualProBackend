@@ -116,6 +116,8 @@ require(['app'], function (app) {
     };
 
     Backbone.View.prototype.pageElementRender = function (totalCount, itemsNumber, currentPage) {
+        //ToDO Refactor this method
+
         var itemsNumber = this.defaultItemsNumber;
         $("#itemsNumber").text(itemsNumber);
         var start = $("#gridStart");
@@ -242,7 +244,7 @@ require(['app'], function (app) {
             _.extend(serchObject, dataObject);
         }
 
-        this.collection.showMore(serchObject);
+
         this.changeLocationHash(page, itemsNumber);
     };
 
