@@ -62,6 +62,46 @@ require(['app'], function (app) {
         });
     };
 
+    Backbone.View.prototype.changeLocationHash = function (page, count, filter) {
+        var location = window.location.hash;
+        var mainLocation = '#easyErp/' + this.contentType + '/' + this.viewType;
+        var pId = (location.split('/pId=')[1]) ? location.split('/pId=')[1].split('/')[0] : '';
+        if (!page && this.viewType == 'list') {
+            page = (location.split('/p=')[1]) ? location.split('/p=')[1].split('/')[0] : 1;
+        }
+
+        if (!count) {
+            var thumbnails = location.split('thumbnails')[0];
+            count = (location.split('/c=')[1]) ? location.split('/c=')[1].split('/')[0] : 100;
+            if (thumbnails && count < 100)
+                count = 100;
+        }
+        var url = mainLocation;
+        if (pId)
+            url += '/pId=' + pId;
+        if (page)
+            url += '/p=' + page;
+        if (count)
+            url += '/c=' + count;
+        if (!filter) {
+            var locatioFilter = location.split('/filter=')[1];
+            filter = (locatioFilter) ? JSON.parse(decodeURIComponent(locatioFilter)) : null;
+        }
+        if (filter) {
+            var notEmptyFilter = false;
+            for (var i in filter) {
+                if (filter[i] && filter[i].length !== 0) {
+                    notEmptyFilter = true;
+                }
+            }
+            if (notEmptyFilter) {
+                url += '/filter=' + encodeURIComponent(JSON.stringify(filter));
+            } else url += '';
+        }
+
+        Backbone.history.navigate(url);
+    };
+
     Backbone._sync = Backbone.sync;
     // override original sync method to make header request contain csrf token
     Backbone.sync = function (method, model, options, error) {

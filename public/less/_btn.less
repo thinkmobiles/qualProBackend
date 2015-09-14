@@ -1,0 +1,17 @@
+.btn(@px, @font-color, @width) {
+  display: inline-block;
+  line-height: 36px;
+  .pxToEm(@px);
+  color: @font-color;
+  width: @width;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btnWarn {
+  background-color: @btn-warining;
+}
+
+.btnSuc {
+  background-color: @btn-success;
+}

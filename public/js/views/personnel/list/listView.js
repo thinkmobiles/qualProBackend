@@ -29,6 +29,22 @@ define([
 
             },
 
+            showFilteredPage: function (filter) {
+                var itemsNumber = $("#itemsNumber").text();
+                this.filter = filter;
+
+                this.startTime = new Date();
+                this.newCollection = false;
+                //this.filter = custom.getFiltersValues(chosen, defaultFilterStatus, logicAndStatus);
+
+                $("#top-bar-deleteBtn").hide();
+                $('#check_all').prop('checked', false);
+
+                this.changeLocationHash(1, itemsNumber, filter);
+                this.collection.getPage({page: 1, options: {count: itemsNumber, filter: filter}});
+                //this.getTotalLength(null, itemsNumber, filter);
+            },
+
             render: function () {
                 $('.ui-dialog ').remove();
 
@@ -55,16 +71,16 @@ define([
                     pagination.show();
                 }
 
-                this.filterview = new filterView({ contentType: self.contentType });
+                this.filterView = new filterView({ contentType: self.contentType });
 
-                /*this.filterview.bind('filter', function (filter) {
-                    this.showFilteredPage(filter, self)
+                this.filterView.bind('filter', function (filter) {
+                    self.showFilteredPage(filter, self)
                 });
-                this.filterview.bind('defaultFilter', function () {
-                    this.showFilteredPage({}, self);
-                });*/
+                this.filterView.bind('defaultFilter', function () {
+                    self.showFilteredPage({}, self);
+                });
 
-                this.filterview.render();
+                this.filterView.render();
             },
 
             showMoreContent: function (newModels) {
