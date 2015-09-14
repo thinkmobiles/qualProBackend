@@ -27,9 +27,18 @@ define([
 
                 this.parseFilter();
 
-                this.setDbOnce = _.debounce(
+                this.useFilterEvent = _.debounce(
                     function () {
                         this.trigger('filter', this.filter)
+                    }, 500);
+
+                this.inputEvent = _.debounce(
+                    function (e) {
+                        var target = e.target;
+                        var value = target.value;
+
+                        this.collection = this.collection.getSearchedCollection('fullName', value);
+
                     }, 500);
             },
 
@@ -45,7 +54,7 @@ define([
                 var intVal;
                 var index;
 
-                currentElement.toggleClass('checkedValue');
+                //currentElement.toggleClass('checkedValue'); /*For multiSelect*/
 
                 intVal = parseInt(currentValue);
 
@@ -53,7 +62,7 @@ define([
 
                 collectionElement = currentCollection.findWhere({_id: currentValue});
 
-                if (currentElement.hasClass('checkedValue')) {
+                //if (currentElement.hasClass('checkedValue')) {
 
                     //if (!this.filter[constantsName]) {
                         this.filter[constantsName] = [];
@@ -65,7 +74,7 @@ define([
                     filterNameElement.addClass('checkedGroup');
                     filterNameElement.find('input').val(currentName);
 
-                } else {
+                /*} else {
                     index = this.filter[constantsName].indexOf(currentValue);
 
                     if (index >= 0) {
@@ -79,10 +88,9 @@ define([
                             filterNameElement.find('input').val('');
                         }
                     }
-                    ;
-                }
+                }*/
 
-                this.setDbOnce();
+                this.useFilterEvent();
             },
 
             showHideValues: function (e) {
