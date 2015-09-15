@@ -50,6 +50,7 @@ define([
                 var filterNameElement = filterContainerElement.find('.filterName')
                 var constantsName = filterNameElement.attr('data-value');
                 var currentCollection = this.currentCollection[constantsName];
+                var filterType = this.constantsObject[constantsName].type;
                 var collectionElement;
                 var intVal;
                 var index;
@@ -65,10 +66,13 @@ define([
                 //if (currentElement.hasClass('checkedValue')) {
 
                     //if (!this.filter[constantsName]) {
-                        this.filter[constantsName] = [];
+                        this.filter[constantsName] = {
+                            type: filterType,
+                            values: [],
+                        };
                     //}
 
-                    this.filter[constantsName].push(currentValue);
+                    this.filter[constantsName].values.push(currentValue);
                     collectionElement.set({status: true});
 
                     filterNameElement.addClass('checkedGroup');

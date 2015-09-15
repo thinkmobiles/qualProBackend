@@ -10,6 +10,7 @@ var Personnel = function (db) {
     var CONSTANTS = require('../constants/mainConstants');
     //var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer');
+    var FilterMapper = require('../helpers/filterMapper');
     var async = require('async');
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
@@ -171,11 +172,12 @@ var Personnel = function (db) {
 
     this.getAll = function (req, res, next) {
         var query = req.query;
-        var queryObject = {};
         var projectionObject = {pass: 0};
         var page = query.page || 1;
         var limit = query.count || parseInt(CONSTANTS.LIST_COUNT);
         var skip = (page - 1) * limit;
+        var filterMapper = new FilterMapper();
+        var queryObject = query.filter ? filterMapper.mapFilter(query.filter) : {};
 
         var parallelTasks;
 

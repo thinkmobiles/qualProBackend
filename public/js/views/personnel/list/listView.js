@@ -49,7 +49,7 @@ define([
                 $('#check_all').prop('checked', false);
 
                 this.changeLocationHash(1, itemsNumber, filter);
-                this.collection.getPage(1, {count: itemsNumber, filter: filter});
+                this.collection.getFirstPage({count: itemsNumber, filter: filter});
                 //this.getTotalLength(null, itemsNumber, filter);
             },
 

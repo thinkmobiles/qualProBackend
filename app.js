@@ -12,6 +12,7 @@ module.exports = function (db) {
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
     var consolidate = require('consolidate');
+    var mongoose = require('mongoose');
 
     var app = express();
 
