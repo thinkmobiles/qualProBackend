@@ -16,7 +16,7 @@ var Outlet = function (db) {
 
             if (modelIsValid) {
                 model = Model(body);
-                model.save(function (error, model) {
+                model.save(function (error) {
                     var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
                     if (error) {

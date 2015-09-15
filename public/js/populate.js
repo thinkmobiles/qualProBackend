@@ -157,6 +157,7 @@ define([
             var elementVisible;
             var targetParent = $(e.target).parent();
             var newSel;
+            var template = _.template(selectTemplate);
 
             elementVisible = number || 10;
 
@@ -214,7 +215,7 @@ define([
             end = Math.min(currentPage * elementVisible, data.length);
             allPages = Math.ceil(data.length / elementVisible);
 
-            parent.append(_.template(selectTemplate, {
+            parent.append(template({
                 collection: data.slice(start, end),
                 currentPage: currentPage,
                 allPages: allPages,
