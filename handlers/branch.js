@@ -11,7 +11,7 @@ var Branch = function (db) {
         var Model = db.model(modelAndSchemaName, schema);
         var model;
 
-        var modelIsValid = true;
+        var modelIsValid = !!body.outlet;
         //todo validation
 
         if (modelIsValid) {
@@ -25,7 +25,7 @@ var Branch = function (db) {
 
                 Outlet.findByIdAndUpdate(model.outlet, {$addToSet: {branches: model._id}}, function (error) {
                     if (error) {
-                        //todo remove outlet
+                        //todo remove branch
                         return next(error);
                     }
                     res.status(201).send(model);
