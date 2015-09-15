@@ -17,6 +17,20 @@ var Personnel = function (db) {
     var xssFilters = require('xss-filters');
     //var mid;
 
+    this.getForDD = function (req, res, next) {
+        var query = req.query;
+        var queryObject = query ? query : {};
+
+        PersonnelModel.find(queryObject, '_id name').
+
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
+            });
+    };
+
     this.create = function (req, res, next) {
 
         var body = req.body;

@@ -98,7 +98,8 @@ define([
                         }
                     }
                 });
-                //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
+                populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
+                populate.get("#countryDd", "/country/getForDD", {}, "name", this, true);
 
                 this.delegateEvents(this.events);
 

@@ -112,6 +112,5 @@ var Outlet = function (db) {
                 res.status(200).send(result);
             });
         };
-    }
-    ;
+    };
 module.exports = Outlet;

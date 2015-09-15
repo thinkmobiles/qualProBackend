@@ -56,6 +56,7 @@ module.exports = function (db, app) {
      * @instance
      */
     router.get('/', handler.getAll);
+    router.get('/getForDD', handler.getForDD);
     router.get('/currentUser', handler.getById);
     router.get('/:id', handler.getById);
     router.post('/passwordChange/:forgotToken', csrfProtection, handler.changePassword);
