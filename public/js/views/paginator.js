@@ -98,6 +98,10 @@ define([], function(){
             $("#previousPage").prop("disabled", false);
             $("#firstShowPage").prop("disabled", false);
 
+            options = options || {
+                    count: itemsNumber,
+                    filter: this.filter
+                };
 
             this.collection.getNextPage(options);
             this.changeLocationHash(page, itemsNumber);
@@ -151,6 +155,11 @@ define([], function(){
             $("#nextPage").prop("disabled", false);
             $("#lastShowPage").prop("disabled", false);
 
+            options = options || {
+                    count: itemsNumber,
+                    filter: this.filter
+                };
+
             this.collection.getPreviousPage(options);
             this.changeLocationHash(page, itemsNumber);
         },
@@ -190,8 +199,7 @@ define([], function(){
 
             options = options || {
                     count: itemsNumber,
-                    filter: this.filter,
-                    newCollection: false
+                    filter: this.filter
                 };
 
             this.collection.getFirstPage(options);
@@ -229,6 +237,12 @@ define([], function(){
             $("#lastShowPage").prop("disabled", true);
             $("#previousPage").prop("disabled", false);
             $("#firstShowPage").prop("disabled", false);
+
+            options = options || {
+                    page: page,
+                    count: itemsNumber,
+                    filter: this.filter
+                };
 
             this.collection.getLastPage(options);
             this.changeLocationHash(page, itemsNumber);
