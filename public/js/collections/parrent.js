@@ -170,7 +170,7 @@ define([], function () {
             this.getPage(page, options);
         },
 
-        getSearchedCollection: function (field, value) {
+        getSearchedCollection: function (field, value, collection) {
             var newFilteredCollection;
             var self = this;
 
@@ -180,12 +180,12 @@ define([], function () {
                 return self.trigger('showmore', this);
             }
 
-            newFilteredCollection = this.filterCollection(field, value);
+            newFilteredCollection = this.filterCollection(field, value, collection);
 
             return self.trigger('showmore', newFilteredCollection);
         },
 
-        filterCollection: function (field, value) {
+        filterCollection: function (field, value, collection) {
             var resultCollection;
             var regex;
 
@@ -195,7 +195,7 @@ define([], function () {
                 return model.get(field).match(regex);
             });
 
-            return resultCollection;
+            return new collection(resultCollection);
         }
     });
     return Collection;

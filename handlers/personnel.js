@@ -181,8 +181,6 @@ var Personnel = function (db) {
 
         var parallelTasks;
 
-        //ToDo implement filtering for both methods
-
         function contentFinder(parallelCb) {
             PersonnelModel.find(queryObject, projectionObject)
                 .skip(skip)
