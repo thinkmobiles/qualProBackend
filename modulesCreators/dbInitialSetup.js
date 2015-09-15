@@ -1,18 +1,4 @@
-require('../config/development');
-
-var request = require('supertest');
-
-var expect = require('chai').expect;
-
-var host = process.env.HOST;
-
-var agent;
-
-var adminObject = {
-    _csrf: '',
-    email: 'admin@admin.com',
-    pass: '121212'
-};
+var CONSTANTS = require('../constants/mainConstants');
 
 var countries = [
     {
@@ -123,118 +109,44 @@ var outlets = [
     }
 ]
 
-describe("A_Set up database for tests", function () {
 
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
+exports.create = function (cb) {
+    var MongoClient = require('mongodb').MongoClient;
+    var url = 'mongodb://localhost:27017/qualPro';
+    var async = require('async');
 
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
+    MongoClient.connect(url, function (err, db) {
 
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-
-            });
-    });
-
-    for (var i in countries) {
-        createCountry(countries[i]);
-    }
-
-    for (var countryName in managersByCountries) {
-        createCountryManagerAndUpdateCountry(managersByCountries[countryName], countryName);
-    }
-
-    for (var i=0;i<outlets.length;i++){
-        var countryLength=countries.length-1
-        var countryIndex=i>countryLength?i-countryLength:i;
-        createOutlet(outlets[i],countries[countryIndex]);
-    }
-
-    function createCountry(country) {
-        it("Should create country:" + country.name, function (done) {
-            agent
-                .post('/country')
-                .send(country)
-                .expect(201, function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    country._id = res.body._id;
-                    managersByCountries[country.name].country = country._id;
-                    done();
-                });
-
-        });
-    }
-
-    function createCountryManagerAndUpdateCountry(personnel, countryName) {
-        it("Should create :" + personnel.firstName + " " + personnel.lastName, function (done) {
-            agent
-                .post('/personnel')
-                .send(personnel)
-                .expect(201, function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    personnel._id = res.body._id;
-                    updateCountry(getCountryByName(countryName), personnel._id);
-                    done();
-                });
-
-        });
-    }
-
-    function getCountryByName(countryName) {
-        if (!countryName) return undefined;
-        var length = countries.length;
-        for (var i = 0; i < length; i++) {
-            if (countries[i].name === countryName) return countries[i];
+        if (err) {
+            console.error(err);
+            process.exit(1);
         }
-        return undefined;
-    }
+        console.log('connected');
 
-    function updateCountry(country, managerId) {
-        it("Should set manager id of " + country.name + " to" + managerId, function (done) {
-            agent
-                .patch('/country')
-                .send({manager: managerId})
-                .expect(200, function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    country.manager = managerId;
-                    done
-                });
+        var countriesCollection = db.collection('countries');
 
-        });
-    }
+        var _modules = [{
+            _id: 1,
+            mname: 'Activity list',
+            href: 'activityList',
+            sequence: 1,
+            parrent: null,
+            link: false,
+            visible: true
+        }];
 
-    function createOutlet(outlet, country) {
-        it("Should create outlet:" + outlet.name, function (done) {
-            outlet.country = country._id;
-            agent
-                .post('/outlet')
-                .send(outlet)
-                .expect(201, function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    outlet._id = res.body._id;
-                    done();
-                });
 
+        var query = async.queue(function (module, callback) {
+            countriesCollection.insertOne(module, callback);
+        }, 1000);
+
+        query.drain = function () {
+            cb(null, {success: true});
+        };
+
+        query.push(_modules, function (err, res) {
+            console.log('finished process');
         });
 
-    }
-
-});
-
-
+    });
+};
