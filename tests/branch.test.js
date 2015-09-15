@@ -90,9 +90,8 @@ describe("BDD for " + singular, function () {
     before("Login: (should return logged personnel)", function (done) {
        // this.timeout(15000);
         server(done);
-
-
     });
+
     it("Login: (should return logged personnel)", function (done) {
         agent = request.agent(host);
         agent
@@ -126,7 +125,7 @@ describe("BDD for " + singular, function () {
 
 
 
-    it("Get " + singular + " by id should return " + singular, function (done) {
+    /*it("Get " + singular + " by id should return " + singular, function (done) {
         agent
             .get(baseUrl + '/' + createdId)
             .expect(200, function (err, res) {
@@ -205,6 +204,6 @@ describe("BDD for " + singular, function () {
                 expect(body.isArchived);
                 done();
             });
-    });
+    });*/
 });
 
