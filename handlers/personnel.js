@@ -10,6 +10,7 @@ var Personnel = function (db) {
     var CONSTANTS = require('../constants/mainConstants');
     //var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer');
+    var FilterMapper = require('../helpers/filterMapper');
     var async = require('async');
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
@@ -170,13 +171,51 @@ var Personnel = function (db) {
     };
 
     this.getAll = function (req, res, next) {
-        PersonnelModel.find({}, {pass: 0})
-            .exec(function (err, result) {
+        var query = req.query;
+        var projectionObject = {pass: 0};
+        var page = query.page || 1;
+        var limit = query.count || parseInt(CONSTANTS.LIST_COUNT);
+        var skip = (page - 1) * limit;
+        var filterMapper = new FilterMapper();
+        var queryObject = query.filter ? filterMapper.mapFilter(query.filter) : {};
+
+        var parallelTasks;
+
+        //ToDo implement filtering for both methods
+
+        function contentFinder(parallelCb) {
+            PersonnelModel.find(queryObject, projectionObject)
+                .skip(skip)
+                .limit(limit)
+                .exec(function (err, result) {
+                    if (err) {
+                        return parallelCb(err);
+                    }
+                    parallelCb(null, result);
+                });
+        };
+
+        function totalCounter(parallelCb) {
+            PersonnelModel.count(queryObject, function (err, result) {
                 if (err) {
-                    return next(err);
+                    return parallelCb(err);
                 }
-                res.status(200).send(result);
+                parallelCb(null, result);
             });
+        };
+
+        parallelTasks = {
+            total: totalCounter,
+            data: contentFinder
+        };
+
+        async.parallel(parallelTasks, function (err, response) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(200).send(response);
+        });
     };
 
     this.update = function (req, res, next) {
@@ -228,7 +267,7 @@ var Personnel = function (db) {
         }
 
         async.series(seriesTasks, function (err, result) {
-            if(err){
+            if (err) {
                 return next(err);
             }
 

@@ -16,6 +16,12 @@ define(['collections/parrent',
                 options.reset = true;
 
                 this.getPage(page, options);
+            },
+
+            parse: function(response){
+                this.totalRecords = response.total;
+
+                return response.data;
             }
         });
 

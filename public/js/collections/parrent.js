@@ -43,19 +43,26 @@ define([], function () {
             return this.currentPage * this.pageSize;
         },
 
-        dataComposer: function(page, options){
+        dataComposer: function (page, options) {
             var self = this;
             var data;
             var _opts = {};
             var waite;
             var reset;
+            var isNew = !!options.newCollection;
+
+            page = page || this.currentPage;
+
+            if (!page) {
+                page = this.currentPage = 1;
+            }
 
             options = options || {waite: true, reset: true};
 
             waite = !!options.waite;
             reset = !!options.reset;
 
-            if (options.newCollection) {
+            if (isNew || !options.data) {
                 _opts.data = options;
             } else {
                 _opts.data = options.data || {};
@@ -64,18 +71,23 @@ define([], function () {
             }
 
             data = _opts.data;
-            data.page = page || this.currentPage;
+            data.page = page;
             data.count = data.count || this.pageSize;
             data.filter = data.filter || {};
 
             _opts.reset = reset;
             _opts.waite = waite;
 
+            delete data.waite;
+            delete data.reset;
+
             _opts.success = options.success || function (models) {
                     if (self.currentPage !== self.lastPage) {
                         self.currentPage++;
                     }
-                    self.trigger('showmore', models);
+                    if (!isNew) {
+                        self.trigger('showmore', models);
+                    }
                 };
             _opts.error = options.error || function (models, err) {
                     self.trigger('errorPaganation', err);
@@ -95,7 +107,7 @@ define([], function () {
          */
 
         getPage: function (page, options) {
-           var _opts = this.dataComposer(page, options);
+            var _opts = this.dataComposer(page, options);
 
             return this.fetch(_opts);
         },
@@ -111,7 +123,7 @@ define([], function () {
          */
 
         getFirstPage: function (options) {
-           this.currentPage = 1;
+            this.currentPage = 1;
 
             this.getPage(1, options);
         },
@@ -158,7 +170,7 @@ define([], function () {
             this.getPage(page, options);
         },
 
-        getSearchedCollection : function (field, value) {
+        getSearchedCollection: function (field, value) {
             var newFilteredCollection;
             var self = this;
 
@@ -179,12 +191,12 @@ define([], function () {
 
             regex = new RegExp(value, 'i');
 
-            resultCollection = _.filter(this, function (model) {
+            resultCollection = this.filter(function (model) {
                 return model.get(field).match(regex);
             });
 
             return resultCollection;
-        },
+        }
     });
     return Collection;
 });

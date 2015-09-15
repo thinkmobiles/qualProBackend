@@ -30,12 +30,13 @@ define([
                 events: {
                     "mouseenter .avatar": "showEdit",
                     "mouseleave .avatar": "hideEdit",
-                    "click .current-selected": "countryDropDownClick",
+                    "click .current-selected": "showNewSelect",
                     "click": "hideNewSelect"
                 },
 
-                countryDropDownClick: function (e, prev, next) {
-                    alert('nelnenfrkn');
+                showNewSelect: function (e, prev, next) {
+                    populate.showSelect(e, prev, next, this);
+                    return false;
                 },
 
                 saveItem: function () {
@@ -117,8 +118,8 @@ define([
                             }
                         }
                     });
-                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true, true);
-                    //this.setUpCountriesDropdown(this);
+                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true);
+
                     $('#dateBirth').datepicker({
                         changeMonth: true,
                         changeYear: true,
@@ -132,20 +133,6 @@ define([
 
                     return this;
                 },
-
-                setUpCountriesDropdown: function (context) {
-                    dataService.getData("/country/getForDD", null, function (err, countries) {
-                        context.responseObj['#country'] = countries;
-                        countries.forEach(function (country) {
-                            var countrydd = context.$el.find('#countryDd')
-                            countrydd.options.add('<option>' + country.name + "</option>");
-                        })
-
-                    });
-
-
-                },
-
             })
             ;
 

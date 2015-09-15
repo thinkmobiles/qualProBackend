@@ -17,6 +17,7 @@ define([
                 "click #top-bar-deleteBtn": "deleteEvent",
                 "click #top-bar-discardBtn": "discardEvent",
                 "click #top-bar-editBtn": "editEvent",*/
+                "click .itemsNumber": "switchPageCounter",
                 "change #currentShowPage": "showPage",
                 "click #top-bar-createBtn": "createEvent",
                 "click #firstShowPage": "firstPage",
@@ -33,8 +34,14 @@ define([
                 this.render();
             },
 
-            createEvent: function (event) {
-                event.preventDefault();
+            switchPageCounter: function (e) {
+                e.preventDefault();
+
+                this.trigger('switchPageCounter', e);
+            },
+
+            createEvent: function (e) {
+                e.preventDefault();
 
                 this.trigger('createEvent');
             },

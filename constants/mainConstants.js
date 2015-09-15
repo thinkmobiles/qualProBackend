@@ -15,5 +15,7 @@ module.exports = {
     COMMENT: 'comment',
     POSITION: 'position',
     OUTLET: 'outlet',
-    STATUS:'status'
+    STATUS:'status',
+
+    LIST_COUNT: 25
 };

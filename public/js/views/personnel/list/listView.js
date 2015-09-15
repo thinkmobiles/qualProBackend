@@ -10,14 +10,13 @@ define([
     function (headerTemplate, createView, listItemView, filterView, paginator, contentCollection) {
         var View = paginator.extend({
             el: '#contentHolder',
-            newCollection: null,
-            page: null,
             contentType: 'personnel',
             viewType: 'list',
             template: _.template(headerTemplate),
-            $pagination: null,
 
             initialize: function (options) {
+                this.defaultItemsNumber = this.collection.pageSize;
+                this.listLength = this.collection.totalRecords;
                 this.startTime = options.startTime;
                 this.collection = options.collection;
                 this.page = options.collection.page;
@@ -29,7 +28,7 @@ define([
                         var target = e.target;
                         var value = target.value;
 
-                        this.collection = this.collection.getSearchedCollection('fullName', value);
+                        this.collection.getSearchedCollection('fullName', value, contentCollection);
 
                     }, 500);
             },
@@ -39,6 +38,7 @@ define([
 
             showFilteredPage: function (filter) {
                 var itemsNumber = $("#itemsNumber").text();
+
                 this.filter = filter;
 
                 this.startTime = new Date();
@@ -49,7 +49,7 @@ define([
                 $('#check_all').prop('checked', false);
 
                 this.changeLocationHash(1, itemsNumber, filter);
-                this.collection.getPage({page: 1, options: {count: itemsNumber, filter: filter}});
+                this.collection.getFirstPage({count: itemsNumber, filter: filter});
                 //this.getTotalLength(null, itemsNumber, filter);
             },
 
@@ -96,6 +96,8 @@ define([
                 searchInput.keyup(function (e) {
                     self.inputEvent(e)
                 });
+
+                this.pageElementRender(this.listLength, this.collection.currentPage);
             },
 
             showMoreContent: function (newModels) {

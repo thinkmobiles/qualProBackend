@@ -6,15 +6,18 @@ define([], function () {
         personnel: {
             country: {
                 displayName: 'Country',
+                type: 'ObjectId',
                 child: 'outlet'
             },
             outlet: {
                 displayName: 'Outlet',
+                type: 'ObjectId',
                 child: 'branch',
                 parent: 'country'
             },
             branch: {
                 displayName: 'Branch',
+                type: 'ObjectId',
                 child: 'branch',
                 parent: 'country'
             }
