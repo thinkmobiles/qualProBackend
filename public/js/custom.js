@@ -103,8 +103,10 @@ define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, da
 
     var navigateToDefaultUrl = function (options) {
         var defaultLocation = '#qualPro/' + CONTENT_TYPES.PERSONNEL;
+        var url = Backbone.history.fragment || defaultLocation;
 
-        Backbone.history.navigate(defaultLocation, options);
+
+        Backbone.history.navigate(url, options);
     };
 
     return {

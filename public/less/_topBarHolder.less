@@ -130,10 +130,7 @@
         border-bottom: 1px solid @topbarmenu-border-color;
         background-color: @topbarmenu-block-bg;
       }
-      .viewBarBtnActive {
-        border-bottom: 0;
-        background-color: transparent;
-      }
+
     }
 
     #btnHolder {
@@ -144,5 +141,224 @@
       }
     }
 
+    #contentViewSwitcher {
+      float: left;
+      margin-left: 60px;
+      .btn-list {
+        overflow: hidden;
+        li {
+          float: left;
+          a {
+            display: block;
+            color: @topbarmenu-font-color-menu;
+            border: 1px solid @topbarmenu-border-color;
+            text-align: center;
+            width: 35px;
+            background-color: @topbarmenu-block-bg;
+            .material-icons {
+              line-height: 30px;
+              .pxToEm(20);
+            }
+
+          }
+          &:first-child {
+            a {
+              border-right: none;
+              border-radius: 2px 0 0 2px;
+            }
+          }
+          &:last-child {
+            a {
+              border-radius: 0 2px 2px 0;
+            }
+          }
+        }
+      }
+    }
+
+    #paginationHolder {
+      float: right;
+    }
+
+    .viewBarBtnActive {
+      border-bottom: 0;
+      background-color: transparent !important;
+    }
+
   }
+
+  .pagination {
+    float: right;
+    width: 100%;
+  }
+
+  /*.pagination {
+    width: 100%;
+    float: right;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    div {
+      float: left;
+    }
+
+    .countOnPage {
+      float: left;
+      color: @topbarmenu-font-color-menu;
+    }
+
+    .nextPrev {
+      float: right;
+      margin-right: 5px;
+      color: @topbarmenu-font-color-menu;
+    }
+
+    .countOnPage {
+      margin-left: 5px;
+    }
+
+    #previousPage, #nextPage, .currentPageList, #firstShowPage, #lastShowPage {
+      background-color: white;
+      background-image: none;
+      line-height: 15px;
+      width: 20px;
+      height: 18px;
+      display: block;
+      text-align: center;
+      padding: 0;
+      border-radius: 0;
+      font-weight: bold;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      float: left;
+    }
+    #firstShowPage, #lastShowPage {
+      width: 30px;
+      height: 18px;
+      display: block;
+      font-size: 12px;
+    }
+    #previousPage {
+      margin: 0 3px;
+      font-size: 12px;
+    }
+
+    #nextPage {
+      margin: 0 3px;
+      font-size: 12px;
+    }
+
+    .allPage {
+      position: relative;
+    }
+    button {
+
+      color: rgba(0, 0, 0, 0.75);
+      &:hover {
+        background-color: #F7F8F9;
+        color: rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.9);
+      }
+      &[disabled] {
+        color: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        cursor: default;
+      }
+    }
+    #currentShowPage {
+      border: 1px solid @topbarmenu-border-color;
+      border-right: none;
+      background-color: #fff;
+      width: 21px;
+      height: 12px;
+      margin-left: 5px;
+      font-size: 12px !important;
+    }
+
+    #pageList {
+      //background-color: @bg-main-menu;
+      border: 1px solid @topbarmenu-border-color;
+      position: absolute;
+      bottom: 17px;
+      left: -7px;
+      display: none;
+
+      li {
+        display: block;
+        width: 25px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+         // background-color: @bg-main-menu-selected;
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .currentPageList {
+      margin-right: 5px;
+      font-size: 12px;
+      .caret {
+        display: block;
+        height: 15px;
+        //background-image: url("@{imagesfolder}/arrow-up.png");
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .pageList {
+      position: relative;
+
+      button {
+        background-color: white;
+        background-image: none;
+        border-radius: 0;
+        width: 27px;
+        margin: 0 0 0 5px;
+        line-height: 10px;
+        font-size: 12px;
+        padding: 3px 2px;
+        &:hover {
+          background-color: #F7F8F9;
+        }
+      }
+
+      .currentPageList {
+        margin-left: 0;
+        border-left: none;
+      }
+
+      ul {
+        //background-color: @bg-main-menu;
+        border: 1px solid @topbarmenu-border-color;
+        position: absolute;
+        bottom: 17px;
+        left: 0px;
+        display: none;
+        font-size: 12px;
+
+        li {
+          a {
+            display: block;
+            width: 25px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+
+            &:hover {
+              background-color: @topbarmenu-border-color;
+              color: white;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }*/
 }

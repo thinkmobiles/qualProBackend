@@ -20,6 +20,18 @@
   border-bottom-right-radius: @radius @height;
 }
 
+.border-radius-top-right(@radius) {
+  -webkit-border-top-right-radius: @radius;
+  -moz-border-bottom-top-radius: @radius;
+  border-bottom-top-radius: @radius;
+}
+
+.border-radius-top-left(@radius) {
+  -webkit-border-top-left-radius: @radius;
+  -moz-border-bottom-left-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+
 .box-shadow(@y, @x, @blur, @color) {
   -webkit-box-shadow:  @y @x @blur @color;
   -moz-box-shadow:  @y @x @blur @color;
