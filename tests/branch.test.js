@@ -6,7 +6,7 @@ var Session = require('supertest-session')({
 });
 var expect = require('chai').expect;
 
-var host = /*process.env.HOST*/'http://localhost:8099';
+var host =/* process.env.HOST*/'http://localhost:8099';
 var baseUrl = '/branch';
 var agent;
 var singular = 'branch';
@@ -88,7 +88,12 @@ describe("BDD for " + singular, function () {
 
 // Runs once before all tests start.
     before("Login: (should return logged personnel)", function (done) {
-        this.timeout(15000);
+       // this.timeout(15000);
+        server(done);
+
+
+    });
+    it("Login: (should return logged personnel)", function (done) {
         agent = request.agent(host);
         agent
             .post('/login')
@@ -103,9 +108,7 @@ describe("BDD for " + singular, function () {
                 expect(body).to.be.instanceOf(Object);
                 done();
             });
-
     });
-
     it("Create new " + singular + " should return " + singular, function (done) {
         agent
             .post(baseUrl)
@@ -120,6 +123,8 @@ describe("BDD for " + singular, function () {
 
             });
     });
+
+
 
     it("Get " + singular + " by id should return " + singular, function (done) {
         agent

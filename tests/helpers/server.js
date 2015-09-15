@@ -1,4 +1,4 @@
-function start() {
+function start(done) {
 
     var mongoose = require('mongoose');
     var db;
@@ -14,7 +14,7 @@ function start() {
     db.on('error', console.error.bind(console, 'connection error:'));
 
     db.once('open', function callback() {
-        var port = process.env.PORT || 8099;
+        var port =  8099;
 
         console.log("Connected to db is success");
 
@@ -31,6 +31,7 @@ function start() {
             console.log('==============================================================');
             console.log('|| server start success on port=' + port + ' in ' + env.NODE_ENV + ' version ||');
             console.log('==============================================================\n');
+            done();
         });
     });
 }
