@@ -56,11 +56,11 @@ define([
 
                     personnelModel.save({
                             country: country,
-                            firstName: firstName,
-                            lastName: lastName,
+                            firstName: _.escape(firstName),
+                            lastName: _.escape(lastName),
                             imageSrc: this.imageSrc,
-                            email: email,
-                            phoneNumber: phone,
+                            email: _.escape(email),
+                            phoneNumber: _.escape(phone),
                             position: position,
                             manager: manager,
                             dateBirth: dateBirth,

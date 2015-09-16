@@ -60,8 +60,8 @@
                             if (parseInt(sellictions.w) > 0) {
                                 var img = $('.image_input img')[0];
                                 var canvasCrop = document.createElement('canvas');
-                                canvasCrop.height = 200;
-                                canvasCrop.width = 200;
+                                canvasCrop.height = 100;
+                                canvasCrop.width = 100;
                                 var ctx = canvasCrop.getContext('2d');
                                 ctx.drawImage(img, sellictions.x, sellictions.y, sellictions.w, sellictions.h, 0, 0, canvasCrop.width, canvasCrop.height);
                                 $('.image_output').attr('src', canvasCrop.toDataURL('image/jpeg'));

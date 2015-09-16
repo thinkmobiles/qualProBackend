@@ -1,21 +1,41 @@
-define([''],function () {
+define(['Validation'], function (Validation) {
     var Model = Backbone.Model.extend({
         idAttribute: "_id",
         defaults: {
             imageSrc: "",
-            email:"",
-            position:null,
+            email: "",
+            position: null,
         },
 
-        initialize: function(){
+        initialize: function () {
+            this.on('invalid', function (model, errors) {
+                var errorsLength = errors.length;
+
+                if (errorsLength > 0) {
+                    for (var i = errorsLength; i > 0; i--) {
+                        App.render({type: 'error', message: errors[i]});
+                    }
+                }
+            });
         },
 
-        validate: function(attrs, options){
+        validate: function (attrs) {
+            var errors = [];
+
+            Validation.checkNameField(errors, true, attrs.firstName, "First name");
+            Validation.checkNameField(errors, true, attrs.lastName, "Last name");
+            Validation.checkEmailField(errors, true, attrs.email, "Email");
+            Validation.checkPhoneField(errors, false, attrs.phoneNumber, "Phone number");
+
+            if (errors.length > 0) {
+                return errors;
+            }
         },
 
-        urlRoot: function(){
+        urlRoot: function () {
             return "/personnel";
         }
     });
+
     return Model;
 });
