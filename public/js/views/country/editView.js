@@ -50,18 +50,14 @@ define([
                 this.model.save({
                         name: name,
                         imageSrc: this.imageSrc,
-                        manager: manager,
+                        manager: manager
                     },
                     {
                         wait: true,
                         success: function (model, response) {
-
-                            alert('saved');
                             self.hideDialog();
                             Backbone.history.fragment = '';
                             Backbone.history.navigate('#qualPro/country/list', {trigger: true});
-
-
                         },
                         error: function (model, xhr) {
                             App.render({type: 'error', message: xhr.responseText});

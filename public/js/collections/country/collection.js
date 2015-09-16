@@ -17,7 +17,7 @@ define([
                 options.reset = true;
 
                 this.getPage(page, options);
-            },
+            }
         });
         return Collection;
     });

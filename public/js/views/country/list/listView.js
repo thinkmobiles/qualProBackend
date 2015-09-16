@@ -118,18 +118,9 @@ define([
 
             tableRowClick: function (e) {
                 var id = $(e.target).closest("tr").data("id");
-                var model = new Model({validate: false});
+                var model = this.collection.get(id);
 
-                model.urlRoot = '/country/' + id;
-                model.fetch({
-                    success: function (model) {
-                        new EditView(model);
-                    },
-                    error: function () {
-                        alert('Please refresh browser');
-                    }
-                });
-
+                var editView = new EditView(model);
             }
 
         });

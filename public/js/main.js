@@ -47,7 +47,7 @@ require(['app'], function (app) {
     /**
      *
      * @param data
-     * @instance
+     * @memberof App
      */
 
     App.render = function (data) {

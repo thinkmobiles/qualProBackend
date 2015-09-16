@@ -2,7 +2,7 @@ define([], function () {
     /**
      * Drop-in replacement for Backbone.Collection. Encapsulate main pagination logic
      * @see {@link http://backbonejs.org/#Collection|Backbone.Collection }
-     * @namespace ParrentCollection
+     * @constructor ParrentCollection
      * @extends Backbone.Collection
      *
      * @property {number} firstPage The first page index. You should only override this value
@@ -150,7 +150,7 @@ define([], function () {
          * @param {object} options.
          * @return {XMLHttpRequest} The XMLHttpRequest
          * from fetch or this.
-         * @function getLastPage
+         * @function getNextPage
          * @memberof ParrentCollection
          * @instance
          */
