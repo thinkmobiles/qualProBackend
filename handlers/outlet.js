@@ -11,18 +11,16 @@ var Outlet = function (db) {
             var Model = db.model(modelAndSchemaName, schema);
             var model;
 
-            var modelIsValid = true;
+            var modelIsValid = !!body.country;
             //todo validation
 
             if (modelIsValid) {
                 model = Model(body);
                 model.save(function (error) {
-                    var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
-
                     if (error) {
                         return next(error);
                     }
-
+                    var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
                     Country.findByIdAndUpdate(model.country, {$addToSet: {outlets: model._id}}, function (error) {
                         if (error) {
                             //todo remove country
@@ -75,9 +73,9 @@ var Outlet = function (db) {
             });
         };
 
-        this.getForDD= function (req,res,next) {
+        this.getForDD = function (req, res, next) {
             var Model = db.model(modelAndSchemaName, schema);
-            Model.find({},'_id name').
+            Model.find({}, '_id name').
 
                 exec(function (err, result) {
                     if (err) {

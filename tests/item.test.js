@@ -28,26 +28,13 @@ var objectUpdate = {
     description: 'NotTest',
     sku: 'NotTest'
 };
-
+var cache=require('./helpers/cache');
 var createdId;
 
 describe("BDD for " + singular, function () {  // Runs once before all tests start.
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
-
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
-
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-            });
+    before("Get agent", function (done) {
+        agent = cache.agent;
+        done();
     });
 
     it("Create new " + singular + " should return " + singular, function (done) {

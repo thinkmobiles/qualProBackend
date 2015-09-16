@@ -1,5 +1,5 @@
 require('../config/development');
-
+var cache = require('./helpers/cache');
 var request = require('supertest');
 
 var expect = require('chai').expect;
@@ -122,27 +122,28 @@ var outlets = [
         isOwn: true
     }
 ]
+before("before all tests login and setup db", function (done) {
+    agent = request.agent(host);
 
-describe("A_Set up database for tests", function () {
+    cache.outlets = outlets;
+    cache.agent = agent;
+    cache.countries = countries;
 
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
+    agent
+        .post('/login')
+        .send(adminObject)
+        .expect(200, function (err, resp) {
+            var body;
+            if (err) {
+                return done(err);
+            }
 
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
+            body = resp.body;
+            expect(body).to.be.instanceOf(Object);
+            done();
 
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
+        });
 
-            });
-    });
 
     for (var i in countries) {
         createCountry(countries[i]);
@@ -152,10 +153,10 @@ describe("A_Set up database for tests", function () {
         createCountryManagerAndUpdateCountry(managersByCountries[countryName], countryName);
     }
 
-    for (var i=0;i<outlets.length;i++){
-        var countryLength=countries.length-1
-        var countryIndex=i>countryLength?i-countryLength:i;
-        createOutlet(outlets[i],countries[countryIndex]);
+    for (var i = 0; i < outlets.length; i++) {
+        var countryLength = countries.length - 1
+        var countryIndex = i > countryLength ? i - countryLength : i;
+        createOutlet(outlets[i], countries[countryIndex]);
     }
 
     function createCountry(country) {
@@ -234,6 +235,7 @@ describe("A_Set up database for tests", function () {
         });
 
     }
+
 
 });
 

@@ -16,7 +16,7 @@ var adminObject = {
     email: 'admin@admin.com',
     pass: '121212'
 };
-
+var cache=require('./helpers/cache');
 var countryTestManager;
 
 var testObject = {
@@ -34,22 +34,9 @@ var objectUpdate = {
 var createdId;
 
 describe("BDD for country", function () {  // Runs once before all tests start.
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
-
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
-
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-            });
+    before("Get agent", function (done) {
+        agent = cache.agent;
+        done();
     });
 
 
