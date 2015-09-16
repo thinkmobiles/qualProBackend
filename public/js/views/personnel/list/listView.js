@@ -14,11 +14,13 @@ define([
             viewType: 'list',
             template: _.template(headerTemplate),
 
+            events: {
+            },
+
             initialize: function (options) {
+                this.collection = options.collection;
                 this.defaultItemsNumber = this.collection.pageSize;
                 this.listLength = this.collection.totalRecords;
-                this.startTime = options.startTime;
-                this.collection = options.collection;
                 this.page = options.collection.page;
 
                 this.render();
@@ -31,9 +33,6 @@ define([
                         this.collection.getSearchedCollection('fullName', value, contentCollection);
 
                     }, 500);
-            },
-
-            events: {
             },
 
             showFilteredPage: function (filter) {
@@ -85,6 +84,7 @@ define([
                 this.filterView.bind('filter', function (filter) {
                     self.showFilteredPage(filter, self)
                 });
+
                 this.filterView.bind('defaultFilter', function () {
                     self.showFilteredPage({}, self);
                 });
@@ -98,6 +98,8 @@ define([
                 });
 
                 this.pageElementRender(this.listLength, this.collection.currentPage);
+
+                return this;
             },
 
             showMoreContent: function (newModels) {
