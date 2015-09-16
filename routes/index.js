@@ -23,10 +23,9 @@ module.exports = function (app, db) {
 
     var PersonnelHandler = require("../handlers/personnel");
     var ModuleslHandler = require("../handlers/modules");
-    // var CountryHandler=require("../handlers/country");
     var personnelHandler = new PersonnelHandler(db);
     var modulesHandler = new ModuleslHandler(db);
-    //var countryHandler=new CountryHandler(db);
+
     var personnelRouter = require('./personnel')(db, app);
     var countryRouter = require('./country')(db);
     var branchRouter = require('./branch')(db);

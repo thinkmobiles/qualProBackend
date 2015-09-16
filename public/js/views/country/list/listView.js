@@ -122,7 +122,6 @@ define([
 
                 model.urlRoot = '/country/' + id;
                 model.fetch({
-                    data: {_id: id},
                     success: function (model) {
                         new EditView(model);
                     },

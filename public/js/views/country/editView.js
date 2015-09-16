@@ -98,6 +98,8 @@ define([
                     }
                 });
 
+                common.canvasDraw({model: this.model.toJSON()}, this);
+
                 this.delegateEvents(this.events);
 
                 this.$errrorHandler = $('#errorHandler');
