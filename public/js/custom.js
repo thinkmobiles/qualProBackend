@@ -129,10 +129,10 @@ define([
         var isRender = (App && App.render);
 
         if((!date || date === 'Invalid date') && isRender){
-            App.render({});
+            App.render({type: 'error', message: 'Invalid Date'});
         }
 
-        return moment()
+        return moment(dateString).format(formatString);
     };
 
     return {
