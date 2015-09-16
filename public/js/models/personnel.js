@@ -1,21 +1,20 @@
-define([''],function () {
-    var Model = Backbone.Model.extend({
-        idAttribute: "_id",
-        defaults: {
-            imageSrc: "",
-            email:"",
-            position:null,
-        },
+define(['models/parrent'], function (parent) {
+	var Model = parent.extend({
+		defaults: {
+			imageSrc: "",
+			email   : "",
+			position: null,
+		},
 
-        initialize: function(){
-        },
+		initialize: function () {
+		},
 
-        validate: function(attrs, options){
-        },
+		validate: function (attrs, options) {
+		},
 
-        urlRoot: function(){
-            return "/personnel";
-        }
-    });
-    return Model;
+		urlRoot: function () {
+			return "/personnel";
+		}
+	});
+	return Model;
 });
