@@ -119,8 +119,24 @@ define([
             tableRowClick: function (e) {
                 var id = $(e.target).closest("tr").data("id");
                 var model = this.collection.get(id);
+                var fetchModel;
 
-                var editView = new EditView(model);
+                var editView;
+
+                if (!model) {
+                    fetchModel = new Model({validate: false});
+
+                    fetchModel.fetch({
+                        success: function (result) {
+                            model = result;
+                        },
+                        error: function () {
+                            return alert('Please refresh browser');
+                        }
+                    });
+                }
+
+                editView = new EditView(model);
             }
 
         });

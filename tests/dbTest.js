@@ -21,7 +21,7 @@ var testBranch1 = {name: 'V-Uzh-A'};
 var testBranch2 = {name: 'V-Lviv-B'};
 var testBranch3 = {name: 'D-Uzh'};
 var testBranch4 = {name: 'S-Budapest'};
-
+var cache=require('./helpers/cache');
 var country1Id;
 var country2Id;
 
@@ -36,22 +36,9 @@ var branch4Id;
 
 
 describe("General database test", function () {  // Runs once before all tests start.
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
-
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
-
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-            });
+    before("Get agent", function (done) {
+        agent = cache.agent;
+        done();
     });
 
     it("Create country 1", function (done) {

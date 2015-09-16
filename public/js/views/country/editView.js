@@ -45,12 +45,10 @@ define([
                 var currEl = this.$el;
 
                 var name = $.trim(currEl.find("#name").val());
-                var manager = currEl.find("#managerDD").attr("data-id");
 
                 this.model.save({
                         name: name,
-                        imageSrc: this.imageSrc,
-                        manager: manager
+                        imageSrc: this.imageSrc
                     },
                     {
                         wait: true,

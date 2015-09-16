@@ -38,9 +38,10 @@ var Branch = function (db) {
     };
 
     this.remove = function (req, res, next) {
-        //var id = req.params.id;
-        //var Model = db.model(modelAndSchemaName, schema);
+        var id = req.params.id;
+        var Model = db.model(modelAndSchemaName, schema);
 
+        res.status(501).send();
         //var Archiver = require('../helpers/archiver');
         //var archiver = Archiver();
         //archiver.archive(Model, id, function (error) {
@@ -49,7 +50,7 @@ var Branch = function (db) {
         //    }
         //    res.status(200).send();
         //});
-
+        //
         //Model.findByIdAndRemove(id, function (error) {
         //    if (error) {
         //        return next(error);
