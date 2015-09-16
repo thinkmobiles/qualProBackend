@@ -81,7 +81,7 @@ var Country = function (db) {
     this.getAll = function (req, res, next) {
         //  var error;
         var Model = db.model(modelAndSchemaName, schema);
-        Model.find().
+        Model.find({}).
 
             exec(function (err, result) {
                 if (err) {

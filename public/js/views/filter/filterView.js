@@ -1,9 +1,9 @@
 define([
         'text!templates/filter/filterTemplate.html',
         'collections/filter/filterCollection',
-        'constants'
+        'filters'
     ],
-    function (valuesTemplate, filterCollection, CONSTANTS) {
+    function (valuesTemplate, filterCollection, FILTERSCONSTANTS) {
         var filterValuesView = Backbone.View.extend({
             template: _.template(valuesTemplate),
 
@@ -15,7 +15,7 @@ define([
                 this.filterDisplayName = options.filterDisplayName;
                 this.collection = options.currentCollection;
                 this.collectionLength = this.collection.length;
-                this.elementToShow = options.elementToShow || (CONSTANTS.FILTERVALUESCOUNT > this.collectionLength) ? this.collectionLength : CONSTANTS.FILTERVALUESCOUNT;
+                this.elementToShow = options.elementToShow || (FILTERSCONSTANTS.FILTERVALUESCOUNT > this.collectionLength) ? this.collectionLength : FILTERSCONSTANTS.FILTERVALUESCOUNT;
 
                 this.allPages = Math.ceil(this.collectionLength / this.elementToShow);
 

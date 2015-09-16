@@ -1,3 +1,8 @@
+/**
+ * @namespace App
+ * @type {{file: {MAXSIZE: number, MaxFileSizeDisplay: string}, requestedURL: null, savedFilters: {}}}
+ */
+
 var App = App ||
     {
         file: {
@@ -38,6 +43,12 @@ require.config({
 
 require(['app'], function (app) {
     App.errorContainer = $('#errorHandler');
+
+    /**
+     *
+     * @param data
+     * @memberof App
+     */
 
     App.render = function (data) {
         var container = this.errorContainer;

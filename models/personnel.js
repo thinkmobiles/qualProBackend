@@ -5,7 +5,7 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     /**
-     * @namespace PersonnelModel
+     * @constructor PersonnelModel
      * @type {*|Schema}
      *
      * @property {String} pass

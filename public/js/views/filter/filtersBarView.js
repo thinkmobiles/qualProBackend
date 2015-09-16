@@ -3,9 +3,9 @@ define([
         'collections/filter/filterCollection',
         'custom',
         'common',
-        'constants'
+        'filters'
     ],
-    function (valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
+    function (valuesView, filterValuesCollection, Custom, Common, FILTERSCONSTANTS) {
         var FilterView;
         FilterView = Backbone.View.extend({
             el: '#filtersFullHolder',
@@ -21,7 +21,7 @@ define([
 
             initialize: function (options) {
                 this.parentContentType = options.contentType;
-                this.constantsObject = CONSTANTS.FILTERS[this.parentContentType];
+                this.constantsObject = FILTERSCONSTANTS.FILTERS[this.parentContentType];
 
                 this.currentCollection = {};
 

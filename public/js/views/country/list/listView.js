@@ -3,16 +3,14 @@ define([
         'views/country/createView',
         'views/country/list/listItemView',
         'views/country/editView',
-        //'collections/country/collection'
+        'views/paginator',
         'models/country'
 
     ],
 
-    function (headerTemplate, CreateView, listItemView, EditView, /*contentCollection,*/ Model) {
-        var View = Backbone.View.extend({
+    function (headerTemplate, CreateView, listItemView, EditView, paginator, Model) {
+        var View = paginator.extend({
             el: '#contentHolder',
-            newCollection: null,
-            page: null,
             contentType: 'country',
             viewType: 'list',
             template: _.template(headerTemplate),
@@ -23,8 +21,9 @@ define([
             },
 
             initialize: function (options) {
-                this.startTime = options.startTime;
                 this.collection = options.collection;
+                this.defaultItemsNumber = this.collection.pageSize;
+                this.listLength = this.collection.totalRecords;
                 this.page = options.collection.page;
 
                 this.render();
@@ -34,7 +33,6 @@ define([
             render: function () {
                 $('.ui-dialog ').remove();
 
-                var self = this;
                 var currentEl = this.$el;
                 var pagenation = currentEl.find('.pagination');
 
@@ -48,10 +46,12 @@ define([
 
                 $('#check_all').click(function () {
                     $(':checkbox').prop('checked', this.checked);
-                    //if ($("input.checkbox:checked").length > 0)
-                    //    $("#top-bar-deleteBtn").show();
-                    //else
-                    //    $("#top-bar-deleteBtn").hide();
+
+                    if ($("input.checkbox:checked").length > 0) {
+                        $("#top-bar-deleteBtn").show();
+                    } else {
+                        $("#top-bar-deleteBtn").hide();
+                    }
                 });
                 /* $(document).on("click", function (e) {
                  self.hideItemsNumber(e);
@@ -64,7 +64,32 @@ define([
                 } else {
                     pagenation.show();
                 }
+
                 return this;
+            },
+
+            showMoreContent: function (newModels) {
+                var holder = this.$el;
+                var itemView;
+                var pagination = this.$pagination;
+
+                holder.find("#listTable").empty();
+                itemView = new listItemView({
+                    collection: newModels,
+                    page: holder.find("#currentShowPage").val(),
+                    itemsNumber: holder.find("span#itemsNumber").text()
+                });
+
+                holder.append(itemView.render());
+                itemView.undelegateEvents();
+
+                if (newModels.length !== 0) {
+                    pagination.show();
+                } else {
+                    pagination.hide();
+                }
+
+                $('#check_all').prop('checked', false);
             },
 
             createItem: function () {
@@ -93,16 +118,9 @@ define([
 
             tableRowClick: function (e) {
                 var id = $(e.target).closest("tr").data("id");
-                var model = new Model({validate: false});
-                model.urlRoot = '/country/'+id;
-                model.fetch({
-                    data: {_id: id},
-                    success: function (model) {
-                        new EditView(model);
-                    },
-                    error: function () { alert('Please refresh browser'); }
-                });
+                var model = this.collection.get(id);
 
+                var editView = new EditView(model);
             }
 
         });

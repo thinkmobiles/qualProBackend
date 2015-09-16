@@ -2,36 +2,14 @@
  * Created by Roman on 23.04.2015.
  */
 define([], function () {
-    var filters = {
-        personnel: {
-            country: {
-                displayName: 'Country',
-                type: 'ObjectId',
-                child: 'outlet'
-            },
-            outlet: {
-                displayName: 'Outlet',
-                type: 'ObjectId',
-                child: 'branch',
-                parent: 'country'
-            },
-            branch: {
-                displayName: 'Branch',
-                type: 'ObjectId',
-                child: 'branch',
-                parent: 'country'
-            }
-        }
-    };
-
     return {
         EMAIL_REGEXP: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 
         ACTIVITYLIST: 'activityList',
         LOCATION: 'location',
         COUNTRY: 'country',
-        OUTLETS: 'outlets',
-        BRUNCHES: 'brunches',
+        OUTLET: 'outlet',
+        BRANCH: 'branch',
         PERSONNEL: 'personnel',
         ASSIGNMENTS: 'assignments',
         OBJECTIVES: 'objectives',
@@ -46,9 +24,6 @@ define([], function () {
         ITEMS: 'Items',
         ITEMSLIST: 'itemsList',
         PRICELIST: 'priceList',
-        CONTRACTS: 'contracts',
-
-        FILTERS: filters,
-        FILTERVALUESCOUNT: 7
+        CONTRACTS: 'contracts'
     }
 });

@@ -2,7 +2,7 @@ define([], function () {
     /**
      * Drop-in replacement for Backbone.Collection. Encapsulate main pagination logic
      * @see {@link http://backbonejs.org/#Collection|Backbone.Collection }
-     * @namespace ParrentCollection
+     * @constructor ParrentCollection
      * @extends Backbone.Collection
      *
      * @property {number} firstPage The first page index. You should only override this value
@@ -150,7 +150,7 @@ define([], function () {
          * @param {object} options.
          * @return {XMLHttpRequest} The XMLHttpRequest
          * from fetch or this.
-         * @function getLastPage
+         * @function getNextPage
          * @memberof ParrentCollection
          * @instance
          */
@@ -169,6 +169,18 @@ define([], function () {
             }
             this.getPage(page, options);
         },
+
+        /**
+         * Filters collection by `field` & `value`.
+         * @param {string} field Field to filter by.
+         * @param {string} value Value to filter by.
+         * @param {Backbone.Collection} collection To create correct result.
+         * @return {XMLHttpRequest} The XMLHttpRequest
+         * from fetch or this.
+         * @function getSearchedCollection
+         * @memberof ParrentCollection
+         * @instance
+         */
 
         getSearchedCollection: function (field, value, collection) {
             var newFilteredCollection;

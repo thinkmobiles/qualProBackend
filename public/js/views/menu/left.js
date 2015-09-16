@@ -6,14 +6,33 @@ define(['text!templates/menu/left.html'],
             template: _.template(template),
 
             events: {
+                "mouseover .parrentLeft": "mouseOver",
+                "mouseleave .parrentLeft": "mouseLeave",
                 "click a": "selectMenuItem"
             },
-
 
             initialize: function (options) {
                 this.collection = options.collection;
 
                 this.render();
+            },
+
+            mouseOver: function(e){
+                var target = $(e.target).closest('li');
+                var uls = target.find('ul');
+
+                if(uls.length) {
+                    target.addClass('menuDropDown');
+                }
+            },
+
+            mouseLeave: function(e){
+                var target = $(e.target).closest('li');
+                var uls = target.find('ul');
+
+                if(uls.length) {
+                    target.removeClass('menuDropDown');
+                }
             },
 
             render: function () {

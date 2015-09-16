@@ -27,7 +27,6 @@ define([
             events: {
                 /* "mouseenter .avatar": "showEdit",
                  "mouseleave .avatar": "hideEdit",*/
-                "click .current-selected": "showNewSelect",
 
                 "click .addPersons": "addPersons",
                 "click": "hideNewSelect"
@@ -51,18 +50,14 @@ define([
                 this.model.save({
                         name: name,
                         imageSrc: this.imageSrc,
-                        manager: manager,
+                        manager: manager
                     },
                     {
                         wait: true,
                         success: function (model, response) {
-
-                            alert('saved');
                             self.hideDialog();
                             Backbone.history.fragment = '';
                             Backbone.history.navigate('#qualPro/country/list', {trigger: true});
-
-
                         },
                         error: function (model, xhr) {
                             App.render({type: 'error', message: xhr.responseText});
@@ -98,7 +93,8 @@ define([
                         }
                     }
                 });
-                //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
+
+                common.canvasDraw({model: this.model.toJSON()}, this);
 
                 this.delegateEvents(this.events);
 
