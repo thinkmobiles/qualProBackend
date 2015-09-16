@@ -26,9 +26,9 @@
                             <dd><input type="text" name="name" id="name" value="<%=name%>" required maxlength="32"
                                        placeholder="Name"/></dd>
 
-                            <dt><label for="managerDd">Country Admin</label></dt>
+                            <dt><label for="manager">Country Admin</label></dt>
                             <dd>
-                                <a id="managerDd" class="current-selected" data-value="manager" href="javascript:;">Select</a>
+                                <a id="manager" href="javascript:;"><%=manager ? manager : 'No admin'%></a>
                             </dd>
                         </dl>
                     </div>

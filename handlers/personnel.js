@@ -21,7 +21,7 @@ var Personnel = function (db) {
         var query = req.query;
         var queryObject = query ? query : {};
 
-        PersonnelModel.find(queryObject, '_id name').
+        PersonnelModel.find(queryObject, '_id firstName lastName').
 
             exec(function (err, result) {
                 if (err) {

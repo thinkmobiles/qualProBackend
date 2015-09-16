@@ -27,7 +27,6 @@ define([
             events: {
                 /* "mouseenter .avatar": "showEdit",
                  "mouseleave .avatar": "hideEdit",*/
-                "click .current-selected": "showNewSelect",
 
                 "click .addPersons": "addPersons",
                 "click": "hideNewSelect"
@@ -98,8 +97,6 @@ define([
                         }
                     }
                 });
-                populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
-                populate.get("#countryDd", "/country/getForDD", {}, "name", this, true);
 
                 this.delegateEvents(this.events);
 
