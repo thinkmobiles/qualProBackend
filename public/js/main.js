@@ -46,7 +46,12 @@ require(['app'], function (app) {
 
     /**
      *
-     * @param data
+     * @param {object} data
+     * @param {string} [data.type] Type of message. Can be on of {`error`|`notification`|`alert`}.
+     * Default `error`
+     * @param {string} data.message Body of message. Field is required.
+     * @example
+     *     App.render({type: 'notification', message: 'New tasks are available'})
      * @memberof App
      */
 
