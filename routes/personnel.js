@@ -6,8 +6,8 @@ var personnelHandler = require('../handlers/personnel');
  * @module Personnel
  */
 
-module.exports = function (db, app) {
-    var handler = new personnelHandler(db);
+module.exports = function (db, app, event) {
+    var handler = new personnelHandler(db, event);
     var csrfProtection = app.get('csrfProtection');
 
     /**
