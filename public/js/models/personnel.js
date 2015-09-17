@@ -1,11 +1,10 @@
-define(['Validation'], function (Validation) {
-    var Model = Backbone.Model.extend({
-        idAttribute: "_id",
-        defaults: {
-            imageSrc: "",
-            email: "",
-            position: null,
-        },
+define(['models/parrent', 'Validation'], function (parent, Validation) {
+	var Model = parent.extend({
+		defaults: {
+			imageSrc: "",
+			email   : "",
+			position: null,
+		},
 
         initialize: function () {
             this.on('invalid', function (model, errors) {

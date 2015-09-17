@@ -1,6 +1,5 @@
-define([''],function () {
-    var Model = Backbone.Model.extend({
-        idAttribute: "_id",
+define(['models/parrent'],function (parent) {
+    var Model = parent.extend({
         defaults: {
             imageSrc: "",
             name:""
