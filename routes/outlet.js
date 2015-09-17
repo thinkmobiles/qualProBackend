@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var Handler = require('../handlers/outlet');
-module.exports = function (db) {
-    var handler = new Handler(db);
+module.exports = function (db, event) {
+    var handler = new Handler(db, event);
 
     function checkAuth(req, res, next) {
         if (req.session && req.session.loggedIn) {
@@ -19,6 +19,7 @@ module.exports = function (db) {
     router.post('/', checkAuth, handler.create);
     router.post('/getBy/', checkAuth, handler.getBy);
     router.put('/:id', handler.update);
+    router.get('/archive/:id',handler.archive);
     router.delete('/:id', checkAuth, handler.remove);
     return router;
 };

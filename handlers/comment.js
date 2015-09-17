@@ -40,6 +40,11 @@ var Comment = function (db) {
         });
     };
 
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
+        res.status(501).send();
+    };
+
     this.getById = function (req, res, next) {
         var id = req.params.id;
 

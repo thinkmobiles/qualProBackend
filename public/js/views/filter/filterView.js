@@ -128,7 +128,7 @@ define([
             render: function () {
                 var self = this;
                 var currentEl = this.$el;
-                var nameInput = currentEl.find(".filterName input");
+                var nameInput;
 
                 currentEl.append(this.template({
                     filterDisplayName: this.filterDisplayName,
@@ -141,6 +141,8 @@ define([
                 currentEl.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
                     self.paginationChange(e, self);
                 });
+
+                nameInput = currentEl.find(".filterName input");
 
                 nameInput.keyup(function (e) {
                     self.inputEvent(e)

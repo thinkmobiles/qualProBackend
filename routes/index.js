@@ -26,7 +26,7 @@ module.exports = function (app, db) {
     var personnelHandler = new PersonnelHandler(db);
     var modulesHandler = new ModuleslHandler(db);
 
-    var personnelRouter = require('./personnel')(db, app);
+    var personnelRouter = require('./personnel')(db, app, event);
     var countryRouter = require('./country')(db);
     var branchRouter = require('./branch')(db);
     var contractRouter = require('./contract')(db);
@@ -34,7 +34,7 @@ module.exports = function (app, db) {
     var noteRouter = require('./note')(db);
     var objectiveRouter = require('./objective')(db);
     var shelfRouter = require('./shelf')(db);
-    var outletRouter = require('./outlet')(db);
+    var outletRouter = require('./outlet')(db, event);
     var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
     var priorityRouter = require('./priority')(db);
@@ -163,6 +163,26 @@ module.exports = function (app, db) {
         res.type('txt');
         res.send('form tampered with');
     };
+
+    event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+        var searchObject = {};
+        var updateObject = {};
+
+        searchObject[searchField] = id;
+
+        if (fieldInArray) {
+            updateObject['$addToSet'] = {};
+            updateObject['$addToSet'][fieldName] = fieldValue;
+        } else {
+            updateObject[fieldName] = fieldValue;
+        }
+
+        targetModel.update(searchObject, updateObject, {multi: true}, function(err){
+            if(err){
+                logWriter.log('eventEmiter_createdChild', err.message);
+            }
+        });
+    });
 
     app.use(notFound);
     app.use(csrfErrorParser);

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var CONSTANTS = require('../constants/mainConstants');
 
-var Personnel = function (db) {
+var Personnel = function (db, event) {
     var validator = require('validator');
 
     var crypto = require('crypto');
@@ -34,6 +34,7 @@ var Personnel = function (db) {
     this.create = function (req, res, next) {
 
         var body = req.body;
+        var sendPass = body.sendPass;
         var email = body.email;
         var isEmailValid;
         var pass = generator.generate(8);
@@ -42,6 +43,9 @@ var Personnel = function (db) {
         var personnelModel;
         var token = generator.generate();
         var error;
+        var countryId;
+        var personnelId;
+        var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
         shaSum.update(pass);
@@ -64,15 +68,20 @@ var Personnel = function (db) {
                 return next(err);
             }
 
-            mailer.confirmNewUserRegistration(
-                {
-                    firstName: personnel.firstName,
-                    lastName: personnel.lastName,
-                    email: personnel.email,
-                    password: pass,
-                    token: personnel.token
-                });
-            // delete personnel.pass;
+            if (sendPass) {
+
+                mailer.confirmNewUserRegistration(
+                    {
+                        firstName: personnel.firstName,
+                        lastName: personnel.lastName,
+                        email: personnel.email,
+                        password: pass,
+                        token: personnel.token
+                    });
+            }
+
+            event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
+
             res.status(201).send({_id: personnel._id});
 
         });
@@ -146,12 +155,12 @@ var Personnel = function (db) {
         var error;
         var query;
 
-        if (req.session.uId === id) {
-            error = new Error();
-            error.status = 400;
-
-            return next(error);
-        }
+        //if (req.session.uId === id) {
+        //    error = new Error();
+        //    error.status = 400;
+        //
+        //    return next(error);
+        //}
 
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
@@ -170,6 +179,11 @@ var Personnel = function (db) {
             res.status(200).send();
         });
         /*});*/
+    };
+
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
+        res.status(501).send();
     };
 
     this.getById = function (req, res, next) {
