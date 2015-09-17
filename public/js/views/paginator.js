@@ -334,7 +334,6 @@ define([], function(){
             this.changeLocationHash(page, itemsNumber);
         },
 
-        //ToDo refactor
         pageElementRender: function(totalCount, currentPage){
             var itemsNumber = this.defaultItemsNumber;
             var start = $("#gridStart");

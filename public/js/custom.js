@@ -139,6 +139,7 @@ define([
         runApplication: runApplication,
         getCurrentVT: getCurrentVT,
         applyDefaults: applyDefaults,
-        navigateToDefaultUrl: navigateToDefaultUrl
+        navigateToDefaultUrl: navigateToDefaultUrl,
+        dateFormater: dateFormater
     };
 });
