@@ -80,6 +80,10 @@ var Personnel = function (db, event) {
                     });
             }
 
+
+            countryId = personnel.country;
+            personnelId = personnel._id;
+
             event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
 
             res.status(201).send({_id: personnel._id});
