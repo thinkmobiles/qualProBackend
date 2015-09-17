@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var Handler = require('../handlers/outlet');
-module.exports = function (db) {
-    var handler = new Handler(db);
+module.exports = function (db, event) {
+    var handler = new Handler(db, event);
 
     function checkAuth(req, res, next) {
         if (req.session && req.session.loggedIn) {

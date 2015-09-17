@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Outlet = function (db) {
+var Outlet = function (db, event) {
 
     var CONSTANTS = require('../constants/mainConstants');
     var modelAndSchemaName = CONSTANTS.OUTLET;
@@ -9,7 +9,7 @@ var Outlet = function (db) {
 
     this.create = function (req, res, next) {
         var body = req.body;
-        var _id;
+        var outletId;
         var model;
         var countryId;
         var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
@@ -23,18 +23,12 @@ var Outlet = function (db) {
                 if (error) {
                     return next(error);
                 }
-                _id = result._id;
+                outletId = result._id;
                 countryId = result.country;
 
-                event.emit('createdChild', countryId, Country, 'accounting.category._id', 'accounting.category.name', result.fullName);
+                event.emit('createdChild', countryId, Country, '_id', 'outlets', outletId, true);
 
-                Country.findByIdAndUpdate(model.country, {$addToSet: {outlets: model._id}}, function (error) {
-                    if (error) {
-                        //todo remove country
-                        return next(error);
-                    }
-                    res.status(201).send(model);
-                });
+                res.status(201).send(model);
             });
         }
         else {
