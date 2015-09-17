@@ -273,7 +273,7 @@ describe("General database test", function () {  // Runs once before all tests s
     });
 
     it("Filter countries by outlet 2 and 3 should return country 1 and 2", function (done) {
-        var filter = {outlets: [outlet1Id, outlet3Id]};
+        var filter = {outlets: [outlet2Id, outlet3Id]};
         agent
             .post('/country/getBy')
             .send(filter)
