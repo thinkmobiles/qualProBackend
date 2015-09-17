@@ -238,5 +238,33 @@ before("before all tests login and setup db", function (done) {
 
 
 });
+after("delete all created items", function (done) {
+    function deleteSomething(url, id) {
+        it("Should delete " + id, function (done) {
+            agent
+                .delete(url)
+                .send(id)
+                .expect(200, function (err, res) {
+                    if (err) {
+                        return done(err);
+                    }
+                    done();
+                });
+        });
+    }
+
+    for(var country in countries){
+        deleteSomething('/country',country._id);
+    }
+
+    for (var manager in countryManagers){
+        deleteSomething('/personnel',manager._id);
+    }
+
+    for (var outlet in outlets){
+        deleteSomething('/outlet',outlet._id);
+    }
+
+});
 
 
