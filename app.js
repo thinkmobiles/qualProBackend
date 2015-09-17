@@ -80,6 +80,27 @@ module.exports = function (db) {
         return _arrayOfID;
     };
 
+    event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+        //fieldInArray(bool) added for update values in array. If true then fieldName contains .$.
+        var serchObject = {};
+        var updateObject = {};
+
+        serchObject[searchField] = id;
+
+        if (fieldInArray) {
+            updateObject['$set'] = {};
+            updateObject['$set'][fieldName] = fieldValue;
+        } else {
+            updateObject[fieldName] = fieldValue;
+        }
+
+        targetModel.update(sercObject, updateObject, {multi: true}, function(err){
+            if(err){
+                logWriter.log('requestHandler_eventEmiter_updateName', err.message);
+            }
+        });
+    });
+
     require('./routes/index')(app, db);
 
     return app;
