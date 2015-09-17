@@ -6,13 +6,20 @@ var Country = function (db) {
     var modelAndSchemaName = CONSTANTS.COUNTRY;
     var schema = mongoose.Schemas[modelAndSchemaName];
     var Model = db.model(modelAndSchemaName, schema);
+    var xssFilters = require('xss-filters');
 
     this.create = function (req, res, next) {
         var body = req.body;
         var model;
         var error;
+        var name = body.name;
+        var description = body.description;
 
         var modelIsValid = true;
+
+        body.name = name ? xssFilters.inHTMLData(name) : '';
+        body.description = description ? xssFilters.inHTMLData(description) : '';
+
         //todo validation
 
         if (!modelIsValid) {
@@ -133,6 +140,12 @@ var Country = function (db) {
     this.update = function (req, res, next) {
         var id = req.params.id;
         var body = req.body;
+
+        var name = body.name;
+        var description = body.description;
+
+        body.name = name ? xssFilters.inHTMLData(name) : '';
+        body.description = description ? xssFilters.inHTMLData(description) : '';
 
         Model.findByIdAndUpdate(id, body, {new: true}, function (err, result) {
             if (err) {
