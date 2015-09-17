@@ -146,12 +146,12 @@ var Personnel = function (db) {
         var error;
         var query;
 
-        if (req.session.uId === id) {
-            error = new Error();
-            error.status = 400;
-
-            return next(error);
-        }
+        //if (req.session.uId === id) {
+        //    error = new Error();
+        //    error.status = 400;
+        //
+        //    return next(error);
+        //}
 
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
@@ -170,6 +170,11 @@ var Personnel = function (db) {
             res.status(200).send();
         });
         /*});*/
+    };
+
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
+        res.status(501).send();
     };
 
     this.getById = function (req, res, next) {

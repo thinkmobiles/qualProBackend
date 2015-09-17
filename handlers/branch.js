@@ -41,22 +41,17 @@ var Branch = function (db) {
         var id = req.params.id;
         var Model = db.model(modelAndSchemaName, schema);
 
+        Model.findByIdAndRemove(id, function (error) {
+            if (error) {
+                return next(error);
+            }
+            res.status(200).send();
+        });
+    };
+
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
         res.status(501).send();
-        //var Archiver = require('../helpers/archiver');
-        //var archiver = Archiver();
-        //archiver.archive(Model, id, function (error) {
-        //    if (error) {
-        //        return next(error);
-        //    }
-        //    res.status(200).send();
-        //});
-        //
-        //Model.findByIdAndRemove(id, function (error) {
-        //    if (error) {
-        //        return next(error);
-        //    }
-        //    res.status(200).send();
-        //});
     };
 
     this.getById = function (req, res, next) {

@@ -65,6 +65,7 @@ module.exports = function (db, app) {
     router.post('/', handler.create);
     router.put('/:id', handler.update);
     router.patch('/:id', handler.update);
+    router.get('/archive/:id',handler.archive);
     router.delete('/:id', handler.remove);
 
     return router;
