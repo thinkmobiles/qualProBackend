@@ -181,8 +181,8 @@ describe("BDD for Personnel", function () {  // Runs once before all tests start
                 if (err) {
                     return done(err)
                 }
-                expect(res.body).to.be.instanceOf(Array);
-                expect(res.body.length).to.be.least(1);
+                expect(res.body.data).to.be.instanceOf(Array);
+                expect(res.body.data.length).to.be.least(1);
 
                 done();
             });

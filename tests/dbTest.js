@@ -290,7 +290,61 @@ describe("General database test", function () {  // Runs once before all tests s
                 done();
 
             })
-    })
+    });
+
+    it("Delete country 1", function (done) {
+        agent
+            .delete('country/' + country1Id)
+            .expect(200, done);
+    });
+
+    it("Delete country 2", function (done) {
+        agent
+            .delete('country/' + country2Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 1", function (done) {
+        agent
+            .delete('branch/' + branch1Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 2", function (done) {
+        agent
+            .delete('branch/' + branch2Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 3", function (done) {
+        agent
+            .delete('branch/' + branch3Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 4", function (done) {
+        agent
+            .delete('branch/' + branch4Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 1", function (done) {
+        agent
+            .delete('outlet/' + outlet1Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 2", function (done) {
+        agent
+            .delete('outlet/' + outlet2Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 3", function (done) {
+        agent
+            .delete('outlet/' + outlet3Id)
+            .expect(200, done);
+    });
 
 
 });
