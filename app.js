@@ -8,6 +8,7 @@ module.exports = function (db) {
     var fs = require("fs");
     var express = require('express');
     var Session = require('express-session');
+    var session;
     var logger = require('morgan');
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
@@ -50,7 +51,8 @@ module.exports = function (db) {
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.use(allowCrossDomain);
-    var session=Session({
+
+    session = Session({
         name: 'qualPro_main',
         key: "qualPro_main",
         secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
@@ -59,7 +61,8 @@ module.exports = function (db) {
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
     });
-    session.cookie.maxAge=null;
+    session.cookie.maxAge = null;
+
     app.use(session);
 
     Array.prototype.objectID = function () {
