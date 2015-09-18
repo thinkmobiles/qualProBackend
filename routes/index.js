@@ -1,11 +1,12 @@
 /**
- * Created by Roman on 02.04.2015.
+ * @see {@link https://nodejs.org/api/events.html}
+ * @class EventEmiter
  */
 
 module.exports = function (app, db) {
-    var events = require('events');
+    var Events = require('events');
     var path = require('path');
-    var event = new events.EventEmitter();
+    var event = new Events.EventEmitter();
     var logWriter = require('../helpers/logWriter');
     var fs = require("fs");
     var multipart = require('connect-multiparty');
@@ -177,6 +178,26 @@ module.exports = function (app, db) {
         res.type('txt');
         res.send('form tampered with');
     };
+
+    /*event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+        var searchObject = {};
+        var updateObject = {};
+
+        searchObject[searchField] = id;
+
+        if (fieldInArray) {
+            updateObject['$addToSet'] = {};
+            updateObject['$addToSet'][fieldName] = fieldValue;
+        } else {
+            updateObject[fieldName] = fieldValue;
+        }
+
+        targetModel.update(searchObject, updateObject, {multi: true}, function (err) {
+            if (err) {
+                logWriter.log('eventEmiter_createdChild', err.message);
+            }
+        });
+    });*/
 
     app.use(notFound);
     app.use(csrfErrorParser);
