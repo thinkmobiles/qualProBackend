@@ -22,23 +22,23 @@ module.exports = function (db) {
      *     'http://localhost:9797/mobile/country'
      * RESPONSE
      *     [{
-     *         _id: "55eeb7b58f9c1deb19000002",
-     *         creationDate: "2015-09-09T12:40:15.388Z",
-     *         editedBy: {
-     *             date: "2015-09-08T10:25:57.175Z",
-     *             user: null
+     *         "_id" : "55eeb7b58f9c1deb19000002",
+     *         "creationDate" : "2015-09-09T12:40:15.388Z",
+     *         "editedBy" : {
+     *             "date" : "2015-09-08T10:25:57.175Z",
+     *             "user" : null
      *         },
-     *         createdBy: {
-     *             date: "2015-09-08T10:25:57.175Z",
-     *             user: null
+     *         "createdBy" : {
+     *             "date" : "2015-09-08T10:25:57.175Z",
+     *             "user" : null
      *         },
-     *         description: "The only shield that protects you from Sauron",
-     *         manager: null,
-     *         personnels: [],
-     *         outlets: [],
-     *         isArchived: false,
-     *         name: "Gondor",
-     *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
+     *         "description" : "The only shield that protects you from Sauron",
+     *         "manager" : null,
+     *         "personnels" : [],
+     *         "outlets" : [],
+     *         "isArchived" : false,
+     *         "name" : "Gondor",
+     *         "imageSrc" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
      *      }, ...]
      * @method /country
      * @instance
@@ -58,23 +58,23 @@ module.exports = function (db) {
      *     'http://localhost:9797/mobile/country/55eeb7b58f9c1deb19000002'
      * RESPONSE
      *     {
-     *         _id: "55eeb7b58f9c1deb19000002",
-     *         creationDate: "2015-09-09T12:40:15.388Z",
-     *         editedBy: {
-     *             date: "2015-09-08T10:25:57.175Z",
-     *             user: null
+     *         "_id" : "55eeb7b58f9c1deb19000002",
+     *         "creationDate" : "2015-09-09T12:40:15.388Z",
+     *         "editedBy" : {
+     *             "date" : "2015-09-08T10:25:57.175Z",
+     *             "user" : null
      *         },
-     *         createdBy: {
-     *             date: "2015-09-08T10:25:57.175Z",
-     *             user: null
+     *         "createdBy" : {
+     *             "date" : "2015-09-08T10:25:57.175Z",
+     *             "user" : null
      *         },
-     *         description: "The only shield that protects you from Sauron",
-     *         manager: null,
-     *         personnels: [],
-     *         outlets: [],
-     *         isArchived: false,
-     *         name: "Gondor",
-     *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
+     *         "description" : "The only shield that protects you from Sauron",
+     *         "manager" : null,
+     *         "personnels" : [],
+     *         "outlets" : [],
+     *         "isArchived" : false,
+     *         "name" : "Gondor",
+     *         "imageSrc" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
      *      }
      * @method /country/:id
      * @instance
@@ -94,17 +94,17 @@ module.exports = function (db) {
      *     'http://localhost:9797/mobile/country/'
      * BODY
      *     {
-     *        description: "The only shield that protects you from Sauron",
-     *         manager: null,
-     *         personnels: [],
-     *         outlets: [],
-     *         isArchived: false,
-     *         name: "Gondor",
-     *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
+     *         "description" : "The only shield that protects you from Sauron",
+     *         "manager" : null,
+     *         "personnels" : [],
+     *         "outlets" : [],
+     *         "isArchived" : false,
+     *         "name" : "Gondor",
+     *         "imageSrc" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
      *      }
      * RESPONSE
      *      {
-     *         _id: "55eeb7b58f9c1deb19000009"
+     *         "_id" : "55eeb7b58f9c1deb19000009"
      *      }
      * @method /country
      * @instance
@@ -123,15 +123,15 @@ module.exports = function (db) {
      * @example
      * REQUEST:
      *     'http://localhost:9797/mobile/country/'
-     * BODY
+     BODY
      *     {
-     *        description: "The only shield that protects you from Sauron",
-     *         manager: null,
-     *         personnels: [],
-     *         outlets: [],
-     *         isArchived: false,
-     *         name: "Gondor",
-     *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
+     *         "description" : "The only shield that protects you from Sauron",
+     *         "manager" : null,
+     *         "personnels" : [],
+     *         "outlets" : [],
+     *         "isArchived" : false,
+     *         "name" : "Gondor",
+     *         "imageSrc" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
      *      }
      * RESPONSE status
      * @method /country/:id
@@ -152,7 +152,7 @@ module.exports = function (db) {
      *     'http://localhost:9797/mobile/country/'
      * BODY
      *     {
-     *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
+     *         "imageSrc" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
      *     }
      * RESPONSE status
      * @method /country/:id
