@@ -19,6 +19,7 @@ db.once('open', function callback() {
 
     if (env.NODE_ENV === 'development') {
         require('./config/' + env.NODE_ENV).createAdmin(db);
+        require('./modulesCreators/addPersonnelsForTest').createUsers(db);
     }
 
     app = require('./app')(db);

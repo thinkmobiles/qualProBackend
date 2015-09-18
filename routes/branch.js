@@ -24,6 +24,8 @@ module.exports = function (db) {
     router.get('/:id', checkAuth, handler.getById);
     router.post('/', checkAuth, handler.create);
     router.put('/:id', handler.update);
+    router.patch('/:id', handler.update);
+    router.get('/archive/:id',handler.archive);
     router.delete('/:id', checkAuth, handler.remove);
     return router;
 };

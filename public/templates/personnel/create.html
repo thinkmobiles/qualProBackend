@@ -23,7 +23,8 @@
 
                     <div class="half-block ">
                         <dl class="personnel-info">
-                            <dt class="general-name"><h3>General Information</h3></dt>
+                            <dt class="general-name">
+                            <h3>General Information</h3></dt>
                             <dt><label for="firstName">First Name</label></dt>
                             <dd><input type="text" name="firstName" id="firstName" value="" required maxlength="32"
                                        placeholder="First Name"/></dd>
@@ -41,7 +42,7 @@
                             </dd>
                             <dt><label for="countryDd">Country</label></dt>
                             <dd>
-                                <a id="countryDd" class="current-selected" data-value="coutnry" href="javascript:;">Select</a>
+                                <a id="countryDd" class="current-selected" data-value="country" href="javascript:;">Select</a>
                             </dd>
                             <dt><label for="managerDd">Supervisor</label></dt>
                             <dd>
@@ -53,12 +54,13 @@
                     </div>
                     <div class="half-block ">
                         <dl class="personnel-description">
-                            <dt class="general-name"><h3>Other Information</h3></dt>
+                            <dt class="general-name">
+                            <h3>Other Information</h3></dt>
                             <dt><label for="phone">Phone Number</label></dt>
-                            <dd><input type="text" name="email" id="phone" value="" required maxlength="48"
+                            <dd><input type="text" name="phone" id="phone" type="tel" value="" required maxlength="48"
                                        placeholder="Phone Number"/></dd>
                             <dt><label for="email">Email</label></dt>
-                            <dd><input type="text" name="email" id="email" value="" required maxlength="48"
+                            <dd><input type="text" name="email" id="email" type="email" value="" required maxlength="48"
                                        placeholder="Email"/></dd>
                         </dl>
                     </div>
@@ -67,9 +69,10 @@
                 <div class="descriptionContainer block block-right">
                     <div class="half-block">
                         <dl class="personnel-description">
-                            <dt class="general-name"><h3>Description</h3></dt>
+                            <dt class="general-name">
+                            <h3>Description</h3></dt>
                             <dd><textarea name="description" id="description" value="" required maxlength="255"
-                                         />
+                                    />
                             </dd>
                         </dl>
                     </div>

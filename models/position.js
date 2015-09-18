@@ -17,7 +17,7 @@ module.exports = (function () {
         }],
         isArchived: Boolean,
         description: String,
-        whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
+        whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'owner'},
         groups: {
             owner: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             users: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],

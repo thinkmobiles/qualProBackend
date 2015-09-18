@@ -1,9 +1,6 @@
 require('../config/development');
 
 var request = require('supertest');
-var Session = require('supertest-session')({
-    app: require('../app')
-});
 var expect = require('chai').expect;
 
 var host = process.env.HOST;
@@ -26,86 +23,15 @@ var testObject = {
 var objectUpdate = {
     name: 'NotTest'
 };
-
+var cache = require('./helpers/cache');
 var createdId;
 
 describe("BDD for " + singular, function () {
 
-
-
-    var csrfToken;
-    before(function (done) {
-        agent = request.agent(host);
-       // this.sess = new Session();
-        agent.get('/#login')
-            .end(function (err, res) {
-                if (err) return done(err);
-
-                csrfToken = res.header['set-cookie'][0].split(';')[0].replace('_csrf=', '');
-               // adminObject._csrf = csrfToken;
-
-                //var hed=res.headers['set-cookie']
-                agent
-                    .post()
-                    .set('csrf-token', csrfToken)
-                    .send(adminObject)
-                    .expect(200, function (err, resp) {
-                        var body;
-                        if (err) {
-                            return done(err);
-                        }
-
-                        body = resp.body;
-                        expect(body).to.be.instanceOf(Object);
-                        done();
-                    });
-            });
-    });
-
-
-    //before("Authenticate and get csrf token)", function (done) {
-    //    agent = request.agent(host);
-    //
-    //    agent
-    //        .get('/#login')
-    //        .expect(200, function (err, resp) {
-    //            var body;
-    //            agent.get('/authenticated')
-    //                .expect(200, function (err, resp) {
-    //                    if (err) {
-    //                        return done(err);
-    //                    }
-    //                });
-    //            if (err) {
-    //                return done(err);
-    //            }
-    //
-    //            body = resp.body;
-    //            expect(body).to.be.instanceOf(Object);
-    //            done();
-    //        });
-    //});
-
-// Runs once before all tests start.
-//    before("Login: (should return logged personnel)", function (done) {
-//        agent = request.agent(host);
-//
-//        agent
-//            .post('/login')
-//            .send(adminObject)
-//            .expect(200, function (err, resp) {
-//                var body;
-//                if (err) {
-//                    return done(err);
-//                }
-//
-//                body = resp.body;
-//                expect(body).to.be.instanceOf(Object);
-//                done();
-//            });
-//    });
-
     it("Create new " + singular + " should return " + singular, function (done) {
+        var outlets = cache.outlets;
+        testObject.outlet = outlets[0]._id;
+        agent = cache.agent;
         agent
             .post(baseUrl)
             .send(testObject)
@@ -119,6 +45,7 @@ describe("BDD for " + singular, function () {
 
             });
     });
+
 
     it("Get " + singular + " by id should return " + singular, function (done) {
         agent
@@ -139,7 +66,7 @@ describe("BDD for " + singular, function () {
 
     it("Update " + singular + " should return 200", function (done) {
         agent
-            .put(baseUrl + '/' + createdId)
+            .patch(baseUrl + '/' + createdId)
             .send(objectUpdate)
             .expect(200, function (err, res) {
                 if (err) {
@@ -180,25 +107,25 @@ describe("BDD for " + singular, function () {
             });
     });
 
-    it("Archive " + singular, function (done) {
+    it("Delete " + singular, function (done) {
         agent
             .delete(baseUrl + '/' + createdId)
             .expect(200, done);
     });
 
-    it("Try get archived " + singular + " and check archived property object", function (done) {
-        agent
-            .get(baseUrl + '/' + createdId)
-            .expect(200, function (err, res) {
-                var body = res.body;
-
-                if (err) {
-                    return done(err)
-                }
-                expect(body).to.be.instanceOf(Object);
-                expect(body.isArchived);
-                done();
-            });
-    });
+    //it("Try get archived " + singular + " and check archived property object", function (done) {
+    //    agent
+    //        .get(baseUrl + '/' + createdId)
+    //        .expect(200, function (err, res) {
+    //            var body = res.body;
+    //
+    //            if (err) {
+    //                return done(err)
+    //            }
+    //            expect(body).to.be.instanceOf(Object);
+    //            expect(body.isArchived);
+    //            done();
+    //        });
+    //});
 });
 

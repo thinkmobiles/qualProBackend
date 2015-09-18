@@ -4,8 +4,20 @@ module.exports = (function () {
     var mongoose = require('mongoose');
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
+     /**
+     * @constructor BranchModel
+     * @type {*|Schema}
+     *
+     * @property {String} pass
+     * @property {ObjectId} outlet ___reference___ to {@link OutletModel}
+     * @property {ObjectId} manager ___reference___ to {@link PersonnelModel}
+     * @property {String} imageSrc ___base64___ representation of branch image
+     * @property {Bool} isArchived _flag if _Branch_ is archived or active
+     * @property {String} description _description_ of _Branch_
+     */
     var branchSchema = mongoose.Schema({
         name: {type: String, default: 'emptyBranch'},
+        description: {type: String, default: ''},
         outlet: {type: ObjectId, ref: CONSTANTS.OUTLET, default: null},
         manager: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
         imageSrc: {
@@ -21,8 +33,8 @@ module.exports = (function () {
         editedBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date}
-        },
-        description: {type: String, default: ''}
+        }
+
     }, {collection: 'branches'});
 
     mongoose.model(CONSTANTS.BRANCH, branchSchema);

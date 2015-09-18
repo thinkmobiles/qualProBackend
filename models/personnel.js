@@ -5,7 +5,7 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     /**
-     * @namespace PersonnelModel
+     * @constructor PersonnelModel
      * @type {*|Schema}
      *
      * @property {String} pass
@@ -16,7 +16,7 @@ module.exports = (function () {
      * @property {String} country ___reference___ to {@link CountryModel}
      * @property {String} email _Email_ address of _Personnel_. __Required__
      * @property {String} phoneNumber _phone number_ of _Personnel_
-     * @property {ObjectId} manager ___reference___ to {@link PersonnelModel}
+     * @property {String} manager ___reference___ to {@link PersonnelModel}
      * @property {Number} position _position_ of _Personnel_
      * @property {Date} dateBirth _birth date_ of _Personnel_
      * @property {Bool} isArchived _flag if _Personnel_ is archived or active

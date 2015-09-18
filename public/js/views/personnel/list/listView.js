@@ -14,30 +14,30 @@ define([
             viewType: 'list',
             template: _.template(headerTemplate),
 
+            events: {
+            },
+
             initialize: function (options) {
+                this.collection = options.collection;
                 this.defaultItemsNumber = this.collection.pageSize;
                 this.listLength = this.collection.totalRecords;
-                this.startTime = options.startTime;
-                this.collection = options.collection;
                 this.page = options.collection.page;
 
                 this.render();
 
                 this.inputEvent = _.debounce(
                     function (e) {
-                        var target = e.target;
+                        var target = e.target ? e.target : e;
                         var value = target.value;
 
-                        this.collection = this.collection.getSearchedCollection('fullName', value);
+                        this.collection.getSearchedCollection('fullName', value, contentCollection);
 
                     }, 500);
             },
 
-            events: {
-            },
-
             showFilteredPage: function (filter) {
                 var itemsNumber = $("#itemsNumber").text();
+
                 this.filter = filter;
 
                 this.startTime = new Date();
@@ -48,7 +48,7 @@ define([
                 $('#check_all').prop('checked', false);
 
                 this.changeLocationHash(1, itemsNumber, filter);
-                this.collection.getPage(1, {count: itemsNumber, filter: filter});
+                this.collection.getFirstPage({count: itemsNumber, filter: filter});
                 //this.getTotalLength(null, itemsNumber, filter);
             },
 
@@ -60,6 +60,8 @@ define([
 
                 var pagination = this.$pagination = $('#paginationHolder');
                 var searchInput;
+                var resetBtn;
+                var filtersContainer;
 
                 currentEl.html('');
                 currentEl.append(this.template());
@@ -84,19 +86,29 @@ define([
                 this.filterView.bind('filter', function (filter) {
                     self.showFilteredPage(filter, self)
                 });
+
                 this.filterView.bind('defaultFilter', function () {
                     self.showFilteredPage({}, self);
                 });
 
                 this.filterView.render();
 
-                searchInput = $("#searchInput");
+                filtersContainer = $("#filterBar");
+
+                searchInput = filtersContainer.find("#searchInput");
+                resetBtn = filtersContainer.find('#searchResetBtn');
 
                 searchInput.keyup(function (e) {
                     self.inputEvent(e)
                 });
 
+                resetBtn.click(function (e) {
+                    self.inputEvent(searchInput)
+                });
+
                 this.pageElementRender(this.listLength, this.collection.currentPage);
+
+                return this;
             },
 
             showMoreContent: function (newModels) {

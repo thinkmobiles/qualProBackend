@@ -1,11 +1,9 @@
 define([
         "text!templates/country/create.html",
         "models/country",
-        "common",
-        //"populate",
-        "views/personnel/createView"
+        "common"
     ],
-    function (CreateTemplate, Model, common/*, populate*/, CreateViewPersonnel) {
+    function (CreateTemplate, Model, common) {
 
         var CreateView = Backbone.View.extend({
             el: "#contentHolder",
@@ -86,7 +84,6 @@ define([
                         }
                     }
                 });
-                //populate.get("#profilesDd", "ProfilesForDd", {}, "profileName", this, true);
 
                 common.canvasDraw({model: this.model.toJSON()}, this);
 

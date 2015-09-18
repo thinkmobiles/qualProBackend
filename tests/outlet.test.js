@@ -27,26 +27,16 @@ var objectUpdate = {
     description: 'NotTesst',
     isOwn: true
 };
-
+var cache = require('./helpers/cache');
 var createdId;
 
+
 describe("BDD for " + singular, function () {  // Runs once before all tests start.
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
-
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
-
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-            });
+    before("Get agent", function (done) {
+        agent = cache.agent;
+        var countries = cache.countries;
+        testObject.country = countries[0]._id;
+        done();
     });
 
     it("Create new " + singular + " should return " + singular, function (done) {
@@ -125,25 +115,25 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             });
     });
 
-    it("Archive " + singular, function (done) {
+    it("Delete " + singular, function (done) {
         agent
             .delete(baseUrl + '/' + createdId)
             .expect(200, done);
     });
 
-    it("Try get archived " + singular + " and check archived property object", function (done) {
-        agent
-            .get(baseUrl + '/' + createdId)
-            .expect(200, function (err, res) {
-                var body = res.body;
-
-                if (err) {
-                    return done(err)
-                }
-                expect(body).to.be.instanceOf(Object);
-                expect(body.isArchived);
-                done();
-            });
-    });
+    //it("Try get archived " + singular + " and check archived property object", function (done) {
+    //    agent
+    //        .get(baseUrl + '/' + createdId)
+    //        .expect(200, function (err, res) {
+    //            var body = res.body;
+    //
+    //            if (err) {
+    //                return done(err)
+    //            }
+    //            expect(body).to.be.instanceOf(Object);
+    //            expect(body.isArchived);
+    //            done();
+    //        });
+    //});
 });
 

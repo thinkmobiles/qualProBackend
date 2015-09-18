@@ -11,7 +11,7 @@ var Branch = function (db) {
         var Model = db.model(modelAndSchemaName, schema);
         var model;
 
-        var modelIsValid = true;
+        var modelIsValid = !!body.outlet;
         //todo validation
 
         if (modelIsValid) {
@@ -25,7 +25,7 @@ var Branch = function (db) {
 
                 Outlet.findByIdAndUpdate(model.outlet, {$addToSet: {branches: model._id}}, function (error) {
                     if (error) {
-                        //todo remove outlet
+                        //todo remove branch
                         return next(error);
                     }
                     res.status(201).send(model);
@@ -38,24 +38,20 @@ var Branch = function (db) {
     };
 
     this.remove = function (req, res, next) {
-        //var id = req.params.id;
-        //var Model = db.model(modelAndSchemaName, schema);
+        var id = req.params.id;
+        var Model = db.model(modelAndSchemaName, schema);
 
-        //var Archiver = require('../helpers/archiver');
-        //var archiver = Archiver();
-        //archiver.archive(Model, id, function (error) {
-        //    if (error) {
-        //        return next(error);
-        //    }
-        //    res.status(200).send();
-        //});
+        Model.findByIdAndRemove(id, function (error) {
+            if (error) {
+                return next(error);
+            }
+            res.status(200).send();
+        });
+    };
 
-        //Model.findByIdAndRemove(id, function (error) {
-        //    if (error) {
-        //        return next(error);
-        //    }
-        //    res.status(200).send();
-        //});
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
+        res.status(501).send();
     };
 
     this.getById = function (req, res, next) {

@@ -1,9 +1,9 @@
 define([
         'text!templates/filter/filterTemplate.html',
         'collections/filter/filterCollection',
-        'constants'
+        'filters'
     ],
-    function (valuesTemplate, filterCollection, CONSTANTS) {
+    function (valuesTemplate, filterCollection, FILTERSCONSTANTS) {
         var filterValuesView = Backbone.View.extend({
             template: _.template(valuesTemplate),
 
@@ -15,7 +15,7 @@ define([
                 this.filterDisplayName = options.filterDisplayName;
                 this.collection = options.currentCollection;
                 this.collectionLength = this.collection.length;
-                this.elementToShow = options.elementToShow || (CONSTANTS.FILTERVALUESCOUNT > this.collectionLength) ? this.collectionLength : CONSTANTS.FILTERVALUESCOUNT;
+                this.elementToShow = options.elementToShow || (FILTERSCONSTANTS.FILTERVALUESCOUNT > this.collectionLength) ? this.collectionLength : FILTERSCONSTANTS.FILTERVALUESCOUNT;
 
                 this.allPages = Math.ceil(this.collectionLength / this.elementToShow);
 
@@ -128,7 +128,7 @@ define([
             render: function () {
                 var self = this;
                 var currentEl = this.$el;
-                var nameInput = currentEl.find(".filterName input");
+                var nameInput;
 
                 currentEl.append(this.template({
                     filterDisplayName: this.filterDisplayName,
@@ -141,6 +141,8 @@ define([
                 currentEl.find("[id='" + this.filterName + "Values'] .miniStylePagination a").click(function (e) {
                     self.paginationChange(e, self);
                 });
+
+                nameInput = currentEl.find(".filterName input");
 
                 nameInput.keyup(function (e) {
                     self.inputEvent(e)

@@ -23,11 +23,10 @@ module.exports = function (app, db) {
 
     var PersonnelHandler = require("../handlers/personnel");
     var ModuleslHandler = require("../handlers/modules");
-    // var CountryHandler=require("../handlers/country");
     var personnelHandler = new PersonnelHandler(db);
     var modulesHandler = new ModuleslHandler(db);
-    //var countryHandler=new CountryHandler(db);
-    var personnelRouter = require('./personnel')(db, app);
+
+    var personnelRouter = require('./personnel')(db, app, event);
     var countryRouter = require('./country')(db);
     var branchRouter = require('./branch')(db);
     var contractRouter = require('./contract')(db);
@@ -35,7 +34,7 @@ module.exports = function (app, db) {
     var noteRouter = require('./note')(db);
     var objectiveRouter = require('./objective')(db);
     var shelfRouter = require('./shelf')(db);
-    var outletRouter = require('./outlet')(db);
+    var outletRouter = require('./outlet')(db, event);
     var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
     var priorityRouter = require('./priority')(db);
@@ -89,9 +88,22 @@ module.exports = function (app, db) {
         });
     });
 
+    app.get('/logout', csrfProtection, function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function () {
+            });
+
+        }
+        res.clearCookie();
+        res.redirect('/#login');
+    });
+
+
+
     app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', csrfProtection, personnelHandler.login);
     app.post('/rememberMe', personnelHandler.rememberMy);
+    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -166,7 +178,6 @@ module.exports = function (app, db) {
         res.type('txt');
         res.send('form tampered with');
     };
-
 
     app.use(notFound);
     app.use(csrfErrorParser);

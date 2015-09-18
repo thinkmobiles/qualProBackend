@@ -30,12 +30,13 @@ define([
                 events: {
                     "mouseenter .avatar": "showEdit",
                     "mouseleave .avatar": "hideEdit",
-                    "click .current-selected": "countryDropDownClick",
+                    "click .current-selected": "showNewSelect",
                     "click": "hideNewSelect"
                 },
 
-                countryDropDownClick: function (e, prev, next) {
-                    alert('nelnenfrkn');
+                showNewSelect: function (e, prev, next) {
+                    populate.showSelect(e, prev, next, this);
+                    return false;
                 },
 
                 saveItem: function () {
@@ -46,7 +47,6 @@ define([
                     var firstName = $.trim(currEl.find("#firstName").val());
                     var lastName = $.trim(currEl.find("#lastName").val());
                     var email = $.trim(currEl.find("#email").val());
-                    //var pass = $.trim(currEl.find("#password").val());
                     var phone = $.trim(currEl.find("#phone").val());
                     var position = currEl.find("#positionDd").attr("data-id");
                     var country = currEl.find("#countryDd").attr("data-id");
@@ -55,11 +55,11 @@ define([
 
                     personnelModel.save({
                             country: country,
-                            firstName: firstName,
-                            lastName: lastName,
+                            firstName: _.escape(firstName),
+                            lastName: _.escape(lastName),
                             imageSrc: this.imageSrc,
-                            email: email,
-                            phoneNumber: phone,
+                            email: _.escape(email),
+                            phoneNumber: _.escape(phone),
                             position: position,
                             manager: manager,
                             dateBirth: dateBirth,
@@ -117,8 +117,8 @@ define([
                             }
                         }
                     });
-                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true, true);
-                    //this.setUpCountriesDropdown(this);
+                    populate.get("#countryDd", "/country/getForDD", {}, "name", this, true);
+
                     $('#dateBirth').datepicker({
                         changeMonth: true,
                         changeYear: true,
@@ -132,20 +132,6 @@ define([
 
                     return this;
                 },
-
-                setUpCountriesDropdown: function (context) {
-                    dataService.getData("/country/getForDD", null, function (err, countries) {
-                        context.responseObj['#country'] = countries;
-                        countries.forEach(function (country) {
-                            var countrydd = context.$el.find('#countryDd')
-                            countrydd.options.add('<option>' + country.name + "</option>");
-                        })
-
-                    });
-
-
-                },
-
             })
             ;
 

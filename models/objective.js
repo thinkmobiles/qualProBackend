@@ -5,8 +5,23 @@ module.exports = (function () {
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
     var objectiveSchema = mongoose.Schema({
-        description: {type: String, default: 'emptyObjective'},
+
+
+        /**
+         * @constructor ObjectiveModel
+         * @type {*|Schema}
+         *
+         * @property {String} name _name_ of _Objective_
+         * @property {String} description _description_ of _Objective_
+         * @property {ObjectId} manager ___reference___ to {@link PersonnelModel}
+         * @property {ObjectId} outlet ___reference___ to {@link OutletModel}
+
+         */
+
+
+
         name: {type: String, default: 'emptyObjective'},
+        description: {type: String, default: 'emptyObjective'},
         outlet: {type: ObjectId, ref: CONSTANTS.OUTLET, default: null},
         manager: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
         whoCanRW: {type: String, enum: ['owner', 'group', 'everyOne'], default: 'everyOne'},
@@ -22,16 +37,17 @@ module.exports = (function () {
         status: {type: ObjectId, ref: CONSTANTS.STATUS, default: null},
         assignment: [{type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null}],
         currentProgress: {type: Number, default: 0},
+        editedBy: {
+            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
+            date: {type: Date}
+        },
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
         },
         comments: [{type: ObjectId, ref: CONSTANTS.COMMENT, default: null}],
-        attachments: {type: Array, default: []},
-        editedBy: {
-            user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
-            date: {type: Date}
-        }
+        attachments: {type: Array, default: []}
+
     }, {collection: 'objectives'});
 
     mongoose.model(CONSTANTS.OBJECTIVE, objectiveSchema);

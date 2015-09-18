@@ -7,19 +7,19 @@ module.exports = function (db) {
     var path = require('path');
     var fs = require("fs");
     var express = require('express');
-    var session = require('express-session');
+    var Session = require('express-session');
+    var session;
     var logger = require('morgan');
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
     var consolidate = require('consolidate');
+    var mongoose = require('mongoose');
 
     var app = express();
 
-
-
     var logWriter = require('./helpers/logWriter');
 
-    var MemoryStore = require('connect-mongo')(session);
+    var MemoryStore = require('connect-mongo')(Session);
 
     var sessionConfig = require('./config/' + process.env.NODE_ENV).sessionConfig;
 
@@ -52,16 +52,38 @@ module.exports = function (db) {
 
     app.use(allowCrossDomain);
 
-    app.use(session({
+    session = Session({
         name: 'qualPro_main',
         key: "qualPro_main",
         secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
         resave: false,
+
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
-    }));
+    });
+    session.cookie.maxAge = null;
 
+    app.use(session);
 
+    Array.prototype.objectID = function () {
+        var _arrayOfID = [];
+        var objectId = mongoose.Types.ObjectId;
+
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] && typeof this[i] == 'object' && this[i].hasOwnProperty('_id')) {
+                _arrayOfID.push(this[i]._id);
+            } else {
+                if (typeof this[i] == 'string' && this[i].length === 24) {
+                    _arrayOfID.push(objectId(this[i]));
+                }
+                if (this[i] === null || this[i] === 'null') {
+                    _arrayOfID.push(null);
+                }
+
+            }
+        }
+        return _arrayOfID;
+    };
 
     require('./routes/index')(app, db);
 

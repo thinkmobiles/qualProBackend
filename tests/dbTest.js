@@ -21,7 +21,7 @@ var testBranch1 = {name: 'V-Uzh-A'};
 var testBranch2 = {name: 'V-Lviv-B'};
 var testBranch3 = {name: 'D-Uzh'};
 var testBranch4 = {name: 'S-Budapest'};
-
+var cache=require('./helpers/cache');
 var country1Id;
 var country2Id;
 
@@ -36,22 +36,9 @@ var branch4Id;
 
 
 describe("General database test", function () {  // Runs once before all tests start.
-    before("Login: (should return logged personnel)", function (done) {
-        agent = request.agent(host);
-
-        agent
-            .post('/login')
-            .send(adminObject)
-            .expect(200, function (err, resp) {
-                var body;
-                if (err) {
-                    return done(err);
-                }
-
-                body = resp.body;
-                expect(body).to.be.instanceOf(Object);
-                done();
-            });
+    before("Get agent", function (done) {
+        agent = cache.agent;
+        done();
     });
 
     it("Create country 1", function (done) {
@@ -286,7 +273,7 @@ describe("General database test", function () {  // Runs once before all tests s
     });
 
     it("Filter countries by outlet 2 and 3 should return country 1 and 2", function (done) {
-        var filter = {outlets: [outlet1Id, outlet3Id]};
+        var filter = {outlets: [outlet2Id, outlet3Id]};
         agent
             .post('/country/getBy')
             .send(filter)
@@ -303,7 +290,61 @@ describe("General database test", function () {  // Runs once before all tests s
                 done();
 
             })
-    })
+    });
+
+    it("Delete country 1", function (done) {
+        agent
+            .delete('/country/' + country1Id)
+            .expect(200, done);
+    });
+
+    it("Delete country 2", function (done) {
+        agent
+            .delete('/country/' + country2Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 1", function (done) {
+        agent
+            .delete('/branch/' + branch1Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 2", function (done) {
+        agent
+            .delete('/branch/' + branch2Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 3", function (done) {
+        agent
+            .delete('/branch/' + branch3Id)
+            .expect(200, done);
+    });
+
+    it("Delete branch 4", function (done) {
+        agent
+            .delete('/branch/' + branch4Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 1", function (done) {
+        agent
+            .delete('/outlet/' + outlet1Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 2", function (done) {
+        agent
+            .delete('/outlet/' + outlet2Id)
+            .expect(200, done);
+    });
+
+    it("Delete outlet 3", function (done) {
+        agent
+            .delete('/outlet/' + outlet3Id)
+            .expect(200, done);
+    });
 
 
 });

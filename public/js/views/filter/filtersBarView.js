@@ -3,9 +3,9 @@ define([
         'collections/filter/filterCollection',
         'custom',
         'common',
-        'constants'
+        'filters'
     ],
-    function (valuesView, filterValuesCollection, Custom, Common, CONSTANTS) {
+    function (valuesView, filterValuesCollection, Custom, Common, FILTERSCONSTANTS) {
         var FilterView;
         FilterView = Backbone.View.extend({
             el: '#filtersFullHolder',
@@ -21,7 +21,7 @@ define([
 
             initialize: function (options) {
                 this.parentContentType = options.contentType;
-                this.constantsObject = CONSTANTS.FILTERS[this.parentContentType];
+                this.constantsObject = FILTERSCONSTANTS.FILTERS[this.parentContentType];
 
                 this.currentCollection = {};
 
@@ -37,7 +37,7 @@ define([
                         var target = e.target;
                         var value = target.value;
 
-                        this.collection = this.collection.getSearchedCollection('fullName', value);
+                        this.collection = this.collection.getSearchedCollection('fullName', value, filterValuesCollection);
 
                     }, 500);
             },
@@ -50,6 +50,7 @@ define([
                 var filterNameElement = filterContainerElement.find('.filterName')
                 var constantsName = filterNameElement.attr('data-value');
                 var currentCollection = this.currentCollection[constantsName];
+                var filterType = this.constantsObject[constantsName].type;
                 var collectionElement;
                 var intVal;
                 var index;
@@ -65,10 +66,13 @@ define([
                 //if (currentElement.hasClass('checkedValue')) {
 
                     //if (!this.filter[constantsName]) {
-                        this.filter[constantsName] = [];
+                        this.filter[constantsName] = {
+                            type: filterType,
+                            values: [],
+                        };
                     //}
 
-                    this.filter[constantsName].push(currentValue);
+                    this.filter[constantsName].values.push(currentValue);
                     collectionElement.set({status: true});
 
                     filterNameElement.addClass('checkedGroup');

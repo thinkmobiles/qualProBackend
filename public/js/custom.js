@@ -1,4 +1,9 @@
-define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, dataService) {
+define([
+    'constants',
+    'async',
+    'dataService',
+    'moment'
+], function (CONTENT_TYPES, async, dataService, moment) {
 
     var runApplication = function (success) {
         var url;
@@ -6,6 +11,7 @@ define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, da
         if (!Backbone.history.fragment) {
             Backbone.history.start({silent: true});
         }
+
         if (success) {
             url = (App.requestedURL === null) ? Backbone.history.fragment : App.requestedURL;
 
@@ -17,9 +23,15 @@ define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, da
             Backbone.history.navigate(url, {trigger: true});
             if (!App || !App.filterCollections) {
                 async.parallel({
-                        country: function(callback){dataService.getData('/country/getForDD', null, callback)},
-                        branch: function(callback){dataService.getData('/branch/getForDD', null, callback)},
-                        outlet: function(callback){dataService.getData('/outlet/getForDD', null, callback)},
+                        country: function (callback) {
+                            dataService.getData('/country/getForDD', null, callback)
+                        },
+                        branch: function (callback) {
+                            dataService.getData('/branch/getForDD', null, callback)
+                        },
+                        outlet: function (callback) {
+                            dataService.getData('/outlet/getForDD', null, callback)
+                        },
                     },
                     function (err, result) {
 
@@ -105,14 +117,29 @@ define(['constants', 'async', 'dataService'], function (CONTENT_TYPES, async, da
         var defaultLocation = '#qualPro/' + CONTENT_TYPES.PERSONNEL;
         var url = Backbone.history.fragment || defaultLocation;
 
+        if (url === 'qualPro') {
+            url = defaultLocation
+        }
 
         Backbone.history.navigate(url, options);
+    };
+
+    var dateFormater = function(formatString, dateString){
+        var date = moment(dateString);
+        var isRender = (App && App.render);
+
+        if((!date || date === 'Invalid date') && isRender){
+            App.render({type: 'error', message: 'Invalid Date'});
+        }
+
+        return moment(dateString).format(formatString);
     };
 
     return {
         runApplication: runApplication,
         getCurrentVT: getCurrentVT,
         applyDefaults: applyDefaults,
-        navigateToDefaultUrl: navigateToDefaultUrl
+        navigateToDefaultUrl: navigateToDefaultUrl,
+        dateFormater: dateFormater
     };
 });

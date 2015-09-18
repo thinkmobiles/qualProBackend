@@ -2,7 +2,7 @@ define([], function () {
     /**
      * Drop-in replacement for Backbone.Collection. Encapsulate main pagination logic
      * @see {@link http://backbonejs.org/#Collection|Backbone.Collection }
-     * @namespace ParrentCollection
+     * @constructor ParrentCollection
      * @extends Backbone.Collection
      *
      * @property {number} firstPage The first page index. You should only override this value
@@ -150,7 +150,7 @@ define([], function () {
          * @param {object} options.
          * @return {XMLHttpRequest} The XMLHttpRequest
          * from fetch or this.
-         * @function getLastPage
+         * @function getNextPage
          * @memberof ParrentCollection
          * @instance
          */
@@ -170,7 +170,19 @@ define([], function () {
             this.getPage(page, options);
         },
 
-        getSearchedCollection: function (field, value) {
+        /**
+         * Filters collection by `field` & `value`.
+         * @param {string} field Field to filter by.
+         * @param {string} value Value to filter by.
+         * @param {Backbone.Collection} collection To create correct result.
+         * @return {XMLHttpRequest} The XMLHttpRequest
+         * from fetch or this.
+         * @function getSearchedCollection
+         * @memberof ParrentCollection
+         * @instance
+         */
+
+        getSearchedCollection: function (field, value, collection) {
             var newFilteredCollection;
             var self = this;
 
@@ -180,22 +192,22 @@ define([], function () {
                 return self.trigger('showmore', this);
             }
 
-            newFilteredCollection = this.filterCollection(field, value);
+            newFilteredCollection = this.filterCollection(field, value, collection);
 
             return self.trigger('showmore', newFilteredCollection);
         },
 
-        filterCollection: function (field, value) {
+        filterCollection: function (field, value, collection) {
             var resultCollection;
             var regex;
 
             regex = new RegExp(value, 'i');
 
-            resultCollection = _.filter(this, function (model) {
+            resultCollection = this.filter(function (model) {
                 return model.get(field).match(regex);
             });
 
-            return resultCollection;
+            return new collection(resultCollection);
         }
     });
     return Collection;

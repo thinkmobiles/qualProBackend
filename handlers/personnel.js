@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var CONSTANTS = require('../constants/mainConstants');
 
-var Personnel = function (db) {
+var Personnel = function (db, event) {
     var validator = require('validator');
 
     var crypto = require('crypto');
@@ -10,27 +10,39 @@ var Personnel = function (db) {
     var CONSTANTS = require('../constants/mainConstants');
     //var RESPONSES = require('../constants/responses');
     var Mailer = require('../helpers/mailer');
+    var FilterMapper = require('../helpers/filterMapper');
     var async = require('async');
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var PersonnelModel = db.model(CONSTANTS.PERSONNEL, personnelSchema);
     var xssFilters = require('xss-filters');
     //var mid;
 
+    this.getForDD = function (req, res, next) {
+        var query = req.query;
+        var queryObject = query ? query : {};
+
+        PersonnelModel.find(queryObject, '_id firstName lastName').
+
+            exec(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(result);
+            });
+    };
+
     this.create = function (req, res, next) {
 
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass = generator.generate(8);
-        var mailer = new Mailer();
-        var shaSum = crypto.createHash('sha256');
         var personnelModel;
-        var token = generator.generate();
         var error;
+        var countryId;
+        var personnelId;
+        var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
-        shaSum.update(pass);
-        body.pass = shaSum.digest('hex');
         body.token = token;
 
         if (!isEmailValid) {
@@ -49,15 +61,11 @@ var Personnel = function (db) {
                 return next(err);
             }
 
-            mailer.confirmNewUserRegistration(
-                {
-                    firstName: personnel.firstName,
-                    lastName: personnel.lastName,
-                    email: personnel.email,
-                    password: pass,
-                    token: personnel.token
-                });
-            // delete personnel.pass;
+            countryId = personnel.country;
+            personnelId = personnel._id;
+
+            event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
+
             res.status(201).send({_id: personnel._id});
 
         });
@@ -145,12 +153,12 @@ var Personnel = function (db) {
         var error;
         var query;
 
-        if (req.session.uId === id) {
-            error = new Error();
-            error.status = 400;
-
-            return next(error);
-        }
+        //if (req.session.uId === id) {
+        //    error = new Error();
+        //    error.status = 400;
+        //
+        //    return next(error);
+        //}
 
         /*access.getDeleteAccess(req, res, next, mid, function (access) {
          if (!access) {
@@ -171,6 +179,11 @@ var Personnel = function (db) {
         /*});*/
     };
 
+    this.archive = function (req, res, next) {
+        var id = req.params.id;
+        res.status(501).send();
+    };
+
     this.getById = function (req, res, next) {
         var id = req.params.id || req.session.uId;
         var query = PersonnelModel.findById(id, {pass: 0});
@@ -185,15 +198,14 @@ var Personnel = function (db) {
 
     this.getAll = function (req, res, next) {
         var query = req.query;
-        var queryObject = {};
         var projectionObject = {pass: 0};
         var page = query.page || 1;
         var limit = query.count || parseInt(CONSTANTS.LIST_COUNT);
         var skip = (page - 1) * limit;
+        var filterMapper = new FilterMapper();
+        var queryObject = query.filter ? filterMapper.mapFilter(query.filter) : {};
 
         var parallelTasks;
-
-        //ToDo implement filtering for both methods
 
         function contentFinder(parallelCb) {
             PersonnelModel.find(queryObject, projectionObject)
@@ -234,6 +246,11 @@ var Personnel = function (db) {
         var id = req.params.id;
         var body = req.body;
         var seriesTasks = [findByIdAndUpdate];
+
+        var pass = generator.generate(8);
+        var token = generator.generate();
+        var mailer = new Mailer();
+        var shaSum = crypto.createHash('sha256');
 
         function findBiId(seriesCb) {
             PersonnelModel.findById(id, function (err, personnel) {
@@ -276,11 +293,26 @@ var Personnel = function (db) {
 
         if (body.oldPass && body.newPass) {
             seriesTasks.unshift(findBiId);
+        } else if (body.sendPass) {
+            shaSum.update(pass);
+            body.pass = shaSum.digest('hex');
+            body.token = token;
         }
 
         async.series(seriesTasks, function (err, result) {
             if (err) {
                 return next(err);
+            }
+
+            if (body.sendPass) {
+                mailer.confirmNewUserRegistration(
+                    {
+                        firstName: result[0].firstName,
+                        lastName: result[0].lastName,
+                        email: result[0].email,
+                        password: pass,
+                        token: result[0].token
+                    });
             }
 
             res.status(200).send({success: 'Personnel was updated success'});

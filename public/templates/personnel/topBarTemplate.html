@@ -1,7 +1,12 @@
 <div id="filterBar">
     <div class="title">
-        <span>Filters</span>
-        <span><input placeholder="Search" type="text" id="searchInput"/></span>
+        <form>
+            <span>Filters</span>
+            <span>
+                <input type="text" placeholder="Search" id="searchInput" required/>
+                <button id="searchResetBtn" type="reset">X</button>
+            </span>
+        </form>
     </div>
     <div id="filtersFullHolder">
     </div>
@@ -24,8 +29,10 @@
 
     <div id="contentViewSwitcher">
         <ul class="btn-list">
-            <li><a href="javascript;" class="changeContentView viewBarBtnActive"  data-view="thumbnails"><i class="material-icons">&#xE241;</i></a></li>
-            <li><a href="javascript;" class="changeContentView" data-view="list"><i class="material-icons">&#xE8F0;</i></a></li>
+            <li><a href="javascript;" class="changeContentView viewBarBtnActive" data-view="thumbnails"><i
+                    class="material-icons">&#xE241;</i></a></li>
+            <li><a href="javascript;" class="changeContentView" data-view="list"><i class="material-icons">&#xE8F0;</i></a>
+            </li>
         </ul>
     </div>
 
