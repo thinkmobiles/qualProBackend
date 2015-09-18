@@ -102,6 +102,7 @@ module.exports = function (app, db) {
 
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
+    app.post('/rememberMe', personnelHandler.rememberMy);
     app.post('/login', /*csrfProtection,*/ personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
@@ -125,7 +126,8 @@ module.exports = function (app, db) {
     app.use('/priority', priorityRouter);
     app.use('/mobile', mobileRouter);
 
-    function notFound(req, res, next) {
+
+        function notFound(req, res, next) {
         res.status(404);
 
 
@@ -190,8 +192,8 @@ module.exports = function (app, db) {
             updateObject[fieldName] = fieldValue;
         }
 
-        targetModel.update(searchObject, updateObject, {multi: true}, function(err){
-            if(err){
+        targetModel.update(searchObject, updateObject, {multi: true}, function (err) {
+            if (err) {
                 logWriter.log('eventEmiter_createdChild', err.message);
             }
         });
