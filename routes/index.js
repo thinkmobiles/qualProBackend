@@ -91,6 +91,7 @@ module.exports = function (app, db) {
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', csrfProtection, personnelHandler.login);
+    app.post('/rememberMe', personnelHandler.rememberMy);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -113,7 +114,8 @@ module.exports = function (app, db) {
     app.use('/priority', priorityRouter);
     app.use('/mobile', mobileRouter);
 
-    function notFound(req, res, next) {
+
+        function notFound(req, res, next) {
         res.status(404);
 
 
@@ -164,6 +166,7 @@ module.exports = function (app, db) {
         res.type('txt');
         res.send('form tampered with');
     };
+
 
     app.use(notFound);
     app.use(csrfErrorParser);
