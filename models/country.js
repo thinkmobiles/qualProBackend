@@ -8,12 +8,19 @@ module.exports = (function () {
      * @constructor CountryModel
      * @type {*|Schema}
      *
-     * @property {String} pass
-     * @property {Date} lastAccess last access of personnel
+     * @property {String} name
      * @property {String} imageSrc ___base64___ representation of avatar
-     * @property {String} firstName _First name_ of _Personnel_
-     * @property {String} lastName _Last name_ of _Personnel_
-     * @property {String} email _Email_ address of _Personnel_. __Required__
+     * @property {String} description
+     * @property {String} manager ___reference___ to {@link PersonnelModel}
+     * @property {String[]} personnels ___reference___ to {@link PersonnelModel}
+     * @property {String[]} outlets ___reference___ to {@link OutletModel}
+     * @property {Boolean} isArchived Is Country archived or not
+     * @property {Object} createdBy
+     * @property {String} createdBy.user ___reference___ to {@link PersonnelModel}
+     * @property {Date} createdBy.date
+     * @property {Object} editedBy
+     * @property {String} editedBy.user ___reference___ to {@link PersonnelModel}
+     * @property {Date} editedBy.date
      */
 
     var schema = new mongoose.Schema({
@@ -29,7 +36,6 @@ module.exports = (function () {
         outlets: [{type: ObjectId, ref: CONSTANTS.OUTLET}],
         isArchived: Boolean,
 
-        creationDate: {type: Date, default: Date.now},
         createdBy: {
             user: {type: ObjectId, ref: CONSTANTS.PERSONNEL, default: null},
             date: {type: Date, default: Date.now}
