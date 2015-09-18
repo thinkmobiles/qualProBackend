@@ -27,7 +27,7 @@ define([
 
                 this.inputEvent = _.debounce(
                     function (e) {
-                        var target = e.target;
+                        var target = e.target ? e.target : e;
                         var value = target.value;
 
                         this.collection.getSearchedCollection('fullName', value, contentCollection);
@@ -60,6 +60,8 @@ define([
 
                 var pagination = this.$pagination = $('#paginationHolder');
                 var searchInput;
+                var resetBtn;
+                var filtersContainer;
 
                 currentEl.html('');
                 currentEl.append(this.template());
@@ -91,10 +93,17 @@ define([
 
                 this.filterView.render();
 
-                searchInput = $("#searchInput");
+                filtersContainer = $("#filterBar");
+
+                searchInput = filtersContainer.find("#searchInput");
+                resetBtn = filtersContainer.find('#searchResetBtn');
 
                 searchInput.keyup(function (e) {
                     self.inputEvent(e)
+                });
+
+                resetBtn.click(function (e) {
+                    self.inputEvent(searchInput)
                 });
 
                 this.pageElementRender(this.listLength, this.collection.currentPage);

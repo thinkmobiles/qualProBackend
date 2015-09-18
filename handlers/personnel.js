@@ -36,19 +36,13 @@ var Personnel = function (db, event) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass = generator.generate(8);
-        var mailer = new Mailer();
-        var shaSum = crypto.createHash('sha256');
         var personnelModel;
-        var token = generator.generate();
         var error;
         var countryId;
         var personnelId;
         var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
-        shaSum.update(pass);
-        body.pass = shaSum.digest('hex');
         body.token = token;
 
         if (!isEmailValid) {
@@ -67,15 +61,6 @@ var Personnel = function (db, event) {
                 return next(err);
             }
 
-            /*mailer.confirmNewUserRegistration(
-             {
-             firstName: personnel.firstName,
-             lastName: personnel.lastName,
-             email: personnel.email,
-             password: pass,
-             token: personnel.token
-             });*/
-
             countryId = personnel.country;
             personnelId = personnel._id;
 
@@ -88,7 +73,6 @@ var Personnel = function (db, event) {
 
     this.login = function (req, res, next) {
         var session = req.session;
-
         var body = req.body;
         var email = body.email;
         var pass = body.pass;
@@ -130,8 +114,6 @@ var Personnel = function (db, event) {
 
 
             session.loggedIn = true;
-            //db.sesession.cookie.expires = false;
-            session.cookie.maxAge = 700000;
             session.uId = personnel._id;
             session.uName = personnel.login;
             lastAccess = new Date();
@@ -251,6 +233,11 @@ var Personnel = function (db, event) {
         var body = req.body;
         var seriesTasks = [findByIdAndUpdate];
 
+        var pass = generator.generate(8);
+        var token = generator.generate();
+        var mailer = new Mailer();
+        var shaSum = crypto.createHash('sha256');
+
         function findBiId(seriesCb) {
             PersonnelModel.findById(id, function (err, personnel) {
                 var shaSum;
@@ -292,11 +279,26 @@ var Personnel = function (db, event) {
 
         if (body.oldPass && body.newPass) {
             seriesTasks.unshift(findBiId);
+        } else if (body.sendPass) {
+            shaSum.update(pass);
+            body.pass = shaSum.digest('hex');
+            body.token = token;
         }
 
         async.series(seriesTasks, function (err, result) {
             if (err) {
                 return next(err);
+            }
+
+            if (body.sendPass) {
+                mailer.confirmNewUserRegistration(
+                    {
+                        firstName: result[0].firstName,
+                        lastName: result[0].lastName,
+                        email: result[0].email,
+                        password: pass,
+                        token: result[0].token
+                    });
             }
 
             res.status(200).send({success: 'Personnel was updated success'});
