@@ -36,6 +36,7 @@ module.exports = function (db) {
 	for (var route in routes) {
 		router.use('/' + route, checkAuth, routes[route])
 	}
+
 	/**
 	 * __Type__ 'POST'
 	 *
