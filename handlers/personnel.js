@@ -134,12 +134,12 @@ var Personnel = function (db, event) {
         });
     };
 
-    this.rememberMy = function (req, res, next) {
+    this.rememberMe = function (req, res, next) {
         var session = req.session;
         var body = req.body;
         var year = 365 * 24 * 60 * 60 * 1000;
 
-        if (body.rememberMy) {
+        if (body.rememberMe) {
             session.cookie.expires = new Date(Date.now() + year);
             session.cookie.maxAge = year;
         } else {
