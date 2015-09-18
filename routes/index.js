@@ -88,8 +88,20 @@ module.exports = function (app, db) {
         });
     });
 
+    app.get('/logout', csrfProtection, function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function () {
+            });
+
+        }
+        res.clearCookie();
+        res.redirect('/#login');
+    });
+
+
+
     app.get('/modules', checkAuth, modulesHandler.getAll);
-    app.post('/login',/*csrfProtection,*/ personnelHandler.login);
+    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -177,8 +189,8 @@ module.exports = function (app, db) {
             updateObject[fieldName] = fieldValue;
         }
 
-        targetModel.update(searchObject, updateObject, {multi: true}, function(err){
-            if(err){
+        targetModel.update(searchObject, updateObject, {multi: true}, function (err) {
+            if (err) {
                 logWriter.log('eventEmiter_createdChild', err.message);
             }
         });
