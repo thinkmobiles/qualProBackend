@@ -37,7 +37,6 @@ var Personnel = function (db, event) {
         var email = body.email;
         var isEmailValid;
         var personnelModel;
-        var token = generator.generate();
         var error;
         var countryId;
         var personnelId;
@@ -70,25 +69,6 @@ var Personnel = function (db, event) {
             res.status(201).send({_id: personnel._id});
 
         });
-    };
-
-    this.sendPass = function (req, res, next) {
-        var pass = generator.generate(8);
-
-        var mailer = new Mailer();
-        var shaSum = crypto.createHash('sha256');
-
-        shaSum.update(pass);
-        var pass = shaSum.digest('hex');
-
-        mailer.confirmNewUserRegistration(
-         {
-         firstName: personnel.firstName,
-         lastName: personnel.lastName,
-         email: personnel.email,
-         password: pass,
-         token: personnel.token
-         });
     };
 
     this.login = function (req, res, next) {
@@ -253,6 +233,11 @@ var Personnel = function (db, event) {
         var body = req.body;
         var seriesTasks = [findByIdAndUpdate];
 
+        var pass = generator.generate(8);
+        var token = generator.generate();
+        var mailer = new Mailer();
+        var shaSum = crypto.createHash('sha256');
+
         function findBiId(seriesCb) {
             PersonnelModel.findById(id, function (err, personnel) {
                 var shaSum;
@@ -294,11 +279,26 @@ var Personnel = function (db, event) {
 
         if (body.oldPass && body.newPass) {
             seriesTasks.unshift(findBiId);
+        } else if (body.sendPass) {
+            shaSum.update(pass);
+            body.pass = shaSum.digest('hex');
+            body.token = token;
         }
 
         async.series(seriesTasks, function (err, result) {
             if (err) {
                 return next(err);
+            }
+
+            if (body.sendPass) {
+                mailer.confirmNewUserRegistration(
+                    {
+                        firstName: result[0].firstName,
+                        lastName: result[0].lastName,
+                        email: result[0].email,
+                        password: pass,
+                        token: result[0].token
+                    });
             }
 
             res.status(200).send({success: 'Personnel was updated success'});
