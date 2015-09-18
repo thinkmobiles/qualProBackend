@@ -37,7 +37,7 @@ define([
                         var target = e.target;
                         var value = target.value;
 
-                        this.collection = this.collection.getSearchedCollection('fullName', value);
+                        this.collection = this.collection.getSearchedCollection('fullName', value, filterValuesCollection);
 
                     }, 500);
             },

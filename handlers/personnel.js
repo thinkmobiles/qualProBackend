@@ -36,9 +36,6 @@ var Personnel = function (db, event) {
         var body = req.body;
         var email = body.email;
         var isEmailValid;
-        var pass = generator.generate(8);
-        var mailer = new Mailer();
-        var shaSum = crypto.createHash('sha256');
         var personnelModel;
         var token = generator.generate();
         var error;
@@ -47,8 +44,6 @@ var Personnel = function (db, event) {
         var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
-        shaSum.update(pass);
-        body.pass = shaSum.digest('hex');
         body.token = token;
 
         if (!isEmailValid) {
@@ -67,15 +62,6 @@ var Personnel = function (db, event) {
                 return next(err);
             }
 
-            /*mailer.confirmNewUserRegistration(
-                {
-                    firstName: personnel.firstName,
-                    lastName: personnel.lastName,
-                    email: personnel.email,
-                    password: pass,
-                    token: personnel.token
-                });*/
-
             countryId = personnel.country;
             personnelId = personnel._id;
 
@@ -84,6 +70,25 @@ var Personnel = function (db, event) {
             res.status(201).send({_id: personnel._id});
 
         });
+    };
+
+    this.sendPass = function (req, res, next) {
+        var pass = generator.generate(8);
+
+        var mailer = new Mailer();
+        var shaSum = crypto.createHash('sha256');
+
+        shaSum.update(pass);
+        var pass = shaSum.digest('hex');
+
+        mailer.confirmNewUserRegistration(
+         {
+         firstName: personnel.firstName,
+         lastName: personnel.lastName,
+         email: personnel.email,
+         password: pass,
+         token: personnel.token
+         });
     };
 
     this.login = function (req, res, next) {
