@@ -179,7 +179,7 @@ module.exports = function (app, db) {
         res.send('form tampered with');
     };
 
-    event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+    /*event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
         var searchObject = {};
         var updateObject = {};
 
@@ -197,7 +197,7 @@ module.exports = function (app, db) {
                 logWriter.log('eventEmiter_createdChild', err.message);
             }
         });
-    });
+    });*/
 
     app.use(notFound);
     app.use(csrfErrorParser);
