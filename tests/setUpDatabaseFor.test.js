@@ -121,7 +121,7 @@ var outlets = [
         description: 'Greatest wooden stuff selling stock in whole Middle-Earth',
         isOwn: true
     }
-]
+];
 before("before all tests login and setup db", function (done) {
     agent = request.agent(host);
 
@@ -238,33 +238,40 @@ before("before all tests login and setup db", function (done) {
 
 
 });
+
+
 after("delete all created items", function (done) {
-    function deleteSomething(url, id) {
-        it("Should delete " + id, function (done) {
-            agent
-                .delete(url)
-                .send(id)
-                .expect(200, function (err, res) {
-                    if (err) {
-                        return done(err);
-                    }
-                    done();
-                });
-        });
+
+    var async = require('async');
+    var urls = new Array();
+
+    for (var index in countries) {
+        urls.push('/country/' + countries[index]._id);
     }
 
-    for(var country in countries){
-        deleteSomething('/country',country._id);
+    for (var index in countryManagers) {
+        urls.push('/personnel/' + countryManagers[index]._id);
     }
 
-    for (var manager in countryManagers){
-        deleteSomething('/personnel',manager._id);
+    for (var index in outlets) {
+        urls.push('/outlet/' + outlets[index]._id);
     }
 
-    for (var outlet in outlets){
-        deleteSomething('/outlet',outlet._id);
-    }
+    async.each(urls, function (url, cb) {
+        agent
+            .delete(url)
+            .expect(200, function (err, res) {
+                if (err) {
+                    return cb(err);
+                }
 
+                cb();
+            });
+    }, function (err) {
+        if (err) {
+            return done(err);
+        }
+
+        done();
+    });
 });
-
-

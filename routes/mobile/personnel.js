@@ -49,7 +49,7 @@ module.exports = function (db) {
      *         lastName: "Pupkin",
      *         firstName: "Vasya",
      *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
-     *         fullName: "Vasya Pupkin",
+     *         fullName: "Vasya Pupkin"
      *      }, ...]
      * @method /personnel
      * @instance
@@ -97,7 +97,7 @@ module.exports = function (db) {
      *         lastName: "Pupkin",
      *         firstName: "Vasya",
      *         imageSrc: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAA...
-     *         fullName: "Vasya Pupkin",
+     *         fullName: "Vasya Pupkin"
      *      }, ...]
      * @method /personnel/:id
      * @instance
@@ -147,7 +147,7 @@ module.exports = function (db) {
      *   manager : "55eeb7b58f9c1deb19000002",
      *   position : 12,
      *   dateBirth : "1934/07/24",
-     *   description : "Really great guy",
+     *   description : "Really great guy"
      * }
      * RESPONSE :
      * {
@@ -180,7 +180,7 @@ module.exports = function (db) {
      *   manager : "55eeb7b58f9c1deb19000002",
      *   position : 12,
      *   dateBirth : "1934/07/24",
-     *   description : "Really great guy",
+     *   description : "Really great guy"
      * }
      * RESPONSE : status
      *
@@ -202,7 +202,7 @@ module.exports = function (db) {
      * BODY:
      * {
      *   firstName : "Strangeguy",
-     *   phoneNumber : "98347773458",
+     *   phoneNumber : "98347773458"
      * }
      * RESPONSE : status
      *

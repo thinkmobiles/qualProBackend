@@ -7,7 +7,8 @@ module.exports = function (db) {
     var path = require('path');
     var fs = require("fs");
     var express = require('express');
-    var session = require('express-session');
+    var Session = require('express-session');
+    var session;
     var logger = require('morgan');
     var cookieParser = require('cookie-parser');
     var bodyParser = require('body-parser');
@@ -18,7 +19,7 @@ module.exports = function (db) {
 
     var logWriter = require('./helpers/logWriter');
 
-    var MemoryStore = require('connect-mongo')(session);
+    var MemoryStore = require('connect-mongo')(Session);
 
     var sessionConfig = require('./config/' + process.env.NODE_ENV).sessionConfig;
 
@@ -51,14 +52,18 @@ module.exports = function (db) {
 
     app.use(allowCrossDomain);
 
-    app.use(session({
+    session = Session({
         name: 'qualPro_main',
         key: "qualPro_main",
         secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
         resave: false,
+
         saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
-    }));
+    });
+    session.cookie.maxAge = null;
+
+    app.use(session);
 
     Array.prototype.objectID = function () {
         var _arrayOfID = [];

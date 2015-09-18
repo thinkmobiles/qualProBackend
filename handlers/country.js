@@ -40,6 +40,10 @@ var Country = function (db) {
 
     };
 
+    this.archive= function (req, res, next) {
+        res.status(501).send();
+    }
+
     this.remove = function (req, res, next) {
         var id = req.params.id;
 

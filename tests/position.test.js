@@ -110,11 +110,11 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
             });
     });
 
-    //it("Delete " + singular, function (done) {
-    //    agent
-    //        .delete(baseUrl + '/' + createdId)
-    //        .expect(200, done);
-    //});
+    it("Delete " + singular, function (done) {
+        agent
+            .delete(baseUrl + '/' + createdId)
+            .expect(200, done);
+    });
     //
     //it("Try get deleted " + singular + " and recieve empty object", function (done) {
     //    agent

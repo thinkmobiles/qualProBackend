@@ -36,9 +36,9 @@ module.exports = function (app, db) {
     var objectiveRouter = require('./objective')(db);
     var shelfRouter = require('./shelf')(db);
     var outletRouter = require('./outlet')(db, event);
-//    var categoryRouter = require('./category')(db);
+    var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
-//    var priorityRouter = require('./priority')(db);
+    var priorityRouter = require('./priority')(db);
     var mobileRouter = require('./mobile.js')(db);
 
     var RESPONSES = require('../constants/responses');
@@ -89,8 +89,20 @@ module.exports = function (app, db) {
         });
     });
 
+    app.get('/logout', csrfProtection, function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function () {
+            });
+
+        }
+        res.clearCookie();
+        res.redirect('/#login');
+    });
+
+
+
     app.get('/modules', checkAuth, modulesHandler.getAll);
-    app.post('/login',/*csrfProtection,*/ personnelHandler.login);
+    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
     app.get('/authenticated', function (req, res, next) {
         if (req.session && req.session.loggedIn) {
             res.send(200);
@@ -108,9 +120,9 @@ module.exports = function (app, db) {
     app.use('/objective', objectiveRouter);
     app.use('/shelf', shelfRouter);
     app.use('/outlet', outletRouter);
-//    app.use('/category', categoryRouter);
+    app.use('/category', categoryRouter);
     app.use('/comment', commentRouter);
-//    app.use('/priority', priorityRouter);
+    app.use('/priority', priorityRouter);
     app.use('/mobile', mobileRouter);
 
     function notFound(req, res, next) {
@@ -164,6 +176,26 @@ module.exports = function (app, db) {
         res.type('txt');
         res.send('form tampered with');
     };
+
+    event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+        var searchObject = {};
+        var updateObject = {};
+
+        searchObject[searchField] = id;
+
+        if (fieldInArray) {
+            updateObject['$addToSet'] = {};
+            updateObject['$addToSet'][fieldName] = fieldValue;
+        } else {
+            updateObject[fieldName] = fieldValue;
+        }
+
+        targetModel.update(searchObject, updateObject, {multi: true}, function(err){
+            if(err){
+                logWriter.log('eventEmiter_createdChild', err.message);
+            }
+        });
+    });
 
     app.use(notFound);
     app.use(csrfErrorParser);

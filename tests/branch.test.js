@@ -107,30 +107,25 @@ describe("BDD for " + singular, function () {
             });
     });
 
-    it("Archive " + singular, function (done) {
+    it("Delete " + singular, function (done) {
         agent
             .delete(baseUrl + '/' + createdId)
-            .expect(200, function (err, res) {
-                if (err) {
-                    return done(err);
-                }
-                done();
-            });
+            .expect(200, done);
     });
 
-    it("Try get archived " + singular + " and check archived property object", function (done) {
-        agent
-            .get(baseUrl + '/' + createdId)
-            .expect(200, function (err, res) {
-                var body = res.body;
-
-                if (err) {
-                    return done(err)
-                }
-                expect(body).to.be.instanceOf(Object);
-                expect(body.isArchived);
-                done();
-            });
-    });
+    //it("Try get archived " + singular + " and check archived property object", function (done) {
+    //    agent
+    //        .get(baseUrl + '/' + createdId)
+    //        .expect(200, function (err, res) {
+    //            var body = res.body;
+    //
+    //            if (err) {
+    //                return done(err)
+    //            }
+    //            expect(body).to.be.instanceOf(Object);
+    //            expect(body.isArchived);
+    //            done();
+    //        });
+    //});
 });
 
