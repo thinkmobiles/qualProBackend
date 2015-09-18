@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-/**
- * @module Mobile - Outlet
- */
-
 var Handler = require('../../handlers/outlet');
 module.exports = function (db) {
     var handler = new Handler(db);
@@ -156,6 +152,27 @@ module.exports = function (db) {
      * @instance
      */
     router.put('/:id', handler.update);
-    router.delete('/:id', checkAuth, handler.remove);
+
+    /**
+     * __Type__ `PATCH`
+     *
+     * Base ___url___ for build __requests__ is `http:/<host>:<port>/mobile/outlet`
+     *
+     * Updated outlet with specific id. Put into body only properties to update
+     * @see {@link OutletModel}
+
+     * @example
+     * REQUEST:
+     *     'http://localhost:9797/mobile/outlet/55eeb7b58f9c1deb19000009'
+     * BODY
+     *     {
+     *          "name" : "another outlet"
+     *     }
+     * RESPONSE status
+     * @method /outlet/:id
+     * @instance
+     */
+    router.patch('/:id', handler.update);
+
     return router;
 };

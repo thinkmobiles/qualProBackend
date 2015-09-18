@@ -73,7 +73,7 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
 
     it("Update " + singular + " should return 200", function (done) {
         agent
-            .put(baseUrl + '/' + createdId)
+            .patch(baseUrl + '/' + createdId)
             .send(objectUpdate)
             .expect(200, function (err, res) {
                 if (err) {

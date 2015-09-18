@@ -35,9 +35,9 @@ module.exports = function (app, db) {
     var objectiveRouter = require('./objective')(db);
     var shelfRouter = require('./shelf')(db);
     var outletRouter = require('./outlet')(db, event);
-//    var categoryRouter = require('./category')(db);
+    var categoryRouter = require('./category')(db);
     var commentRouter = require('./comment')(db);
-//    var priorityRouter = require('./priority')(db);
+    var priorityRouter = require('./priority')(db);
     var mobileRouter = require('./mobile.js')(db);
 
     var RESPONSES = require('../constants/responses');
@@ -107,9 +107,9 @@ module.exports = function (app, db) {
     app.use('/objective', objectiveRouter);
     app.use('/shelf', shelfRouter);
     app.use('/outlet', outletRouter);
-//    app.use('/category', categoryRouter);
+    app.use('/category', categoryRouter);
     app.use('/comment', commentRouter);
-//    app.use('/priority', priorityRouter);
+    app.use('/priority', priorityRouter);
     app.use('/mobile', mobileRouter);
 
     function notFound(req, res, next) {
