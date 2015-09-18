@@ -34,7 +34,6 @@ var Personnel = function (db, event) {
     this.create = function (req, res, next) {
 
         var body = req.body;
-        var sendPass = body.sendPass;
         var email = body.email;
         var isEmailValid;
         var pass = generator.generate(8);
@@ -68,18 +67,14 @@ var Personnel = function (db, event) {
                 return next(err);
             }
 
-            if (sendPass) {
-
-                mailer.confirmNewUserRegistration(
-                    {
-                        firstName: personnel.firstName,
-                        lastName: personnel.lastName,
-                        email: personnel.email,
-                        password: pass,
-                        token: personnel.token
-                    });
-            }
-
+            /*mailer.confirmNewUserRegistration(
+                {
+                    firstName: personnel.firstName,
+                    lastName: personnel.lastName,
+                    email: personnel.email,
+                    password: pass,
+                    token: personnel.token
+                });*/
 
             countryId = personnel.country;
             personnelId = personnel._id;

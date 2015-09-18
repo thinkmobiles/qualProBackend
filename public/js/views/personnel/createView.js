@@ -47,7 +47,6 @@ define([
                     var firstName = $.trim(currEl.find("#firstName").val());
                     var lastName = $.trim(currEl.find("#lastName").val());
                     var email = $.trim(currEl.find("#email").val());
-                    var sendPass = currEl.find("#sendPass").prop('checked');
                     var phone = $.trim(currEl.find("#phone").val());
                     var position = currEl.find("#positionDd").attr("data-id");
                     var country = currEl.find("#countryDd").attr("data-id");
@@ -55,7 +54,6 @@ define([
                     var dateBirth = $.trim(currEl.find("#dateBirth").val());
 
                     personnelModel.save({
-                            sendPass: sendPass,
                             country: country,
                             firstName: _.escape(firstName),
                             lastName: _.escape(lastName),
