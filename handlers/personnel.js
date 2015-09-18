@@ -68,13 +68,13 @@ var Personnel = function (db, event) {
             }
 
             /*mailer.confirmNewUserRegistration(
-                {
-                    firstName: personnel.firstName,
-                    lastName: personnel.lastName,
-                    email: personnel.email,
-                    password: pass,
-                    token: personnel.token
-                });*/
+             {
+             firstName: personnel.firstName,
+             lastName: personnel.lastName,
+             email: personnel.email,
+             password: pass,
+             token: personnel.token
+             });*/
 
             countryId = personnel.country;
             personnelId = personnel._id;
@@ -88,6 +88,7 @@ var Personnel = function (db, event) {
 
     this.login = function (req, res, next) {
         var session = req.session;
+
         var body = req.body;
         var email = body.email;
         var pass = body.pass;
@@ -129,6 +130,8 @@ var Personnel = function (db, event) {
 
 
             session.loggedIn = true;
+            //db.sesession.cookie.expires = false;
+            session.cookie.maxAge = 700000;
             session.uId = personnel._id;
             session.uName = personnel.login;
             lastAccess = new Date();
