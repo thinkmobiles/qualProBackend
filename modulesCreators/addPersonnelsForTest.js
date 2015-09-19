@@ -6,7 +6,9 @@ this.createUsers = function (db) {
     var personnelSchema = mongoose.Schemas[CONSTANTS.PERSONNEL];
     var crypto = require('crypto');
     var ObjectId = mongoose.Schema.Types.ObjectId;
+    var objectsArray = [];
     var objectToSave;
+    var async = require('async');
 
     var userObject = {
         pass: '111111',
@@ -32,16 +34,21 @@ this.createUsers = function (db) {
         objectToSave.email = 'user' + i + '@user.com';
         objectToSave.firstName = userObject.firstName;
 
-        PersonnelModel.findOne({email: objectToSave.email}, function (err, result) {
+        objectsArray.push(objectToSave);
+    }
+
+    async.each(objectsArray, function (object, callback){
+
+        PersonnelModel.findOne({email: object.email}, function (err, result) {
             if (err) {
-                return console.log(err);
+                return callback(err);
             }
 
             if (!result) {
-                personnelModel = new PersonnelModel(objectToSave);
+                personnelModel = new PersonnelModel(object);
                 personnelModel.save(function (err, personnel) {
                     if (err) {
-                        return console.log(err);
+                        return callback(err);
                     }
 
                     console.log('--- User created ---');
@@ -50,5 +57,10 @@ this.createUsers = function (db) {
                 console.log('--- User already exists ---');
             }
         })
-    }
+
+    }, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+    })
 };
