@@ -28,7 +28,7 @@ exports.sessionConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     reapInterval: 500000
 };
 

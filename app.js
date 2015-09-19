@@ -58,10 +58,13 @@ module.exports = function (db) {
         secret: 'gE7FkGtEdF32d4f6h8j0jge4547hTThGFyJHPkJkjkGH7JUUIkj0HKh',
         resave: false,
 
-        saveUninitialized: false,
+        cookie: {
+            maxAge: 365 * 24 * 60 * 60 * 1000 // One year
+        },
+
+        saveUninitialized: true,
         store: new MemoryStore(sessionConfig)
     });
-    session.cookie.maxAge = null;
 
     app.use(session);
 

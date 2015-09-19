@@ -126,10 +126,10 @@ define([
 			var checked = checkedEl.prop('checked');
 
 			$.ajax({
-				url : "/remeberme",
+				url : "/rememberMe",
 				type: "POST",
 				data: {
-					remeberMe: checked
+					rememberMe: !checked
 				},
 
 				success: function () {
