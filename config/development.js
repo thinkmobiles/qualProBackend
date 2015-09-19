@@ -28,8 +28,9 @@ exports.sessionConfig = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     resave: false,
-    saveUninitialized: true,
-    reapInterval: 500000
+    saveUninitialized: false,
+    autoRemove: 'interval',
+    autoRemoveInterval: 1 //in prod mode should be more, 10
 };
 
 /*REMOVE*/

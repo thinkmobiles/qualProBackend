@@ -100,8 +100,6 @@ var Personnel = function (db, event) {
             email: email
         });
         query.exec(function (err, personnel) {
-            var year = 365 * 24 * 60 * 60 * 1000;
-
             if (err) {
                 return next(err);
             }
@@ -121,11 +119,9 @@ var Personnel = function (db, event) {
             session.lastAccess = lastAccess;
 
             if (body.rememberMe === 'true') {
-                session.remeberMe = true;
-                session.cookie.expires = new Date(Date.now() + year);
-                session.cookie.maxAge = year;
+                session.rememberMe = true;
             } else {
-                delete session.remeberMe;
+                delete session.rememberMe;
                 session.cookie.expires = false;
             }
 

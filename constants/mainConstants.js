@@ -17,5 +17,6 @@ module.exports = {
     OUTLET: 'outlet',
     STATUS:'status',
 
-    LIST_COUNT: 25
+    LIST_COUNT: 25,
+    SESSION_TTL: 180000 // 3 minutes, without rememberMe
 };
