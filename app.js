@@ -62,7 +62,7 @@ module.exports = function (db) {
             maxAge: 365 * 24 * 60 * 60 * 1000 // One year
         },
 
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
     });
 

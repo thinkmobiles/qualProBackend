@@ -101,7 +101,6 @@ module.exports = function (app, db) {
 
 
 	app.get('/modules', checkAuth, modulesHandler.getAll);
-	app.post('/rememberMe', personnelHandler.rememberMe);
 	app.post('/login', /*csrfProtection,*/ personnelHandler.login);
 	app.get('/authenticated', function (req, res, next) {
 		if (req.session && req.session.loggedIn) {

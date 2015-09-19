@@ -67,7 +67,6 @@ var Personnel = function (db, event) {
             event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
 
             res.status(201).send({_id: personnel._id});
-
         });
     };
 
@@ -101,6 +100,8 @@ var Personnel = function (db, event) {
             email: email
         });
         query.exec(function (err, personnel) {
+            var year = 365 * 24 * 60 * 60 * 1000;
+
             if (err) {
                 return next(err);
             }
@@ -119,6 +120,16 @@ var Personnel = function (db, event) {
             lastAccess = new Date();
             session.lastAccess = lastAccess;
 
+            if (body.rememberMe === 'true') {
+                session.remeberMe = true;
+                session.cookie.expires = new Date(Date.now() + year);
+                session.cookie.maxAge = year;
+            } else {
+                delete session.remeberMe;
+                session.cookie.expires = false;
+            }
+
+
             PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, {pass: 0}, function (err, result) {
                 if (err) {
                     return next(err);
@@ -133,21 +144,6 @@ var Personnel = function (db, event) {
 
         });
     };
-
-    this.rememberMe = function (req, res, next) {
-        var session = req.session;
-        var body = req.body;
-        var year = 365 * 24 * 60 * 60 * 1000;
-
-        if (body.rememberMe === 'true') {
-            session.cookie.expires = new Date(Date.now() + year);
-            session.cookie.maxAge = year;
-        } else {
-            session.cookie.expires = false;
-        }
-        res.status(200).send(body);
-    };
-
     this.remove = function (req, res, next) {
         var id = req.params.id;
         var error;
