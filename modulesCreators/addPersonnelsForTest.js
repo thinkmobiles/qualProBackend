@@ -32,14 +32,23 @@ this.createUsers = function (db) {
         objectToSave.email = 'user' + i + '@user.com';
         objectToSave.firstName = userObject.firstName;
 
-
-        personnelModel = new PersonnelModel(objectToSave);
-        personnelModel.save(function (err, personnel) {
+        PersonnelModel.findOne({email: objectToSave.email}, function (err, result) {
             if (err) {
                 return console.log(err);
             }
 
-            console.log('--- User created ---');
+            if (!result) {
+                personnelModel = new PersonnelModel(objectToSave);
+                personnelModel.save(function (err, personnel) {
+                    if (err) {
+                        return console.log(err);
+                    }
+
+                    console.log('--- User created ---');
+                })
+            } else {
+                console.log('--- User already exists ---');
+            }
         })
     }
 };
