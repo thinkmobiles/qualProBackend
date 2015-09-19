@@ -139,11 +139,11 @@ var Personnel = function (db, event) {
         var body = req.body;
         var year = 365 * 24 * 60 * 60 * 1000;
 
-        if (body.rememberMe) {
+        if (body.rememberMe === 'true') {
             session.cookie.expires = new Date(Date.now() + year);
             session.cookie.maxAge = year;
         } else {
-            session.cookie.maxAge = null;
+            session.cookie.expires = false;
         }
         res.status(200).send(body);
     };
