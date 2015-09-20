@@ -43,7 +43,6 @@ var Personnel = function (db, event) {
         var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
-        body.token = token;
 
         if (!isEmailValid) {
             error = new Error();

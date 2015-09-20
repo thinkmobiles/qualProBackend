@@ -108,10 +108,14 @@ describe("BDD for country", function () {  // Runs once before all tests start.
         agent
             .get(baseUrl)
             .expect(200, function (err, res) {
+                var body = res.body;
+
                 if (err) {
                     return done(err)
                 }
-                expect(res.body).to.be.instanceOf(Array);
+                expect(body).to.include.keys('total');
+                expect(body).to.include.keys('data');
+                expect(body.data).to.be.instanceOf(Array);
                 done();
             });
     });
