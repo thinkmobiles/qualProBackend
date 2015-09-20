@@ -38,7 +38,8 @@ db.once('open', function callback() {
 
     httpsServer = https.createServer(httpsOptions, app);
 
-    httpsServer.listen(port, function () {
+    /*httpsServer.listen(port, function () {*/
+    app.listen(port, function () {
         console.log('==============================================================');
         console.log('|| server start success on port=' + port + ' in ' + env.NODE_ENV + ' version ||');
         console.log('==============================================================\n');
