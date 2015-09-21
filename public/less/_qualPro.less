@@ -6,3 +6,33 @@
 .mini-avatar {
 
 }
+
+#searchResetBtn {
+  border:1px solid transparent;
+  background-color: #FA9595;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: 0 0 2px #E50F0F;
+  position: relative;
+  outline: none;
+  &:before {
+    position: absolute;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    content: 'X';
+    line-height: 16px;
+    font-size: 12px;
+    //z-index:1;
+    top: 0;
+    right: 0;
+    //bottom: 0;
+    //margin: auto;
+    color: white;
+    //cursor: pointer;
+  }
+}

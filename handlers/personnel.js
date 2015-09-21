@@ -74,31 +74,35 @@ var Personnel = function (db, event) {
     this.login = function (req, res, next) {
         var session = req.session;
         var body = req.body;
-        var email = body.email;
+        var login = body.login;
         var pass = body.pass;
         var shaSum = crypto.createHash('sha256');
         var query;
         var isEmailValid;
+        var isPhoneValid;
 
         var lastAccess;
         var resultPersonnel;
         var error;
 
         shaSum.update(pass);
-        isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
+        if (login) {
+            isEmailValid = CONSTANTS.EMAIL_REGEXP.test(login);
+            isPhoneValid = CONSTANTS.PHONE_REGEXP.test(login);
+        }
 
-        if (!email || !pass || !isEmailValid) {
+        if (!login || !pass || (!isEmailValid && !isPhoneValid)) {
             error = new Error();
             error.status = 400;
 
             return next(error);
         }
 
-        email = validator.escape(email);
-        email = xssFilters.inHTMLData(email);
+        login = validator.escape(login);
+        login = xssFilters.inHTMLData(login);
 
         query = PersonnelModel.findOne({
-            email: email
+            $or: [{email: login}, {phoneNumber: login}]
         });
         query.exec(function (err, personnel) {
             if (err) {

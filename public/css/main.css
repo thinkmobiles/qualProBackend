@@ -1411,6 +1411,31 @@ button {
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset button span:hover {
   background: #ec0000 !important;
 }
+#searchResetBtn {
+  border: 1px solid transparent;
+  background-color: #FA9595;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: 0 0 2px #E50F0F;
+  position: relative;
+  outline: none;
+}
+#searchResetBtn:before {
+  position: absolute;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  content: 'X';
+  line-height: 16px;
+  font-size: 12px;
+  top: 0;
+  right: 0;
+  color: white;
+}
 .notification {
   z-index: 20000;
   position: fixed;
@@ -1421,7 +1446,7 @@ button {
 .notification .error {
   left: 85%;
   width: 15%;
-  position: absolute;
+  position: relative;
   background: darkred;
 }
 .notification .animate {

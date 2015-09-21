@@ -15,7 +15,8 @@ this.createUsers = function (db) {
         firstName: 'Vasya',
         lastName: 'Pupkin',
         dateBirth: new Date('1997-07-03'),
-        description: 'User role'
+        description: 'User role',
+        phoneNumber: '050999999'
     };
 
     var shaSum = crypto.createHash('sha256');
@@ -32,6 +33,7 @@ this.createUsers = function (db) {
         objectToSave.position = i;
         objectToSave.lastName = userObject.lastName + i;
         objectToSave.email = 'user' + i + '@user.com';
+        objectToSave.phoneNumber = userObject.phoneNumber + i;
         objectToSave.firstName = userObject.firstName;
 
         objectsArray.push(objectToSave);
@@ -39,7 +41,7 @@ this.createUsers = function (db) {
 
     async.each(objectsArray, function (object, callback){
 
-        PersonnelModel.findOne({email: object.email}, function (err, result) {
+        PersonnelModel.findOne({phoneNumber: object.phoneNumber}, function (err, result) {
             if (err) {
                 return callback(err);
             }

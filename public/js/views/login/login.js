@@ -71,10 +71,10 @@ define([
 			var self = this;
 			var thisEl = this.$el;
 			var loginForm = thisEl.find("#loginForm");
-			var email = _.escape(thisEl.find("#email").val());
+			var login = _.escape(loginForm.find("#email").val());
 			var pass = thisEl.find("#pass").val();
 			var data = {
-				email: email,
+				login: login,
 				pass : pass
 			};
 
@@ -114,8 +114,7 @@ define([
 				error  : function () {
 					loginForm.addClass("notRegister");
 
-					errorHandler.text("Such user doesn't registered");
-					errorHandler.show();
+					App.render({type: 'error', message: "Such user doesn't registered"});
 				}
 			});
 		},
