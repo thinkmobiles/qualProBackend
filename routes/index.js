@@ -17,6 +17,7 @@ module.exports = function (app, db) {
     var csrfProtection = csurf({ignoreMethods: ['GET'], cookie: true});
 
     app.set('csrfProtection', csrfProtection);
+    require('../helpers/eventEmiter')(event);
 
     var models = require("../models.js")(db);
 
@@ -93,16 +94,16 @@ module.exports = function (app, db) {
         var forgotToken = req.params.forgotToken;
 
         res.render('changePassword.html', {
-            host: process.env.HOST,
+            host       : process.env.HOST,
             forgotToken: forgotToken,
-            csrfToken: req.csrfToken()
+            csrfToken  : req.csrfToken()
         });
     });
 
     app.get('/forgotPass', csrfProtection, function (req, res, next) {
 
         res.render('enterEmail.html', {
-            host: process.env.HOST,
+            host     : process.env.HOST,
             csrfToken: req.csrfToken()
         });
     });
@@ -116,7 +117,6 @@ module.exports = function (app, db) {
         res.clearCookie();
         res.redirect('/#login');
     });
-
 
     app.get('/modules', checkAuth, modulesHandler.getAll);
     app.post('/login', /*csrfProtection,*/ personnelHandler.login);
@@ -144,7 +144,6 @@ module.exports = function (app, db) {
 
     function notFound(req, res, next) {
         res.status(404);
-
 
         if (req.accepts('html')) {
             return res.send(RESPONSES.PAGE_NOT_FOUND);

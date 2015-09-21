@@ -56,6 +56,8 @@ var Personnel = function (db, event) {
 
         personnelModel = new PersonnelModel(body);
         personnelModel.save(function (err, personnel) {
+            var options;
+
             if (err) {
                 return next(err);
             }
@@ -63,7 +65,16 @@ var Personnel = function (db, event) {
             countryId = personnel.country;
             personnelId = personnel._id;
 
-            event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
+            options = {
+                id         : countryId,
+                targetModel: Country,
+                fieldName  : '_id',
+                fieldValue : personnelId,
+                searchField: 'personnels',
+                isArray    : true
+            };
+
+            event.emit('createdChild', options);
 
             res.status(201).send({_id: personnel._id});
         });
@@ -112,7 +123,6 @@ var Personnel = function (db, event) {
                 return next(error);
             }
 
-
             session.loggedIn = true;
             session.uId = personnel._id;
             session.uName = personnel.login;
@@ -125,7 +135,6 @@ var Personnel = function (db, event) {
                 delete session.rememberMe;
                 session.cookie.expires = false;
             }
-
 
             PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, {pass: 0}, function (err, result) {
                 if (err) {
@@ -224,7 +233,7 @@ var Personnel = function (db, event) {
 
         parallelTasks = {
             total: totalCounter,
-            data: contentFinder
+            data : contentFinder
         };
 
         async.parallel(parallelTasks, function (err, response) {
@@ -286,7 +295,7 @@ var Personnel = function (db, event) {
             seriesTasks.unshift(findBiId);
         } else if (body.sendPass) {
             /*shaSum.update(pass);
-            body.pass = shaSum.digest('hex');*/
+             body.pass = shaSum.digest('hex');*/
             hash = bcrypt.hashSync(body.pass, salt);
             body.pass = hash;
             body.token = token;
@@ -303,10 +312,10 @@ var Personnel = function (db, event) {
                 mailer.confirmNewUserRegistration(
                     {
                         firstName: personnelObject.firstName,
-                        lastName: personnelObject.lastName,
-                        email: personnelObject.email,
-                        password: pass,
-                        token: personnelObject.token
+                        lastName : personnelObject.lastName,
+                        email    : personnelObject.email,
+                        password : pass,
+                        token    : personnelObject.token
                     });
             }
 

@@ -20,13 +20,24 @@ var Outlet = function (db, event) {
         if (modelIsValid) {
             model = Model(body);
             model.save(function (error, result) {
+                var options;
+
                 if (error) {
                     return next(error);
                 }
                 outletId = result._id;
                 countryId = result.country;
 
-                event.emit('createdChild', countryId, Country, '_id', 'outlets', outletId, true);
+                options = {
+                    id         : countryId,
+                    targetModel: Country,
+                    fieldName  : '_id',
+                    fieldValue : outletId,
+                    searchField: 'outlets',
+                    isArray    : true
+                };
+
+                event.emit('createdChild', options);
 
                 res.status(201).send(model);
             });
