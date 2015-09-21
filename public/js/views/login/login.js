@@ -117,8 +117,7 @@ define([
 				error  : function () {
 					loginForm.addClass("notRegister");
 
-					errorHandler.text("Such user doesn't registered");
-					errorHandler.show();
+					App.render({type: 'error', message: "Such user doesn't registered"});
 				}
 			});
 		}
