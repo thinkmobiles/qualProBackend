@@ -194,7 +194,7 @@ module.exports = function (app, db) {
         res.send('form tampered with');
     };
 
-    /*event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+    /*on('createevent.dChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
      var searchObject = {};
      var updateObject = {};
 

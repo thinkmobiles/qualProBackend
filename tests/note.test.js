@@ -1,3 +1,4 @@
+/*
 require('../config/development');
 var CONSTANTS=require('../constants/mainConstants');
 var request = require('supertest');
@@ -11,7 +12,7 @@ var plural = 'notes';
 
 
 var adminObject = {
-    email: 'admin@admin.com',
+    login: 'admin@admin.com',
     pass: '121212'
 };
 
@@ -141,3 +142,4 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
     //});
 });
 
+*/

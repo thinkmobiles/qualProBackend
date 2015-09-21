@@ -7,11 +7,6 @@ var host = process.env.HOST;
 
 var agent;
 
-var adminObject = {
-    email: 'admin@admin.com',
-    pass: '121212'
-};
-
 var testCountry1 = {name: 'Ukraine'};
 var testCountry2 = {name: 'Hungary'};
 var testOutlet1 = {name: 'Vopak'};

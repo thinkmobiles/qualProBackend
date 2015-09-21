@@ -6,7 +6,7 @@ describe("BDD for file writer", function () {
 
     var file;
     var adminObject = {
-        email: 'admin@admin.com',
+        login: 'admin@admin.com',
         pass: '121212'
     };
     var host = process.env.HOST;

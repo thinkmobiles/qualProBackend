@@ -1,17 +1,18 @@
+/*
 require('../config/development');
 
 var request = require('supertest');
 var expect = require('chai').expect;
 
 var host = process.env.HOST;
-var baseUrl = '/branch';
+var baseUrl = '/position';
 var agent;
-var singular = 'branch';
-var plural = 'branches';
+var singular = 'position';
+var plural = 'positions';
 
 
 var adminObject = {
-    email: 'admin@admin.com',
+    login: 'admin@admin.com',
     pass: '121212'
 };
 
@@ -132,3 +133,4 @@ describe("BDD for " + singular, function () {  // Runs once before all tests sta
     //});
 });
 
+*/

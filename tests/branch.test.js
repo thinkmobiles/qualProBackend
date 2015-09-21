@@ -1,3 +1,4 @@
+/*
 require('../config/development');
 
 var request = require('supertest');
@@ -129,3 +130,4 @@ describe("BDD for " + singular, function () {
     //});
 });
 
+*/

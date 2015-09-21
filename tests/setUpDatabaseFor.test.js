@@ -76,7 +76,7 @@ var countryManagers = [
 		firstName  : "Theoden",
 		lastName   : "Eorling",
 		email      : "theoden@middle.com",
-		phoneNumber: "380854348456",
+		phoneNumber: "380854349678",
 		position   : 1,
 		dateBirth  : "1923-04-16",
 		confirmed  : new Date(),

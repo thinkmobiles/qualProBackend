@@ -8,7 +8,7 @@ var url;
 var agent;
 
 var adminObject = {
-    email: 'admin@admin.com',
+    login: 'admin@admin.com',
     pass: '121212'
 };
 
