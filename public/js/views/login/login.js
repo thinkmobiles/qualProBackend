@@ -73,9 +73,12 @@ define([
 			var loginForm = thisEl.find("#loginForm");
 			var login = _.escape(loginForm.find("#email").val());
 			var pass = thisEl.find("#pass").val();
+			var checkedEl = thisEl.find('#myonoffswitch');
+			var checked = checkedEl.prop('checked');
 			var data = {
-				login: login,
-				pass : pass
+				login     : login,
+				pass      : pass,
+				rememberMe: checked
 			};
 
 			var errors = thisEl.find('input.error');
@@ -114,29 +117,8 @@ define([
 				error  : function () {
 					loginForm.addClass("notRegister");
 
-					App.render({type: 'error', message: "Such user doesn't registered"});
-				}
-			});
-		},
-
-		rememberMe: function (e) {
-			var target = $(e.target);
-			var checkedEl = this.$el.find('#myonoffswitch');
-			var checked = checkedEl.prop('checked');
-
-			$.ajax({
-				url : "/rememberMe",
-				type: "POST",
-				data: {
-					rememberMe: !checked
-				},
-
-				success: function () {
-
-				},
-
-				error  : function () {
-
+					errorHandler.text("Such user doesn't registered");
+					errorHandler.show();
 				}
 			});
 		}

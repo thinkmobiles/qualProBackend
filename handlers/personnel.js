@@ -3,7 +3,7 @@ var CONSTANTS = require('../constants/mainConstants');
 
 var Personnel = function (db, event) {
     var validator = require('validator');
-
+    var bcrypt = require('bcryptjs');
     var crypto = require('crypto');
     var access = require('../helpers/access');
     var generator = require('../helpers/randomPass.js');
@@ -43,7 +43,6 @@ var Personnel = function (db, event) {
         var Country = db.model(CONSTANTS.COUNTRY, mongoose.Schemas[CONSTANTS.COUNTRY]);
 
         isEmailValid = CONSTANTS.EMAIL_REGEXP.test(email);
-        body.token = token;
 
         if (!isEmailValid) {
             error = new Error();
@@ -67,7 +66,6 @@ var Personnel = function (db, event) {
             event.emit('createdChild', countryId, Country, '_id', 'personnels', personnelId, true);
 
             res.status(201).send({_id: personnel._id});
-
         });
     };
 
@@ -76,7 +74,6 @@ var Personnel = function (db, event) {
         var body = req.body;
         var login = body.login;
         var pass = body.pass;
-        var shaSum = crypto.createHash('sha256');
         var query;
         var isEmailValid;
         var isPhoneValid;
@@ -85,7 +82,6 @@ var Personnel = function (db, event) {
         var resultPersonnel;
         var error;
 
-        shaSum.update(pass);
         if (login) {
             isEmailValid = CONSTANTS.EMAIL_REGEXP.test(login);
             isPhoneValid = CONSTANTS.PHONE_REGEXP.test(login);
@@ -109,7 +105,7 @@ var Personnel = function (db, event) {
                 return next(err);
             }
 
-            if (!personnel || personnel.pass !== shaSum.digest('hex')) {
+            if (!personnel || !bcrypt.compareSync(pass, personnel.pass)) {
                 error = new Error();
                 error.status = 400;
 
@@ -122,6 +118,14 @@ var Personnel = function (db, event) {
             session.uName = personnel.login;
             lastAccess = new Date();
             session.lastAccess = lastAccess;
+
+            if (body.rememberMe === 'true') {
+                session.rememberMe = true;
+            } else {
+                delete session.rememberMe;
+                session.cookie.expires = false;
+            }
+
 
             PersonnelModel.findByIdAndUpdate(personnel._id, {$set: {lastAccess: lastAccess}}, {pass: 0}, function (err, result) {
                 if (err) {
@@ -136,20 +140,6 @@ var Personnel = function (db, event) {
             res.status(200).send(resultPersonnel);
 
         });
-    };
-
-    this.rememberMe = function (req, res, next) {
-        var session = req.session;
-        var body = req.body;
-        var year = 365 * 24 * 60 * 60 * 1000;
-
-        if (body.rememberMe === 'true') {
-            session.cookie.expires = new Date(Date.now() + year);
-            session.cookie.maxAge = year;
-        } else {
-            session.cookie.expires = false;
-        }
-        res.status(200).send(body);
     };
 
     this.remove = function (req, res, next) {
@@ -254,25 +244,22 @@ var Personnel = function (db, event) {
         var pass = generator.generate(8);
         var token = generator.generate();
         var mailer = new Mailer();
-        var shaSum = crypto.createHash('sha256');
+        var salt = bcrypt.genSaltSync(10);
+        var hash;
+        //var shaSum = crypto.createHash('sha256'); //Because now we try to use bcryptjs for more security
 
         function findBiId(seriesCb) {
-            PersonnelModel.findById(id, function (err, personnel) {
-                var shaSum;
+            var hash;
 
+            PersonnelModel.findById(id, function (err, personnel) {
                 if (err) {
                     return seriesCb(err);
                 }
 
-                shaSum = crypto.createHash('sha256');
-                shaSum.update(body.newPass);
-                body.newPass = shaSum.digest('hex');
+                hash = bcrypt.hashSync(body.newPass, salt);
+                body.newPass = hash;
 
-                shaSum = crypto.createHash('sha256');
-                shaSum.update(body.oldPass);
-                body.oldPass = shaSum.digest('hex');
-
-                if (personnel.pass === body.oldPass) {
+                if (bcrypt.compareSync(body.oldPass, personnel.pass)) {
                     delete body.oldPass;
                     body.pass = body.newPass;
 
@@ -298,12 +285,16 @@ var Personnel = function (db, event) {
         if (body.oldPass && body.newPass) {
             seriesTasks.unshift(findBiId);
         } else if (body.sendPass) {
-            shaSum.update(pass);
-            body.pass = shaSum.digest('hex');
+            /*shaSum.update(pass);
+            body.pass = shaSum.digest('hex');*/
+            hash = bcrypt.hashSync(body.pass, salt);
+            body.pass = hash;
             body.token = token;
         }
 
         async.series(seriesTasks, function (err, result) {
+            var personnelObject = result[0];
+
             if (err) {
                 return next(err);
             }
@@ -311,11 +302,11 @@ var Personnel = function (db, event) {
             if (body.sendPass) {
                 mailer.confirmNewUserRegistration(
                     {
-                        firstName: result[0].firstName,
-                        lastName: result[0].lastName,
-                        email: result[0].email,
+                        firstName: personnelObject.firstName,
+                        lastName: personnelObject.lastName,
+                        email: personnelObject.email,
                         password: pass,
-                        token: result[0].token
+                        token: personnelObject.token
                     });
             }
 
@@ -381,11 +372,9 @@ var Personnel = function (db, event) {
         var body = req.body;
         var pass = body.pass;
         var url = process.env.HOST + '/#login';
+        var salt = bcrypt.genSaltSync(10);
 
-        var shaSum = crypto.createHash('sha256');
-
-        shaSum.update(pass);
-        pass = shaSum.digest('hex');
+        pass = bcrypt.hashSync(pass, salt);
 
         async.waterfall([updatePass, deleteToken], function (err, result) {
             if (err) {

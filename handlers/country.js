@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var Country = function (db) {
-
+    var async = require('async');
     var CONSTANTS = require('../constants/mainConstants');
     var modelAndSchemaName = CONSTANTS.COUNTRY;
     var schema = mongoose.Schemas[modelAndSchemaName];
@@ -40,10 +40,6 @@ var Country = function (db) {
 
     };
 
-    this.archive= function (req, res, next) {
-        res.status(501).send();
-    }
-
     this.remove = function (req, res, next) {
         var id = req.params.id;
 
@@ -57,14 +53,18 @@ var Country = function (db) {
 
     this.archive = function (req, res, next) {
         var id = req.params.id;
+
         res.status(501).send();
     };
 
     this.getBy = function (req, res, next) {
         var outlets = req.body.outlets;
 
-        var query = db.model(modelAndSchemaName, schema).find(
-            {outlets: {$elemMatch: {$in: outlets}}});
+        var query = db.model(modelAndSchemaName, schema).find({
+            outlets: {
+                $elemMatch: {$in: outlets}
+            }
+        });
 
         query.exec(function (err, result) {
             if (err) {

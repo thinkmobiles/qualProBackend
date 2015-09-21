@@ -117,7 +117,7 @@ module.exports = function (db) {
     router.post('/', checkAuth, handler.create);
     router.post('/getBy/', checkAuth, handler.getBy);
     /**
-     * __Type__ 'GET'
+     * __Type__ 'PUT'
      *
      * Base ___url___ for build __requests__ is `http:/<host>:<port>/mobile/outlet`
      *

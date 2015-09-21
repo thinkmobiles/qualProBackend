@@ -63,6 +63,7 @@ var Outlet = function (db, event) {
         var id = req.params.id;
         res.status(501).send();
     };
+
     this.getBy = function (req, res, next) {
         var branches = req.body.branches;
 

@@ -60,9 +60,10 @@ module.exports = function (db) {
 
         cookie: {
             maxAge: 365 * 24 * 60 * 60 * 1000 // One year
+            /*secure: true*/
         },
-
-        saveUninitialized: true,
+        rolling: true,
+        saveUninitialized: false,
         store: new MemoryStore(sessionConfig)
     });
 

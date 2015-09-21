@@ -4,200 +4,217 @@
  */
 
 module.exports = function (app, db) {
-	var Events = require('events');
-	var path = require('path');
-	var event = new Events.EventEmitter();
-	var logWriter = require('../helpers/logWriter');
-	var fs = require("fs");
-	var multipart = require('connect-multiparty');
-	var multipartMiddleware = multipart();
-	var mongoose = require('mongoose');
+    var Events = require('events');
+    var path = require('path');
+    var event = new Events.EventEmitter();
+    var logWriter = require('../helpers/logWriter');
+    var fs = require("fs");
+    var multipart = require('connect-multiparty');
+    var multipartMiddleware = multipart();
+    var mongoose = require('mongoose');
 
-	var csurf = require('csurf');
-	var csrfProtection = csurf({ignoreMethods: ['GET'], cookie: true});
+    var csurf = require('csurf');
+    var csrfProtection = csurf({ignoreMethods: ['GET'], cookie: true});
 
-	app.set('csrfProtection', csrfProtection);
+    app.set('csrfProtection', csrfProtection);
 
-	var models = require("../models.js")(db);
+    var models = require("../models.js")(db);
 
-	var LocalFs = require('../helpers/localFs');
+    var LocalFs = require('../helpers/localFs');
 
-	var PersonnelHandler = require("../handlers/personnel");
-	var ModuleslHandler = require("../handlers/modules");
-	var personnelHandler = new PersonnelHandler(db);
-	var modulesHandler = new ModuleslHandler(db);
+    var PersonnelHandler = require("../handlers/personnel");
+    var ModuleslHandler = require("../handlers/modules");
+    var personnelHandler = new PersonnelHandler(db);
+    var modulesHandler = new ModuleslHandler(db);
 
-	var personnelRouter = require('./personnel')(db, app, event);
-	var countryRouter = require('./country')(db);
-	var branchRouter = require('./branch')(db);
-	var contractRouter = require('./contract')(db);
-	var itemRouter = require('./item')(db);
-	var noteRouter = require('./note')(db);
-	var objectiveRouter = require('./objective')(db);
-	var shelfRouter = require('./shelf')(db);
-	var outletRouter = require('./outlet')(db, event);
-	var categoryRouter = require('./category')(db);
-	var commentRouter = require('./comment')(db);
-	var priorityRouter = require('./priority')(db);
-	var mobileRouter = require('./mobile.js')(db);
+    var personnelRouter = require('./personnel')(db, app, event);
+    var countryRouter = require('./country')(db);
+    var branchRouter = require('./branch')(db);
+    var contractRouter = require('./contract')(db);
+    var itemRouter = require('./item')(db);
+    var noteRouter = require('./note')(db);
+    var objectiveRouter = require('./objective')(db);
+    var shelfRouter = require('./shelf')(db);
+    var outletRouter = require('./outlet')(db, event);
+    var categoryRouter = require('./category')(db);
+    var commentRouter = require('./comment')(db);
+    var priorityRouter = require('./priority')(db);
+    var mobileRouter = require('./mobile.js')(db);
 
-	var RESPONSES = require('../constants/responses');
+    var RESPONSES = require('../constants/responses');
+    var CONSTANTS = require('../constants/mainConstants');
 
-	function checkAuth(req, res, next) {
-		if (req.session && req.session.loggedIn) {
-			next();
-		} else {
-			res.send(401);
-		}
-	}
+    var sessionValidator = function (req, res, next) {
+        var session = req.session;
+        var year = 31536000000;
 
-	app.get('/', csrfProtection, function (req, res, next) {
-		res.render('index.html', {csrfToken: req.csrfToken()});
-	});
+        if (session) {
+            if (session.rememberMe) {
+                session.cookie.maxAge = year;
+            } else {
+                session.cookie.maxAge = CONSTANTS.SESSION_TTL;
+            }
+        }
 
-	app.post('/upload', multipartMiddleware, function (req, res, next) {
-		var localFs = new LocalFs();
-		var id = req.session.uId;
-		var content = req.headers.contenttype;
-		var folderName = path.join(content, id);
-		var fileData = req.files.attachfile;
+        next();
+    };
 
-		localFs.postFile(folderName, fileData, function (err) {
-			if (err) {
-				return next(err);
-			}
+    function checkAuth(req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            next();
+        } else {
+            res.send(401);
+        }
+    }
 
-			res.status(201).send({success: 'file(\'s) uploaded success'});
-		});
-	});
+    app.use(sessionValidator);
 
-	app.get('/passwordChange/:forgotToken', csrfProtection, function (req, res, next) {
-		var forgotToken = req.params.forgotToken;
+    app.get('/', csrfProtection, function (req, res, next) {
+        res.render('index.html', {csrfToken: req.csrfToken()});
+    });
 
-		res.render('changePassword.html', {
-			host       : process.env.HOST,
-			forgotToken: forgotToken,
-			csrfToken  : req.csrfToken()
-		});
-	});
+    app.post('/upload', multipartMiddleware, function (req, res, next) {
+        var localFs = new LocalFs();
+        var id = req.session.uId;
+        var content = req.headers.contenttype;
+        var folderName = path.join(content, id);
+        var fileData = req.files.attachfile;
 
-	app.get('/forgotPass', csrfProtection, function (req, res, next) {
+        localFs.postFile(folderName, fileData, function (err) {
+            if (err) {
+                return next(err);
+            }
 
-		res.render('enterEmail.html', {
-			host     : process.env.HOST,
-			csrfToken: req.csrfToken()
-		});
-	});
+            res.status(201).send({success: 'file(\'s) uploaded success'});
+        });
+    });
 
-	app.get('/logout', csrfProtection, function (req, res, next) {
-		if (req.session) {
-			req.session.destroy(function () {
-			});
+    app.get('/passwordChange/:forgotToken', csrfProtection, function (req, res, next) {
+        var forgotToken = req.params.forgotToken;
 
-		}
-		res.clearCookie();
-		res.redirect('/#login');
-	});
+        res.render('changePassword.html', {
+            host: process.env.HOST,
+            forgotToken: forgotToken,
+            csrfToken: req.csrfToken()
+        });
+    });
 
+    app.get('/forgotPass', csrfProtection, function (req, res, next) {
 
-	app.get('/modules', checkAuth, modulesHandler.getAll);
-	app.post('/rememberMe', personnelHandler.rememberMe);
-	app.post('/login', /*csrfProtection,*/ personnelHandler.login);
-	app.get('/authenticated', function (req, res, next) {
-		if (req.session && req.session.loggedIn) {
-			res.send(200);
-		} else {
-			res.send(401);
-		}
-	});
+        res.render('enterEmail.html', {
+            host: process.env.HOST,
+            csrfToken: req.csrfToken()
+        });
+    });
 
-	app.use('/personnel', personnelRouter);
-	app.use('/country', countryRouter);
-	app.use('/branch', branchRouter);
-	app.use('/contract', contractRouter);
-	app.use('/item', itemRouter);
-	app.use('/note', noteRouter);
-	app.use('/objective', objectiveRouter);
-	app.use('/shelf', shelfRouter);
-	app.use('/outlet', outletRouter);
-	app.use('/category', categoryRouter);
-	app.use('/comment', commentRouter);
-	app.use('/priority', priorityRouter);
-	app.use('/mobile', mobileRouter);
+    app.get('/logout', csrfProtection, function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function () {
+            });
 
-	function notFound(req, res, next) {
-		res.status(404);
+        }
+        res.clearCookie();
+        res.redirect('/#login');
+    });
 
 
-		if (req.accepts('html')) {
-			return res.send(RESPONSES.PAGE_NOT_FOUND);
-		}
+    app.get('/modules', checkAuth, modulesHandler.getAll);
+    app.post('/login', /*csrfProtection,*/ personnelHandler.login);
+    app.get('/authenticated', function (req, res, next) {
+        if (req.session && req.session.loggedIn) {
+            res.send(200);
+        } else {
+            res.send(401);
+        }
+    });
 
-		if (req.accepts('json')) {
-			return res.json({error: RESPONSES.PAGE_NOT_FOUND});
-		}
+    app.use('/personnel', personnelRouter);
+    app.use('/country', countryRouter);
+    app.use('/branch', branchRouter);
+    app.use('/contract', contractRouter);
+    app.use('/item', itemRouter);
+    app.use('/note', noteRouter);
+    app.use('/objective', objectiveRouter);
+    app.use('/shelf', shelfRouter);
+    app.use('/outlet', outletRouter);
+    app.use('/category', categoryRouter);
+    app.use('/comment', commentRouter);
+    app.use('/priority', priorityRouter);
+    app.use('/mobile', mobileRouter);
 
-		res.type('txt');
-		res.send(RESPONSES.PAGE_NOT_FOUND);
+    function notFound(req, res, next) {
+        res.status(404);
 
-	};
 
-	function errorHandler(err, req, res, next) {
-		var status = err.status || 500;
+        if (req.accepts('html')) {
+            return res.send(RESPONSES.PAGE_NOT_FOUND);
+        }
 
-		if (process.env.NODE_ENV === 'production') {
-			if (status === 401) {
-				logWriter.log('', err.message + '\n' + err.stack);
-			}
-			res.status(status).send({error: err.message});
-		} else {
-			if (status !== 401) {
-				logWriter.log('', err.message + '\n' + err.stack);
-			}
-			res.status(status).send({error: err.message + '\n' + err.stack});
-		}
-	};
+        if (req.accepts('json')) {
+            return res.json({error: RESPONSES.PAGE_NOT_FOUND});
+        }
 
-	function csrfErrorParser(err, req, res, next) {
-		if (err.code !== 'EBADCSRFTOKEN') {
-			return next(err);
-		}
-		// handle CSRF token errors here
-		res.status(403);
+        res.type('txt');
+        res.send(RESPONSES.PAGE_NOT_FOUND);
 
-		if (req.accepts('html')) {
-			return res.send('form tampered with');
-		}
+    };
 
-		if (req.accepts('json')) {
-			return res.json({error: 'form tampered with'});
-		}
+    function errorHandler(err, req, res, next) {
+        var status = err.status || 500;
 
-		res.type('txt');
-		res.send('form tampered with');
-	};
+        if (process.env.NODE_ENV === 'production') {
+            if (status === 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message});
+        } else {
+            if (status !== 401) {
+                logWriter.log('', err.message + '\n' + err.stack);
+            }
+            res.status(status).send({error: err.message + '\n' + err.stack});
+        }
+    };
 
-	/*event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
-	 var searchObject = {};
-	 var updateObject = {};
+    function csrfErrorParser(err, req, res, next) {
+        if (err.code !== 'EBADCSRFTOKEN') {
+            return next(err);
+        }
+        // handle CSRF token errors here
+        res.status(403);
 
-	 searchObject[searchField] = id;
+        if (req.accepts('html')) {
+            return res.send('form tampered with');
+        }
 
-	 if (fieldInArray) {
-	 updateObject['$addToSet'] = {};
-	 updateObject['$addToSet'][fieldName] = fieldValue;
-	 } else {
-	 updateObject[fieldName] = fieldValue;
-	 }
+        if (req.accepts('json')) {
+            return res.json({error: 'form tampered with'});
+        }
 
-	 targetModel.update(searchObject, updateObject, {multi: true}, function (err) {
-	 if (err) {
-	 logWriter.log('eventEmiter_createdChild', err.message);
-	 }
-	 });
-	 });*/
+        res.type('txt');
+        res.send('form tampered with');
+    };
 
-	app.use(notFound);
-	app.use(csrfErrorParser);
-	app.use(errorHandler);
+    /*event.on('createdChild', function (id, targetModel, searchField, fieldName, fieldValue, fieldInArray) {
+     var searchObject = {};
+     var updateObject = {};
+
+     searchObject[searchField] = id;
+
+     if (fieldInArray) {
+     updateObject['$addToSet'] = {};
+     updateObject['$addToSet'][fieldName] = fieldValue;
+     } else {
+     updateObject[fieldName] = fieldValue;
+     }
+
+     targetModel.update(searchObject, updateObject, {multi: true}, function (err) {
+     if (err) {
+     logWriter.log('eventEmiter_createdChild', err.message);
+     }
+     });
+     });*/
+
+    app.use(notFound);
+    app.use(csrfErrorParser);
+    app.use(errorHandler);
 };
